@@ -1,0 +1,12 @@
+$primaryColor: #ff0000 !default;
+$primaryLightColor: #ff0000 !default;
+$primaryDarkColor: #ff0000 !default;
+$primaryDarkerColor: #ff0000 !default;
+$primaryTextColor: #ff0000 !default;
+
+$highlightBg: $primaryColor !default;
+$highlightTextColor: $primaryTextColor !default;
+
+@import '../_variables';
+@import '../../theme-base/_components';
+@import '../../extensions/_vendor_extensions';

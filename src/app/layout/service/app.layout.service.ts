@@ -94,6 +94,7 @@ export class LayoutService {
             this.changeScale(config.scale);
             this.onConfigUpdate();
         });
+        
     }
 
     updateStyle(config: AppConfig) {

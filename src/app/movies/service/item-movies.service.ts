@@ -30,6 +30,7 @@ export function ItemMoviesInterceptor(req: HttpRequest<unknown>, next: HttpHandl
       map((data: any)=>{
         if(data.body){
           if('results' in data.body && Array.isArray(data.body.results)){
+            data.body.results = data.body.results.filter((item:any)=>item.poster_path);
             data.body.results.map((item: any)=>{
               item.poster_path = BASE_URL_IMAGE+item.poster_path;
               return item;
@@ -38,7 +39,7 @@ export function ItemMoviesInterceptor(req: HttpRequest<unknown>, next: HttpHandl
         }
         return data
       }),
-      tap(console.log))
+      )
   }
   return next(req);
 }

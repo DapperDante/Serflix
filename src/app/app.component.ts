@@ -6,14 +6,13 @@ import { LayoutService } from './layout/service/app.layout.service';
     selector: 'app-root',
     templateUrl: './app.component.html'
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
 
     constructor(private primengConfig: PrimeNGConfig, private layoutService: LayoutService) { }
-
     ngOnInit(): void {
         this.primengConfig.ripple = true;
         this.layoutService.config.set({
-            ripple: true,
+            ripple: false,
             inputStyle: 'outlined',
             menuMode: 'overlay',
             colorScheme: 'dark',
@@ -23,6 +22,7 @@ export class AppComponent implements OnInit {
             topbarTheme: 'red',
             menuProfilePosition: 'start',
         })
+        this.layoutService.state.rightMenuActive = false;
     }
 
 }

@@ -25,7 +25,12 @@ import { MegaMenuModule } from 'primeng/megamenu';
 import { ButtonModule } from 'primeng/button';
 import { MenuModule } from 'primeng/menu';
 import { StyleClassModule } from 'primeng/styleclass';
-
+import { SelectprofileComponent } from './selectprofile.component';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { ProfileService } from './service/profile.service';
+import { DialogModule } from 'primeng/dialog';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from "primeng/api";
 @NgModule({
     declarations: [
         AppLayoutComponent,
@@ -36,7 +41,8 @@ import { StyleClassModule } from 'primeng/styleclass';
         AppMenuComponent,
         AppSidebarComponent,
         AppMenuitemComponent,
-        AppFooterComponent
+        AppFooterComponent,
+        SelectprofileComponent
     ],
     imports: [
         BrowserModule,
@@ -55,7 +61,14 @@ import { StyleClassModule } from 'primeng/styleclass';
         RouterModule,
         ButtonModule,
         MenuModule,
-        AppConfigModule
+        AppConfigModule,
+        ProgressSpinnerModule,
+        DialogModule,
+        ConfirmDialogModule
+    ],
+    providers: [
+        ProfileService,
+        ConfirmationService
     ]
 })
 export class AppLayoutModule { }

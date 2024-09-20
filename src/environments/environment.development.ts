@@ -5,6 +5,7 @@ export const environment = {
     _BaseUrlImage: 'https://image.tmdb.org/t/p/original',
     _BaseUrlMovie: 'https://api.themoviedb.org/3/movie',
     _BaseUrlSerie: 'https://api.themoviedb.org/3/tv',
+    _BaseUrlRickAndMorty: 'https://rickandmortyapi.com/api',
     _firebaseConfig: {
         apiKey: "AIzaSyDAlOw5FAMvmAT_1YbCw890B-CIjt8MdXY",
         authDomain: "serflix-7bf44.firebaseapp.com",

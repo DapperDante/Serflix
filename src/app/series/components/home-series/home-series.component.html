@@ -1,0 +1,32 @@
+<p-tabMenu [model]="items"/>
+@if(data$ | async; as series){
+    <div class="flex flex-row flex-wrap justify-content-center align-items-start">
+      @for(serie of series.results; track $index){
+            <p-card
+              [header]="serie.original_name" 
+              [style]="{width: '200px'}"
+              class="transition-duration-200 hover:shadow-7 m-3" id="card">
+              <ng-template pTemplate="header">
+                <img [src]="serie.poster_path" alt="Not found">
+              </ng-template>
+              <ng-template pTemplate="footer">
+                <p-button 
+                  icon="pi pi-heart"
+                  [raised]="true"
+                  [rounded]="true"
+                  size="large"
+                  [loading]="loading"
+                  (onClick)="AddSerieFavorite()"/>
+              </ng-template>
+            </p-card>
+      }
+    </div>
+}@else {
+    <div class="flex justify-content-center">
+        <p-progressSpinner/>
+    </div>
+}
+<p-paginator 
+  (onPageChange)="ChangePage($event)"
+  [totalRecords]="19" 
+  [rows]="3"/>

@@ -1,4 +1,4 @@
-<p-tabMenu [model]="items"/>
+<p-tabMenu [model]="items" [activeItem]="activeItem"/>
 @if(data$ | async; as movies){
     <div class="flex flex-row flex-wrap justify-content-center align-items-start">
       @for(movie of movies.results; track $index){

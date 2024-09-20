@@ -1,7 +1,7 @@
 export interface MoviesWithDate {
     dates:         Dates;
     page:          number;
-    results:       Result[];
+    results:       Movie[];
     total_pages:   number;
     total_results: number;
 }
@@ -11,11 +11,11 @@ export interface Dates {
     minimum: Date;
 }
 export interface Movies{
-    results:       Result[];
+    results:       Movie[];
     total_pages:   number;
     total_results: number;
 }
-export interface Result {
+export interface Movie {
     adult:             boolean;
     backdrop_path:     string;
     genre_ids:         number[];

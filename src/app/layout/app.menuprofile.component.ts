@@ -1,6 +1,10 @@
-import { Component, ElementRef } from '@angular/core';
+import { Component, ElementRef, inject } from '@angular/core';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { LayoutService } from './service/app.layout.service';
+import { ProfileService } from './service/profile.service';
+import { map, Observable } from 'rxjs';
+import { Profile } from './api/account';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-menu-profile',
@@ -31,12 +35,18 @@ import { LayoutService } from './service/app.layout.service';
     ],
 })
 export class AppMenuProfileComponent {
-    constructor(public layoutService: LayoutService, public el: ElementRef) {}
-
+    _profile = inject(ProfileService);
+    profile$!: Observable<Profile | undefined>;
+    constructor(public layoutService: LayoutService, public el: ElementRef, private router: Router) {}
+    ngOnInit(){
+        this.profile$ = this._profile.profiles$.pipe(map((data)=>data.find((profile)=>profile.id===history.state.idProfile)));
+    }
+    LogOut(){
+        this._profile.LogOut().then(()=>this.router.navigate(['']))
+    }
     toggleMenu() {
         this.layoutService.onMenuProfileToggle();
     }
-
     get isHorizontal() {
         return (
             this.layoutService.isHorizontal() && this.layoutService.isDesktop()

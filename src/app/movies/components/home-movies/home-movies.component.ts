@@ -3,20 +3,15 @@ import { MenuItem } from 'primeng/api';
 import { ItemMoviesService } from '../../service/item-movies.service';
 import { Movies, MoviesWithDate } from '../../api/movies';
 import { Observable } from 'rxjs';
-interface PageEvent{
-  first?: number,
-  rows?: number,
-  page?: number,
-  pageCount?: number
-}
+import { PageEvent } from '../../../layout/api/api-config'
 @Component({
   selector: 'app-home-movies',
   templateUrl: './home-movies.component.html'
 })
 export class HomeMoviesComponent {
   items!: MenuItem[];
+  activeItem!: MenuItem;
   _movies = inject(ItemMoviesService);
-  
   data$!: Observable<MoviesWithDate | Movies>;
   indexSection: number = 1;
   indexPage: number = 1;
@@ -29,6 +24,7 @@ export class HomeMoviesComponent {
       {label: 'Top reated', command: ()=>this.ChangeSection(3)},
       {label: 'Upcoming', command: ()=>this.ChangeSection(4)},
     ]
+    this.activeItem = this.items[0];
   }
   ChangeSection(index: number){
     //Evitar que tenga que volver a recargar la misma seccion

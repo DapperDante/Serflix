@@ -47,6 +47,9 @@ export class AppMenuProfileComponent {
     toggleMenu() {
         this.layoutService.onMenuProfileToggle();
     }
+    Navigate(path: string){
+        this.router.navigate([this.router.url, path], {state: {idProfile: history.state.idProfile}})
+    }
     get isHorizontal() {
         return (
             this.layoutService.isHorizontal() && this.layoutService.isDesktop()

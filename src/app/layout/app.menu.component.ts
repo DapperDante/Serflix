@@ -1,5 +1,6 @@
 import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-menu',
@@ -8,8 +9,11 @@ import { Component } from '@angular/core';
 export class AppMenuComponent implements OnInit {
 
     model: any[] = [];
-
+    constructor(private router: Router){}
     ngOnInit() {
+        if(!history.state.idProfile)
+            this.router.navigate(['profiles']);
+        console.log(history.state.idProfile);
         this.model = [
             {
                 label: 'View',
@@ -17,7 +21,9 @@ export class AppMenuComponent implements OnInit {
                     {
                         label: 'Movies',
                         icon: 'pi pi-caret-right',
-                        routerLink: ['movies']
+                        command: ()=>{
+                            this.NavigateOtherPage('movies')
+                        }
                     },
                     {
                         label: 'Series',
@@ -42,5 +48,10 @@ export class AppMenuComponent implements OnInit {
                 ]
             }
         ]
+    }
+    NavigateOtherPage(url: string){
+        console.log(history.state.idProfile)
+        console.log(this.router)
+        this.router.navigate([this.router.url, url], {state: {idProfile: history.state.idProfile}});
     }
 }

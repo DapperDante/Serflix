@@ -19,7 +19,7 @@
             </button>
         </li>
         <li pTooltip="Profile" [tooltipDisabled]="isTooltipDisabled">
-            <button class="p-link" [routerLink]="['/profile/list']">
+            <button class="p-link" (click)="Navigate('profile')">
                 <i class="pi pi-file-o pi-fw"></i>
                 <span>Profile</span>
             </button>

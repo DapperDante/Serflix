@@ -7,7 +7,7 @@ export interface Profile{
     id: number, 
     name: string, 
     url: string,
-    favorite?: Favorite
+    favorite: Favorite
 }
 export interface RickAndMortyCharacters {
     info:    Info;

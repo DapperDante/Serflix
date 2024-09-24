@@ -17,7 +17,7 @@ import { ConfirmationService } from 'primeng/api';
   `
 })
 export class SelectprofileComponent {
-  _profile = inject(ProfileService);
+  private _profile = inject(ProfileService);
   profiles$!: Observable<Profile[]>;
   photos$!: Observable<RickAndMortyCharacters>
   //Control view panel of edit
@@ -35,7 +35,7 @@ export class SelectprofileComponent {
   }
   ViewPhotosForProfile(){
     this.selectPhotoProfile = true;
-    //Avoid repeat request when each all of view photos
+    //Avoid repeat request when get all of view photos
     if(this.photos$)
       return;
     this.photos$ = this._profile.getAllPhotosForProfile();

@@ -1,11 +1,12 @@
 <p-tabMenu [model]="items" [activeItem]="activeItem"/>
+<p-toast/>
 @if(data$ | async; as movies){
-    <div class="flex flex-row flex-wrap justify-content-center align-items-start">
+    <div class="flex flex-row flex-wrap justify-content-center">
       @for(movie of movies.results; track $index){
             <p-card
               [header]="movie.original_title" 
-              [style]="{width: '200px'}"
-              class="transition-duration-200 hover:shadow-7 m-3" id="card">
+              [style]="{width: '200px', height: '100%'}"
+              class="transition-duration-200 hover:shadow-7 m-3">
               <ng-template pTemplate="header">
                 <img [src]="movie.poster_path" alt="Not found">
               </ng-template>
@@ -15,8 +16,7 @@
                   [raised]="true"
                   [rounded]="true"
                   size="large"
-                  [loading]="loading"
-                  (onClick)="AddMovieFavorite()"/>
+                  (onClick)="AddMovieFavorite(movie.id, movie.title, movie.poster_path, movie.genre_ids)"/>
               </ng-template>
             </p-card>
       }

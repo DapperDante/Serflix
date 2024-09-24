@@ -8,6 +8,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { DeferModule } from 'primeng/defer';
 import { HomeMoviesComponent } from './components/home-movies/home-movies.component';
 import { TabMenuModule } from 'primeng/tabmenu'
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 @NgModule({
   declarations: [
     HomeMoviesComponent
@@ -20,7 +22,11 @@ import { TabMenuModule } from 'primeng/tabmenu'
     ButtonModule,
     ProgressSpinnerModule,
     DeferModule,
-    TabMenuModule
+    TabMenuModule,
+    ToastModule
+  ],
+  providers: [
+    MessageService
   ]
 })
 export class MoviesModule { }

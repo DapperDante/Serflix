@@ -13,19 +13,21 @@ const routes: Routes = [
         children: [
             { path: 'movies', data: {breadcrumb: 'Movies'},loadChildren: () => import('./movies/movies.module').then(m => m.MoviesModule) },
             { path: 'series', data: {breadcrumb: 'Series'},loadChildren: () => import('./series/series.module').then(m => m.SeriesModule) },
+            { path: 'profile', loadChildren: ()=> import('./profile/profile.module').then(m => m.ProfileModule), title: 'Profile'}
         ],
         ...canActivate(()=>redirectUnauthorizedTo(['']))
     },
+    //It's for select one of its profiles by account
     {
         path: 'profile',
         component: SelectprofileComponent,
-        title: 'Profile',
+        title: 'Profiles',
         ...canActivate(()=>redirectUnauthorizedTo(['']))
     },
     { 
         path: '', 
         loadChildren: () => import('./home/home.module').then(m => m.HomeModule),
-        ...canActivate(()=>redirectLoggedInTo(['home']))
+        ...canActivate(()=>redirectLoggedInTo(['profile']))
     },
     { path: '**', redirectTo: '' }
 ];

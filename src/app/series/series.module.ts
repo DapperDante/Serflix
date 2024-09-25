@@ -8,7 +8,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { DeferModule } from 'primeng/defer';
 import { TabMenuModule } from 'primeng/tabmenu'
 import { HomeSeriesComponent } from './components/home-series/home-series.component';
-
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,11 @@ import { HomeSeriesComponent } from './components/home-series/home-series.compon
     ButtonModule,
     ProgressSpinnerModule,
     DeferModule,
-    TabMenuModule
+    TabMenuModule,
+    ToastModule
+  ],
+  providers: [
+    MessageService
   ]
 })
 export class SeriesModule { }

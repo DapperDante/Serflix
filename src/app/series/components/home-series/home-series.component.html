@@ -1,11 +1,12 @@
 <p-tabMenu [model]="items"/>
+<p-toast/>
 @if(data$ | async; as series){
-    <div class="flex flex-row flex-wrap justify-content-center align-items-start">
+    <div class="flex flex-row flex-wrap justify-content-center">
       @for(serie of series.results; track $index){
             <p-card
               [header]="serie.original_name" 
               [style]="{width: '200px'}"
-              class="transition-duration-200 hover:shadow-7 m-3" id="card">
+              class="transition-duration-200 hover:shadow-7 m-3 cursor-pointer select-item" id="card">
               <ng-template pTemplate="header">
                 <img [src]="serie.poster_path" alt="Not found">
               </ng-template>
@@ -16,7 +17,7 @@
                   [rounded]="true"
                   size="large"
                   [loading]="loading"
-                  (onClick)="AddSerieFavorite()"/>
+                  (onClick)="AddSerieFavorite(serie.id, serie.original_name, serie.poster_path, serie.genre_ids)"/>
               </ng-template>
             </p-card>
       }

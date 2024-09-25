@@ -22,13 +22,15 @@ export class AppMenuComponent implements OnInit {
                         label: 'Movies',
                         icon: 'pi pi-caret-right',
                         command: ()=>{
-                            this.NavigateOtherPage('movies')
+                            this.NavigateOtherPage('movies');
                         }
                     },
                     {
                         label: 'Series',
                         icon: 'pi pi-chart-line',
-                        routerLink: ['series']
+                        command: ()=>{
+                            this.NavigateOtherPage('series');
+                        }
                     }
                 ]
             },
@@ -50,8 +52,6 @@ export class AppMenuComponent implements OnInit {
         ]
     }
     NavigateOtherPage(url: string){
-        console.log(history.state.idProfile)
-        console.log(this.router)
-        this.router.navigate([this.router.url, url], {state: {idProfile: history.state.idProfile}});
+        this.router.navigate(['home', url], {state: {idProfile: history.state.idProfile}});
     }
 }

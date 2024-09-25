@@ -1,4 +1,4 @@
-export interface MovieFavorite {
+export interface ItemFavorite {
     genres: number[],
     idItem: number,
     idProfile: number,

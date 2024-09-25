@@ -1,9 +1,9 @@
-<div class="flex justify-content-center">
+<div class="flex justify-content-center flex-column">
     @if(profile$ | async; as profile){
-        <h1>Hello {{profile.name}}</h1>
-        <!-- <div class="h-8">
-            <p-chart type="doughnut" [data]="dataChartFavorite"/>
-        </div> -->
+        <h1 class="text-center">Hello {{profile.name}}</h1>
+        <div>
+            <p-chart type="doughnut" [data]="dataChartFavorite" [options]="dataChartOptions" height="250"/>
+        </div>
     }@else{
         <p-progressSpinner/>
     }

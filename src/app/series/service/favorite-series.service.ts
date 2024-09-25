@@ -1,24 +1,24 @@
 import { inject, Injectable } from '@angular/core';
-import { addDoc, collection, collectionData, DocumentReference, Firestore, query, where,  } from '@angular/fire/firestore';
+import { addDoc, collectionData, Firestore, where, query } from '@angular/fire/firestore';
+import { Router } from '@angular/router';
+import { collection, DocumentReference } from '@firebase/firestore';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
 import { ItemFavorite } from 'src/app/api/item-favorite';
-
-const PATH = 'MovieFavorite';
+const PATH:string = 'SerieFavorite';
 @Injectable({
-  providedIn: 'any'
+  providedIn: 'root'
 })
-export class FavoriteMoviesService {
-  private _firestore = inject(Firestore);
-  private _collection = collection(this._firestore, PATH);
+export class FavoriteSeriesService {
+  private _firebase = inject(Firestore);
+  private _collection = collection(this._firebase, PATH);
   private _uid!: string;
-  constructor(private cookies: CookieService, private router: Router) {
+  constructor(private cookies: CookieService, private router: Router) { 
     if(!cookies.check('uid'))
       router.navigate(['']);
     this._uid = cookies.get('uid');
-   }
-  AddMovieFavorite(id: number, title: string, poster_path: string, genres: number[]):Promise<DocumentReference<any>>{
+  }
+  AddSerieFavorite(id: number, title: string, poster_path: string, genres: number[]):Promise<DocumentReference<any>>{
     const obj: ItemFavorite = {
       title: title,
       idItem: id,

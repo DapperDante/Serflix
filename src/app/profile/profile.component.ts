@@ -11,11 +11,25 @@ import { map, Observable, tap } from 'rxjs';
 export class ProfileComponent {
   private _profile = inject(ProfileService);
   profile$!: Observable<Profile | undefined>;
-  dataChartFavorite: any
+  dataChartFavorite: any;
+  dataChartOptions: any;
   ngOnInit(){
-    // console.log(this._profile.uid, history.state.idProfile);
     this.profile$ = this._profile.profiles$.pipe(map((profiles)=>{
-      return profiles.find(profile=>profile.id===history.state.idProfile)
-    }))
+      const profile: Profile = profiles.find(profile=>profile.id==history.state.idProfile)!;
+      this.dataChartFavorite = {
+        labels: ['Movies', 'Series'],
+        datasets: [
+          {
+            data: [profile?.favorite?.refDocMovies.length, profile?.favorite?.refDocSeries.length],
+            backgroundColor: ['red', 'white']
+          }
+        ]
+      }
+      return profile;
+    }),
+  tap(console.log))
+    this.dataChartOptions = {
+      mantainAspectRatio: false
+    }
   }
 }

@@ -13,7 +13,6 @@ export class AppMenuComponent implements OnInit {
     ngOnInit() {
         if(!history.state.idProfile)
             this.router.navigate(['profiles']);
-        console.log(history.state.idProfile);
         this.model = [
             {
                 label: 'View',
@@ -40,12 +39,16 @@ export class AppMenuComponent implements OnInit {
                     {
                         label: 'Movies',
                         icon: 'pi pi-caret-right',
-                        routerLink: ['search-movies']
+                        command: ()=>{
+                            this.NavigateOtherPage('search-movies');
+                        }
                     },
                     {
                         label: 'Series',
                         icon: 'pi pi-globe',
-                        routerLink: ['search-series']
+                        command: ()=>{
+                            this.NavigateOtherPage('search-series');
+                        }
                     }
                 ]
             }

@@ -19,7 +19,7 @@ import { ConfirmationService } from 'primeng/api';
 export class SelectprofileComponent {
   private _profile = inject(ProfileService);
   profiles$!: Observable<Profile[]>;
-  photos$!: Observable<RickAndMortyCharacters>
+  photos$!: Observable<RickAndMortyCharacters>;
   //Control view panel of edit
   addProfile: boolean = false;
   selectPhotoProfile: boolean = false;
@@ -60,6 +60,9 @@ export class SelectprofileComponent {
     }
   //This send all info to database
   private CreatingProfile(){
-    this._profile.AddProfile(this.urlProfileSelected, this.nameProfileSelected);
+    this._profile.AddProfile(this.urlProfileSelected, this.nameProfileSelected).then((idProfile)=>{
+      console.log(idProfile);
+      this.router.navigate(['home'], {state: {idProfile: idProfile}});
+    })
   }
 }

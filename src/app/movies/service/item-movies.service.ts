@@ -30,6 +30,7 @@ export function ItemMoviesInterceptor(req: HttpRequest<unknown>, next: HttpHandl
       map((data: any)=>{
         if(data.body){
           if('results' in data.body && Array.isArray(data.body.results)){
+            //It's discard movies without url in poster_path
             data.body.results = data.body.results.filter((item:any)=>item.poster_path);
             data.body.results.map((item: any)=>{
               item.poster_path = BASE_URL_IMAGE+item.poster_path;

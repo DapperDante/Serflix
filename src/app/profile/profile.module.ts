@@ -4,7 +4,9 @@ import { ProfileComponent } from './profile.component';
 import { ProfileRoutingModule } from './profile-routing.module';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ChartModule } from 'primeng/chart';
-
+import { DialogModule } from 'primeng/dialog';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 @NgModule({
   declarations: [
     ProfileComponent
@@ -13,7 +15,12 @@ import { ChartModule } from 'primeng/chart';
     CommonModule,
     ProfileRoutingModule,
     ProgressSpinnerModule,
-    ChartModule
+    ChartModule,
+    DialogModule,
+    ToastModule
+  ],
+  providers: [
+    MessageService
   ]
 })
 export class ProfileModule { }

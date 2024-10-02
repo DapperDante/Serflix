@@ -31,6 +31,7 @@ import { ProfileService } from './service/profile.service';
 import { DialogModule } from 'primeng/dialog';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from "primeng/api";
+import { CookieService } from 'ngx-cookie-service';
 @NgModule({
     declarations: [
         AppLayoutComponent,
@@ -68,7 +69,8 @@ import { ConfirmationService } from "primeng/api";
     ],
     providers: [
         ProfileService,
-        ConfirmationService
+        ConfirmationService,
+        CookieService
     ]
 })
 export class AppLayoutModule { }

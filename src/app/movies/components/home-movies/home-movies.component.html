@@ -26,7 +26,9 @@
         <p-progressSpinner/>
     </div>
 }
-<p-paginator 
+<p-paginator
   (onPageChange)="ChangePage($event)"
-  [totalRecords]="19" 
-  [rows]="3"/>
+  [totalRecords]="totalMovies"
+  [first]="controlStatePaginator"
+  [rows]="numberOfMoviesForShow"
+  [alwaysShow]="false"/>

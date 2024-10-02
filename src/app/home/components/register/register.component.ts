@@ -10,7 +10,7 @@ import { MessageService } from 'primeng/api';
   templateUrl: './register.component.html'
 })
 export class RegisterComponent {
-  _auth = inject(AuthService);
+  private _auth = inject(AuthService);
   errorCode: any;
   constructor(private router: Router, private message: MessageService){}
   registerForm = new FormGroup({
@@ -33,5 +33,8 @@ export class RegisterComponent {
       }
       console.log(err.code)
     })
+  }
+  RegisterWithGoogle(){
+    this._auth.LoginWithGoogle().then(()=>this.router.navigate(['profile']));
   }
 }

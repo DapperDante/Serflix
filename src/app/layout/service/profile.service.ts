@@ -3,7 +3,7 @@ import { collection, collectionData, doc, Firestore, query, updateDoc, where, ad
 import { CookieService } from 'ngx-cookie-service';
 import { Account, Profile, RickAndMortyCharacters } from '../api/account';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { Auth, signOut, user } from '@angular/fire/auth';
+import { Auth, signOut } from '@angular/fire/auth';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
@@ -21,15 +21,13 @@ export class ProfileService {
   private _collectRef = collection(this._firebase, PATH);
   constructor(private cookie: CookieService, private auth: Auth, private http: HttpClient, private router: Router){
     //This service need to it
-    console.log(cookie.check('uid'))
     if(!cookie.check('uid'))
       this.LogOut().then(()=>router.navigate(['']));
     this._uid = cookie.get('uid');
-    console.log(this._uid);
     (collectionData(query(this._collectRef, where('uid', '==', this.uid)), {idField: 'idRef'}) as Observable<Account[]>)
     .subscribe(
       (data)=>{
-        //If this account is new and you add new profile, so the created the doc in firebase
+        //If this account is new and when you add new profile, so the created the doc in firebase
         if(data.length){
           this.account = data[0];
           //It's avoid many request, ever have info about profiles of this account in one variable
@@ -40,21 +38,28 @@ export class ProfileService {
   getAllPhotosForProfile(): Observable<RickAndMortyCharacters>{
     return this.http.get<RickAndMortyCharacters>(`${this.baseUrlRickAndMorty}/character`)
   }
-  AddProfile(url: string, name: string){
+  //Return id of profile when you can access and put in state by navigate router
+  async AddProfile(url: string, name: string): Promise<number>{
     //If this account is new, so initializated in empty variables base for be used
     if(!this.account){
-      console.log(this.uid)
       let profiles: Profile[] = [{id: 1, name: name, url: url, favorite: {refDocMovies: [], refDocSeries: []}}]
       this.account = {uid: this.uid, profiles: profiles}
       return addDoc(this._collectRef, this.account).then((data)=>{
         this.account.idRef = data.id;
+        return profiles[0].id;
       })
     }else{
       //This code is demo because not found a free id of all profiles of this account
       let lastIdProfile = this.account.profiles[this.account.profiles.length-1].id+1;
       this.account.profiles.push({id: lastIdProfile, name: name, url: url, favorite: {refDocMovies: [], refDocSeries: []}});
-      return updateDoc(doc(this._firebase, `${PATH}/${this.account.idRef}`), {profiles: this.account.profiles});
+      return updateDoc(doc(this._firebase, `${PATH}/${this.account.idRef}`), {profiles: this.account.profiles}).then(()=>{
+        return lastIdProfile;
+      })
     }
+  }
+  UpdateImageOfProfile(url: string):Promise<void>{
+    this.account.profiles.find((item)=>item.id===history.state.idProfile)!.url = url;
+    return updateDoc(doc(this._firebase, `${PATH}/${this.account.idRef}`), {profiles: this.account.profiles})
   }
   //This method is for match the movie or serie favorite with the doc of profile, so when you deleate a profile you delete all movies or series favorites
   UpdateProfileWithNewItemFavorite(refDoc: string, typeFavorite: 'refDocMovies' | 'refDocSeries'):Promise<void>{
@@ -66,7 +71,7 @@ export class ProfileService {
   }
   //It's for give profiles when finish in store data
   get profiles$():Observable<Profile[]>{
-    return this._profiles$.asObservable().pipe(tap(console.log));
+    return this._profiles$.asObservable();
   }
   get uid(){
     return this._uid;

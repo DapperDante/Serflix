@@ -19,7 +19,7 @@ export class LoginComponent {
         if(!this.loginForm.valid)
             return;
         this._auth.LoginWithEmailAndPassword(this.loginForm.value.emailUser!, this.loginForm.value.passwordUser!)
-        .then((data)=>{
+        .then(()=>{
             this.router.navigate(['profile'])
         })
         .catch((err)=>{
@@ -40,7 +40,7 @@ export class LoginComponent {
             switch(err.code){
                 case AuthErrorCodes.POPUP_CLOSED_BY_USER:
                     this.message.add({severity: 'error', detail: 'An error has ocurred'});
-                break;
+                    break;
             }
             console.log(err.code)
         })

@@ -117,8 +117,8 @@ export class HomeSeriesComponent {
         break;
     }
   }
-  AddSerieFavorite(id:number, title: string, poster_path: string, genres: number[]){
-    this._favorite.AddSerieFavorite(id, title, poster_path, genres).then((data)=>{
+  AddSerieFavorite(event: {id: number, title: string, poster_path: string, genresId: number[]}){
+    this._favorite.AddSerieFavorite(event.id, event.title, event.poster_path, event.genresId).then((data)=>{
       this._profile.UpdateProfileWithNewItemFavorite(data.id, 'refDocSeries');
       this.message.add({severity: 'success', detail: 'Serie add to favorites'})
     })

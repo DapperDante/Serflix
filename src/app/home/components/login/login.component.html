@@ -3,15 +3,14 @@
     <form [formGroup]="loginForm">
         <div class="m-auto w-25rem h-30rem bg-red-600 m-auto flex flex-column justify-content-between align-items-center p-4 border-round shadow-3">
             <h1>Login</h1>
-            <div class="my-2">
-                <label for="email">Email</label><br>
-                <input pInputText id="username" class="w-15rem" formControlName="emailUser" placeholder="Email"/>
-            </div>
-            <div class="my-2">
-                <label for="password">Password</label><br>
+            <p-floatLabel>
+                <input pInputText id="email-user" class="w-15rem" formControlName="emailUser"/>
+                <label for="email-user">Email</label><br>
+            </p-floatLabel>
+            <p-floatLabel>
                 <p-password
-                    [toggleMask]="true"
-                    id="password"
+                [toggleMask]="true"
+                id="password"
                     formControlName="passwordUser"
                     placeholder="Password">
                     <ng-template pTemplate="header">
@@ -28,7 +27,8 @@
                         </ul>
                     </ng-template>
                 </p-password>
-            </div>
+                <label for="password">Password</label><br>
+            </p-floatLabel>
             <p-button label="Login" icon="pi pi-sign-in" class="my-2" (onClick)="Login()"></p-button>
             <small>If you don't have account, <a routerLink="/register">Register</a></small>
             <div class="my-3">

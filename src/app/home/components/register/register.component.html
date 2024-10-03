@@ -1,21 +1,22 @@
 <div class="w-full h-screen p-8">
     <p-toast/>
     <form [formGroup]="registerForm">
-        <div class="m-auto w-25rem h-30rem bg-red-600 m-auto flex flex-column justify-content-between align-items-center p-4 border-round shadow-3">
+        <div 
+            class="m-auto w-25rem bg-red-600 m-auto flex flex-column justify-content-between align-items-center p-4 border-round shadow-3" 
+            [style]="{height: '34rem'}">
             <h1>Register</h1>
-            <div class="my-2">
-                <label for="username">Username</label><br>
-                <input pInputText id="username" class="w-15rem" formControlName="nameUser"/>
-            </div>
-            <div class="my-2">
-                <label for="email">Email</label><br>
-                <input pInputText id="username" class="w-15rem" formControlName="emailUser"/>
-            </div>
-            <div class="my-2">
-                <label for="password">Password</label><br>
+            <p-floatLabel>
+                <input pInputText id="new-user" class="w-15rem" formControlName="nameUser"/>
+                <label for="new-user">Username</label><br>
+            </p-floatLabel>
+            <p-floatLabel>
+                <input pInputText id="new-email" class="w-15rem" formControlName="emailUser"/>
+                <label for="new-email">Email</label><br>
+            </p-floatLabel>
+            <p-floatLabel>
                 <p-password
-                    [toggleMask]="true"
-                    class="w-15rem"
+                [toggleMask]="true"
+                class="w-15rem"
                     id="password"
                     formControlName="passwordUser">
                     <ng-template pTemplate="header">
@@ -32,7 +33,8 @@
                         </ul>
                     </ng-template>
                 </p-password>
-            </div>
+                <label for="password">Password</label><br>
+            </p-floatLabel>
             <p-button label="Register" icon="pi pi-sign-in" class="my-2" (onClick)="Register()"></p-button>
             <small>If you have account, <a routerLink="/login">Login</a></small>
             <div class="my-3">

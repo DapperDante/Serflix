@@ -15,7 +15,8 @@ import { PasswordModule } from 'primeng/password';
 import { DividerModule } from 'primeng/divider';
 import { DockModule } from 'primeng/dock';
 import { MessageService } from 'primeng/api';
-import { ToastModule } from 'primeng/toast'
+import { ToastModule } from 'primeng/toast';
+import { FloatLabelModule } from 'primeng/floatlabel';
 @NgModule({
   declarations: [
     LandingComponent, 
@@ -35,7 +36,8 @@ import { ToastModule } from 'primeng/toast'
     DividerModule,
     DockModule,
     ReactiveFormsModule,
-    ToastModule
+    ToastModule,
+    FloatLabelModule
   ],
   providers: [
     MessageService

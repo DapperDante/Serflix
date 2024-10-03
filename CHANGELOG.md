@@ -1,5 +1,7 @@
-# Changelog
-Se implemento un tema llamado red para el topbar
+# 18.2.7
+-Update to PrimeNg 17.18.11
+-Update to Angular 18.2.7
+-Update other dependencies like @angular/fire, ngx-cookie-service, etc. for avoid upstream 
 # 17.0.0
 **Implemented New Features and Enhancements:**
 - Upgrade to PrimeNG 17

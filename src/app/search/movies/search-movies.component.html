@@ -1,21 +1,18 @@
 <div>
     <form [formGroup]="title">
-        <!-- <input 
-            pInputText 
-            type="text" 
-            formControlName="title" 
-            placeholder="Search"
-            title="search"/>
+        <div class="my-3">
+            <i class="pi pi-search mr-2"></i>
+            <input
+                pInputText 
+                type="text" 
+                formControlName="title" 
+                placeholder="Search"
+                title="search"
+                class="mr-3"/>
             <p-button
                 (onClick)="ShowResultOfTitle()"
-                label="Show"/> -->
-        <p-iconField iconPosition="left">
-            <p-inputIcon styleClass="pi pi-search"/>
-            <input 
-                type="text"
-                pInputText
-                placeholder="Search">
-        </p-iconField>
+                label="Show"/>
+        </div>
     </form>
     <form [formGroup]="filter">
         <p-dropdown

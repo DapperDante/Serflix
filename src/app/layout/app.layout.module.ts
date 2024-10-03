@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { InputTextModule } from 'primeng/inputtext';
 import { SidebarModule } from 'primeng/sidebar';
@@ -32,8 +32,7 @@ import { DialogModule } from 'primeng/dialog';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from "primeng/api";
 import { CookieService } from 'ngx-cookie-service';
-@NgModule({
-    declarations: [
+@NgModule({ declarations: [
         AppLayoutComponent,
         AppBreadcrumbComponent,
         AppMenuProfileComponent,
@@ -44,11 +43,8 @@ import { CookieService } from 'ngx-cookie-service';
         AppMenuitemComponent,
         AppFooterComponent,
         SelectprofileComponent
-    ],
-    imports: [
-        BrowserModule,
+    ], imports: [BrowserModule,
         FormsModule,
-        HttpClientModule,
         BrowserAnimationsModule,
         StyleClassModule,
         InputTextModule,
@@ -65,12 +61,10 @@ import { CookieService } from 'ngx-cookie-service';
         AppConfigModule,
         ProgressSpinnerModule,
         DialogModule,
-        ConfirmDialogModule
-    ],
-    providers: [
+        ConfirmDialogModule], providers: [
         ProfileService,
         ConfirmationService,
-        CookieService
-    ]
-})
+        CookieService,
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AppLayoutModule { }

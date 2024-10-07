@@ -1,21 +1,23 @@
 /* tslint:disable:no-unused-variable */
 
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
-import { AppTopBarComponent } from './app.topbar.component';
-import { AppFooterComponent } from './app.footer.component';
-import { AppMenuComponent } from './app.menu.component';
+import { AppTopbarComponent } from './layout/app.topbar.component';
+import { AppFooterComponent } from './layout/app.footer.component';
+import { AppMenuComponent } from './layout/app.menu.component';
 import { ProgressBarModule} from 'primeng/progressbar';
-import { MenuService } from './app.menu.service';
+import { MenuService } from './layout/app.menu.service';
 
 describe('AppComponent', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [ RouterTestingModule, ProgressBarModule ],
+            imports: [
+                RouterTestingModule, 
+                ProgressBarModule ],
             declarations: [ AppComponent,
                 AppMenuComponent,
-                AppTopBarComponent,
+                AppTopbarComponent,
                 AppFooterComponent
             ],
             providers: [MenuService]
@@ -23,9 +25,14 @@ describe('AppComponent', () => {
         TestBed.compileComponents();
     });
 
-    it('should create the app', async(() => {
+    // it('should create the app', async(() => {
+    //     const fixture = TestBed.createComponent(AppComponent);
+    //     const app = fixture.debugElement.componentInstance;
+    //     expect(app).toBeTruthy();
+    // }));
+    it('should create the app', () => {
         const fixture = TestBed.createComponent(AppComponent);
         const app = fixture.debugElement.componentInstance;
         expect(app).toBeTruthy();
-    }));
+    });
 });

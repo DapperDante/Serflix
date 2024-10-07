@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { addDoc, collectionData, Firestore, where, query } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { collection, DocumentReference } from '@firebase/firestore';
+import { collection, DocumentReference } from '@angular/fire/firestore';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
 import { ItemFavorite } from 'src/app/api/item-favorite';

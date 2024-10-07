@@ -1,5 +1,5 @@
 import { HttpClient, HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Series } from '../api/series';
 import { Observable, map, tap} from "rxjs";
 import { environment } from 'src/environments/environment';
@@ -8,7 +8,7 @@ const BASE_URL_SERIES: string = environment._BaseUrlSerie;
   providedIn: 'any'
 })
 export class ItemSeriesService {
-  constructor(private _http: HttpClient) { }
+  private _http = inject(HttpClient);
   getSeriesAiringToday(page: number = 1):Observable<Series>{
     return this._http.get<Series>(`${BASE_URL_SERIES}/airing_today?language=en-US&page=${page}`);
   }

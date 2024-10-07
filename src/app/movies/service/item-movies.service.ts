@@ -1,5 +1,5 @@
 import { HttpClient, HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { map, Observable, tap } from 'rxjs';
 import { Movies, MoviesWithDate } from '../api/movies';
 import { environment } from 'src/environments/environment';
@@ -8,7 +8,7 @@ const BASE_URL_MOVIES: string = environment._BaseUrlMovie;
   providedIn: 'any'
 })
 export class ItemMoviesService {
-  constructor(private _http: HttpClient) { }
+  private _http = inject(HttpClient);
   getMoviesNowPlaying(page: number = 1):Observable<MoviesWithDate>{
     return this._http.get<MoviesWithDate>(`${BASE_URL_MOVIES}/now_playing?language=en-US&page=${page}`);
   }

@@ -38,7 +38,7 @@ export class HomeMoviesComponent {
   controlStatePaginator: number = 0;
   constructor(private router: Router, private message: MessageService){}
   ngOnInit(){
-    if(!history.state.idProfile)
+    if(!history.state?.idProfile)
       this.router.navigate(['']);
     this.data$ = this._movies.getMoviesPopular()
     .pipe(map((movies)=>{

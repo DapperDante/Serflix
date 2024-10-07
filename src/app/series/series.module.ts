@@ -8,6 +8,7 @@ import { HomeSeriesComponent } from './components/home-series/home-series.compon
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { SharedComponentsModule } from "../shared-components/shared-components.module";
+import { ItemSeriesService } from './service/item-series.service';
 @NgModule({
   declarations: [
     HomeSeriesComponent
@@ -22,7 +23,8 @@ import { SharedComponentsModule } from "../shared-components/shared-components.m
     SharedComponentsModule
   ],
   providers: [
-    MessageService
+    MessageService,
+    ItemSeriesService
   ]
 })
 export class SeriesModule { }

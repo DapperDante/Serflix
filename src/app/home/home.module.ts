@@ -17,6 +17,7 @@ import { DockModule } from 'primeng/dock';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { FloatLabelModule } from 'primeng/floatlabel';
+import { AuthService } from './service/auth.service';
 @NgModule({
   declarations: [
     LandingComponent, 
@@ -40,7 +41,8 @@ import { FloatLabelModule } from 'primeng/floatlabel';
     FloatLabelModule
   ],
   providers: [
-    MessageService
+    MessageService,
+    AuthService
   ]
 })
 export class HomeModule { }

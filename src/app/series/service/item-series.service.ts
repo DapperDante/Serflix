@@ -5,7 +5,7 @@ import { Observable, map, tap} from "rxjs";
 import { environment } from 'src/environments/environment';
 const BASE_URL_SERIES: string = environment._BaseUrlSerie;
 @Injectable({
-  providedIn: 'any'
+  providedIn: 'root'
 })
 export class ItemSeriesService {
   private _http = inject(HttpClient);

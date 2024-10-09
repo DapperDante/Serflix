@@ -5,7 +5,7 @@ import { Movies, MoviesWithDate } from '../api/movies';
 import { environment } from 'src/environments/environment';
 const BASE_URL_MOVIES: string = environment._BaseUrlMovie;
 @Injectable({
-  providedIn: 'any'
+  providedIn: 'root'
 })
 export class ItemMoviesService {
   private _http = inject(HttpClient);

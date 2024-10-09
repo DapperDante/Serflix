@@ -9,10 +9,10 @@ import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 describe('Login', () => {
     let component: LoginComponent;
-    let fixture: ComponentFixture<LoginComponent>
+    let fixture: ComponentFixture<LoginComponent>;
   beforeEach(() => {
     TestBed.configureTestingModule({
-        imports: [
+        imports: [  
           ToastModule
         ],
         providers: [
@@ -29,5 +29,24 @@ describe('Login', () => {
 
   it('should be created', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('contain attribute enough for complete the form', ()=>{
+    expect(component.loginForm.contains('emailUser')).toBeTruthy();
+    expect(component.loginForm.contains('passwordUser')).toBeTruthy();
+  });
+
+  it('Login with email and password', ()=>{
+    component.loginForm.get('emailUser')?.setValue('demo2419gur@gmail.com');
+    component.loginForm.get('passwordUser')?.setValue('2538guegjsie')
+    expect(component.Login()).toBeTruthy();
+  });
+
+  it('Login with email or password but without once both', ()=>{
+    component.loginForm.get('emailUser')?.setValue('demo2419gur@gmail.com');
+    expect(component.Login()).toBeFalsy();
+    component.loginForm.get('emailUser')?.setValue('');
+    component.loginForm.get('passwordUser')?.setValue('2538guegjsie');
+    expect(component.Login()).toBeFalsy();
   });
 });

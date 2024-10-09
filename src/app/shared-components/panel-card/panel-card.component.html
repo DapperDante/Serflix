@@ -5,16 +5,16 @@
             [style]="{width: '200px', height: '100%'}"
             class="transition-duration-200 hover:shadow-7 m-3">
             <ng-template pTemplate="header">
-            <img [src]="entertaiment.poster_path" alt="Not found">
+                <img [src]="entertaiment.poster_path" alt="Not found">
             </ng-template>
             <ng-template pTemplate="footer">
-            <p-button 
-                icon="pi pi-heart"
-                [raised]="true"
-                [rounded]="true"
-                size="large"
-                (onClick)="onClick(entertaiment.id, entertaiment?.title || entertaiment?.original_name, entertaiment.poster_path, entertaiment.genre_ids)"/>
-            </ng-template>
+                <p-button 
+                    icon="pi pi-heart"
+                    [raised]="true"
+                    [rounded]="true"
+                    size="large"
+                    (onClick)="onClick(entertaiment.id, entertaiment?.title || entertaiment?.original_name, entertaiment.poster_path, entertaiment.genre_ids)"/>
+                </ng-template>
         </p-card>
     }
 </div>

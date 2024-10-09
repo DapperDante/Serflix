@@ -57,4 +57,28 @@ describe('RegisterComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('contain attribute enough for complete the form', ()=>{
+    expect(component.registerForm.contains('nameUser')).toBeTruthy();
+    expect(component.registerForm.contains('emailUser')).toBeTruthy();
+    expect(component.registerForm.contains('passwordUser')).toBeTruthy();
+  });
+
+  it('Register with email and password', ()=>{
+    component.registerForm.get('nameUser')?.setValue('DemoTesting');
+    component.registerForm.get('emailUser')?.setValue('dem9gur@gmail.com');
+    component.registerForm.get('passwordUser')?.setValue('2538guegjsie');
+    expect(component.Register()).toBeTruthy();
+  });
+
+  it('Register with email or password but without once both', ()=>{
+    component.registerForm.get('nameUser')?.setValue('OtherDemoTesting');
+    expect(component.Register()).toBeFalsy();
+    component.registerForm.get('nameUser')?.setValue('');
+    component.registerForm.get('emailUser')?.setValue('dmo241ur@gmail.com');
+    expect(component.Register()).toBeFalsy();
+    component.registerForm.get('emailUser')?.setValue('');
+    component.registerForm.get('passwordUser')?.setValue('2538guegjsie');
+    expect(component.Register()).toBeFalsy();
+  });
 });

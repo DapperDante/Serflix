@@ -18,9 +18,9 @@ export class RegisterComponent {
     emailUser: new FormControl('', [Validators.required, Validators.email]),
     passwordUser: new FormControl('', [Validators.required, Validators.minLength(9)])
   })
-  Register(){
-    if(!this.registerForm)
-      return;
+  Register():boolean{
+    if(this.registerForm.invalid)
+      return false;
     this._auth.RegisterWithEmailAndPassword(this.registerForm.value.emailUser!, this.registerForm.value.nameUser!)
     .then((data)=>{
       this.router.navigate(['profile']);
@@ -31,8 +31,8 @@ export class RegisterComponent {
         this.message.add({severity: 'error', detail: 'Email already in use'})
         break;
       }
-      console.log(err.code)
     })
+    return true;
   }
   RegisterWithGoogle(){
     this._auth.LoginWithGoogle().then(()=>this.router.navigate(['profile']));

@@ -15,9 +15,9 @@ export class LoginComponent {
         emailUser: new FormControl('', [Validators.required, Validators.email]),
         passwordUser: new FormControl('', [Validators.required, Validators.minLength(9)])
     })
-    Login(){
-        if(!this.loginForm.valid)
-            return;
+    Login(): boolean{
+        if(this.loginForm.invalid)
+            return false;
         this._auth.LoginWithEmailAndPassword(this.loginForm.value.emailUser!, this.loginForm.value.passwordUser!)
         .then(()=>{
             this.router.navigate(['profile'])
@@ -31,7 +31,9 @@ export class LoginComponent {
                     this.message.add({severity: 'warn', detail: 'Email or password incorrect'})
                 break;
             }
+            return false;
         })
+        return true;
     }
     LoginWithGoogle(){
         this._auth.LoginWithGoogle()
@@ -42,7 +44,6 @@ export class LoginComponent {
                     this.message.add({severity: 'error', detail: 'An error has ocurred'});
                     break;
             }
-            console.log(err.code)
         })
     }
 }

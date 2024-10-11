@@ -117,7 +117,7 @@ export class HomeMoviesComponent {
     }
   }
   AddMovieFavorite(event: {id: number, title: string, poster_path: string, genresId: number[]}){
-    this._favorite.AddMovieFavorite(event.id, event.title, event.poster_path, event.genresId).then((data)=>{
+    this._favorite.AddMovieFavorite(event.id, event.title, event.poster_path, event.genresId, history.state.idProfile).then((data)=>{
       this._profile.UpdateProfileWithNewItemFavorite(data.id, 'refDocMovies');
       this.message.add({severity: 'success', detail: 'Movie add to favorites'});
     });

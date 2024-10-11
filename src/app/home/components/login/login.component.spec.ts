@@ -7,6 +7,7 @@ import { environment } from 'src/environments/environment';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import * as dataTesting from "../../../../assets/data-testing.json";
 describe('Login', () => {
     let component: LoginComponent;
     let fixture: ComponentFixture<LoginComponent>;
@@ -37,16 +38,16 @@ describe('Login', () => {
   });
 
   it('Login with email and password', ()=>{
-    component.loginForm.get('emailUser')?.setValue('demo2419gur@gmail.com');
-    component.loginForm.get('passwordUser')?.setValue('2538guegjsie')
+    component.loginForm.get('emailUser')?.setValue(dataTesting?.user?.email);
+    component.loginForm.get('passwordUser')?.setValue(dataTesting?.user?.password)
     expect(component.Login()).toBeTruthy();
   });
 
   it('Login with email or password but without once both', ()=>{
-    component.loginForm.get('emailUser')?.setValue('demo2419gur@gmail.com');
+    component.loginForm.get('emailUser')?.setValue(dataTesting?.user?.email);
     expect(component.Login()).toBeFalsy();
     component.loginForm.get('emailUser')?.setValue('');
-    component.loginForm.get('passwordUser')?.setValue('2538guegjsie');
+    component.loginForm.get('passwordUser')?.setValue(dataTesting?.user?.password);
     expect(component.Login()).toBeFalsy();
   });
 });

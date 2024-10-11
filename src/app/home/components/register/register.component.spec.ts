@@ -18,7 +18,7 @@ import { DockModule } from 'primeng/dock';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { RouterTestingModule } from '@angular/router/testing';
-
+import * as dataTesting from '../../../../assets/data-testing.json'
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
   let fixture: ComponentFixture<RegisterComponent>;
@@ -65,20 +65,20 @@ describe('RegisterComponent', () => {
   });
 
   it('Register with email and password', ()=>{
-    component.registerForm.get('nameUser')?.setValue('DemoTesting');
-    component.registerForm.get('emailUser')?.setValue('dem9gur@gmail.com');
-    component.registerForm.get('passwordUser')?.setValue('2538guegjsie');
+    component.registerForm.get('nameUser')?.setValue(dataTesting?.user?.nameUser);
+    component.registerForm.get('emailUser')?.setValue(dataTesting?.user?.email);
+    component.registerForm.get('passwordUser')?.setValue(dataTesting?.user?.password);
     expect(component.Register()).toBeTruthy();
   });
 
   it('Register with email or password but without once both', ()=>{
-    component.registerForm.get('nameUser')?.setValue('OtherDemoTesting');
+    component.registerForm.get('nameUser')?.setValue(dataTesting?.user?.nameUser);
     expect(component.Register()).toBeFalsy();
     component.registerForm.get('nameUser')?.setValue('');
-    component.registerForm.get('emailUser')?.setValue('dmo241ur@gmail.com');
+    component.registerForm.get('emailUser')?.setValue(dataTesting?.user?.email);
     expect(component.Register()).toBeFalsy();
     component.registerForm.get('emailUser')?.setValue('');
-    component.registerForm.get('passwordUser')?.setValue('2538guegjsie');
+    component.registerForm.get('passwordUser')?.setValue(dataTesting?.user?.password);
     expect(component.Register()).toBeFalsy();
   });
 });

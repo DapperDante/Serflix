@@ -26,6 +26,7 @@
     "@fullcalendar/daygrid": "^6.1.15",
     "@fullcalendar/interaction": "^6.1.15",
     "@fullcalendar/timegrid": "^6.1.15",
+    "@types/node": "^22.7.5",
     "chart.js": "^3.3.2",
     "ngx-cookie-service": "^18.0.0",
     "node": "^20.18.0",

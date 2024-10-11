@@ -5,7 +5,10 @@ import { collection, DocumentReference } from '@angular/fire/firestore';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
 import { ItemFavorite } from 'src/app/api/item-favorite';
-const PATH:string = 'SerieFavorite';
+import { environment } from 'src/environments/environment.development';
+
+const PATH = environment._PathSerie;
+
 @Injectable({
   providedIn: 'root'
 })
@@ -18,13 +21,14 @@ export class FavoriteSeriesService {
       router.navigate(['']);
     this._uid = cookies.get('uid');
   }
-  AddSerieFavorite(id: number, title: string, poster_path: string, genres: number[]):Promise<DocumentReference<any>>{
+  AddSerieFavorite(id: number, title: string, poster_path: string, genres: number[], idProfile: number):Promise<DocumentReference<any>>{
+    let newPosterPath = '/'+poster_path.split('/').at(-1);
     const obj: ItemFavorite = {
       title: title,
       idItem: id,
-      poster_path: poster_path,
+      poster_path: newPosterPath,
       genres: genres,
-      idProfile: history.state.idProfile,
+      idProfile: idProfile,
       uid: this._uid
     }
     return addDoc(this._collection, obj);

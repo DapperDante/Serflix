@@ -9,6 +9,9 @@ export const environment = {
     _BaseUrlDiscover: 'https://api.themoviedb.org/3/discover',
     _BaseUrlGenre: 'https://api.themoviedb.org/3/genre',
     _BaseUrlRickAndMorty: 'https://rickandmortyapi.com/api',
+    _PathMovie: 'DemoMovieFavorite',
+    _PathSerie: 'DemoSerieFavorite',
+    _PathProfile: 'DemoProfiles',
     _firebaseConfig: {
         apiKey: "AIzaSyDAlOw5FAMvmAT_1YbCw890B-CIjt8MdXY",
         authDomain: "serflix-7bf44.firebaseapp.com",

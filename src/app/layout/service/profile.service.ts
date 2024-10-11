@@ -5,9 +5,11 @@ import { Account, Profile, RickAndMortyCharacters } from '../api/account';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Auth, signOut } from '@angular/fire/auth';
 import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
-const PATH = 'Profiles';
+import { environment } from 'src/environments/environment.development';
+
+const PATH = environment._PathProfile;
+
 @Injectable({
   providedIn: 'root'
 })
@@ -38,7 +40,7 @@ export class ProfileService {
   getAllPhotosForProfile(): Observable<RickAndMortyCharacters>{
     return this.http.get<RickAndMortyCharacters>(`${this.baseUrlRickAndMorty}/character`)
   }
-  //Return id of profile when you can access and put in state by navigate router
+  //Return id of profile when you can access, you put in state by navigate router
   async AddProfile(url: string, name: string): Promise<number>{
     //If this account is new, so initializated in empty variables base for be used
     if(!this.account){

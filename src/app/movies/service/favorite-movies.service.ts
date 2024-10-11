@@ -4,8 +4,9 @@ import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { ItemFavorite } from 'src/app/api/item-favorite';
+import { environment } from 'src/environments/environment.development';
 
-const PATH = 'MovieFavorite';
+const PATH = environment._PathMovie;
 @Injectable({
   providedIn: 'any'
 })
@@ -18,13 +19,15 @@ export class FavoriteMoviesService {
       router.navigate(['']);
     this._uid = cookies.get('uid');
    }
-  AddMovieFavorite(id: number, title: string, poster_path: string, genres: number[]):Promise<DocumentReference<any>>{
+  AddMovieFavorite(id: number, title: string, poster_path: string, genres: number[], idProfile: number):Promise<DocumentReference<any>>{
+    //is for remove the base url and can add in other service
+    let newPosterPath = '/'+poster_path.split('/').at(-1)!;
     const obj: ItemFavorite = {
       title: title,
       idItem: id,
-      poster_path: poster_path,
+      poster_path: newPosterPath,
       genres: genres,
-      idProfile: history.state.idProfile,
+      idProfile: idProfile,
       uid: this._uid
     }
     return addDoc(this._collection, obj);

@@ -1,11 +1,12 @@
 <div class="flex justify-content-center flex-column align-items-center h-screen">
+    <p-toast/>
     @if(profiles$ | async; as profiles){
         <h1 class="text-center my-5">Select your profile</h1>
         <div class="flex">
             @if(profiles.length){
                 @for(profile of profiles; track $index){
                     <div class="h-15rem w-15rem mr-5 text-center" (click)="SelectProfile(profile.id)">
-                        <img [src]="profile.url" alt="Not found" class="h-full border-round select-profile">
+                        <img [src]="profile.img" alt="Not found" class="h-full border-round select-profile">
                         <p [style]="{'font-size': 'x-large'}" class="font-bold">{{profile.name}}</p>
                     </div>
                 }

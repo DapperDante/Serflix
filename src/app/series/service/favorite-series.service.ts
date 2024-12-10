@@ -1,39 +1,28 @@
+import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { addDoc, collectionData, Firestore, where, query } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { collection, DocumentReference } from '@angular/fire/firestore';
-import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
 import { ItemFavorite } from 'src/app/api/item-favorite';
 import { environment } from 'src/environments/environment.development';
 
-const PATH = environment._PathSerie;
+// const PATH_DB = environment._ApiDbSeries;
 
 @Injectable({
   providedIn: 'root'
 })
 export class FavoriteSeriesService {
-  private _firebase = inject(Firestore);
-  private _collection = collection(this._firebase, PATH);
-  private _uid!: string;
-  constructor(private cookies: CookieService, private router: Router) { 
-    if(!cookies.check('uid'))
-      router.navigate(['']);
-    this._uid = cookies.get('uid');
+  private idProfile: number | undefined;
+  private idUser: number | undefined;
+  private http = inject(HttpClient);
+  constructor(private router: Router) { 
+    this.idProfile = history.state.idProfile;
+    this.idUser = history.state.idUser;
   }
-  AddSerieFavorite(id: number, title: string, poster_path: string, genres: number[], idProfile: number):Promise<DocumentReference<any>>{
+  /* AddSerieFavorite(id: number, title: string, poster_path: string, genres: number[], idProfile: number):Observable<void>{
     let newPosterPath = '/'+poster_path.split('/').at(-1);
-    const obj: ItemFavorite = {
-      title: title,
-      idItem: id,
-      poster_path: newPosterPath,
-      genres: genres,
-      idProfile: idProfile,
-      uid: this._uid
-    }
-    return addDoc(this._collection, obj);
+    return this.http.post<void>(`${PATH_DB}/add-favorite`, favorite);
   }
   getMoviesOfProfile():Observable<ItemFavorite[]>{
-    return collectionData(query(this._collection, where('uid','==',this._uid), where('idProfile','==',history.state.idProfile))) as Observable<ItemFavorite[]>
-  }
+    return this.http.get<ItemFavorite[]>(`${PATH_DB}/get-all-favorite`);
+  } */
 }

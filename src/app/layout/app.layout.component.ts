@@ -18,8 +18,6 @@ import { LayoutService } from './service/app.layout.service';
 })
 export class AppLayoutComponent implements OnDestroy {
     ngOnInit(){
-        if(!history.state.idProfile)
-            this.router.navigate(['profile']);
     }
     overlayMenuOpenSubscription: Subscription;
 

@@ -5,9 +5,10 @@ export interface Account {
 }
 export interface Profile{
     id: number, 
+    user_id: number,
     name: string, 
-    url: string,
-    favorite: Favorite
+    img: string,
+    // favorite: Favorite
 }
 export interface RickAndMortyCharacters {
     info:    Info;

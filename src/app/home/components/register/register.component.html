@@ -6,7 +6,7 @@
             [style]="{height: '34rem'}">
             <h1>Register</h1>
             <p-floatLabel>
-                <input pInputText id="new-user" class="w-15rem" formControlName="nameUser"/>
+                <input pInputText id="new-user" class="w-15rem" formControlName="nameUser" [maxlength]="40"/>
                 <label for="new-user">Username</label><br>
             </p-floatLabel>
             <p-floatLabel>
@@ -38,7 +38,7 @@
             <p-button label="Register" icon="pi pi-sign-in" class="my-2" (onClick)="Register()"></p-button>
             <small>If you have account, <a routerLink="/login">Login</a></small>
             <div class="my-3">
-                <p-button icon="pi pi-google" class="mr-2" (onClick)="RegisterWithGoogle()"/>
+                <p-button icon="pi pi-google" class="mr-2"/>
                 <p-button icon="pi pi-facebook" class="mr-2"/>
                 <p-button icon="pi pi-github" class="mr-2"/>
                 <p-button icon="pi pi-microsoft" class="mr-2"/>

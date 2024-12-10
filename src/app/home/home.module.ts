@@ -18,11 +18,18 @@ import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { AuthService } from './service/auth.service';
+import { HomeAccessComponent } from './components/home-access/home-access.component';
+import { CarouselModule } from 'primeng/carousel';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { SkeletonModule } from 'primeng/skeleton';
+import { ListMoviesComponent } from './components/list-movies/list-movies.component';
+import { ListSeriesComponent } from './components/list-series/list-series.component';
 @NgModule({
   declarations: [
     LandingComponent, 
     LoginComponent, 
-    RegisterComponent
+    RegisterComponent, 
+    HomeAccessComponent, ListMoviesComponent, ListSeriesComponent
   ],
   imports: [
     CommonModule,
@@ -38,7 +45,10 @@ import { AuthService } from './service/auth.service';
     DockModule,
     ReactiveFormsModule,
     ToastModule,
-    FloatLabelModule
+    FloatLabelModule,
+    CarouselModule,
+    ProgressSpinnerModule,
+    SkeletonModule
   ],
   providers: [
     MessageService,

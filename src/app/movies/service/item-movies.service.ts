@@ -34,6 +34,7 @@ export function ItemMoviesInterceptor(req: HttpRequest<unknown>, next: HttpHandl
             data.body.results = data.body.results.filter((item:any)=>item.poster_path);
             data.body.results.map((item: any)=>{
               item.poster_path = BASE_URL_IMAGE+item.poster_path;
+              item.backdrop_path = BASE_URL_IMAGE+item.backdrop_path;
               return item;
             })
           }

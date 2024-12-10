@@ -11,8 +11,6 @@ export class AppMenuComponent implements OnInit {
     model: any[] = [];
     constructor(private router: Router){}
     ngOnInit() {
-        if(!history.state.idProfile)
-            this.router.navigate(['profiles']);
         this.model = [
             {
                 label: 'View',
@@ -55,6 +53,7 @@ export class AppMenuComponent implements OnInit {
         ]
     }
     NavigateOtherPage(url: string){
-        this.router.navigate(['home', url], {state: {idProfile: history.state.idProfile}});
+        console.log("I'm here");
+        this.router.navigate(['home', url], {state: {idProfile: history.state.idProfile, idUser: history.state.idUser}});
     }
 }

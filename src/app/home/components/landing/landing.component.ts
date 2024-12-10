@@ -4,6 +4,9 @@ import { Component, HostListener } from '@angular/core';
   selector: 'app-landing',
   templateUrl: './landing.component.html',
   styles: `
+  #chairs{
+    
+  }
     .posters{
       filter: brightness(40%);
       transition-duration: 200ms;
@@ -27,7 +30,6 @@ export class LandingComponent {
     this.dataScrollY = window.scrollY;
   }
   scrollToElement($element: any): void {
-    console.log($element);
     setTimeout(() => {
         $element.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
     }, 200);

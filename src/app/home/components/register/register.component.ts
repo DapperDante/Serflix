@@ -2,7 +2,6 @@ import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../service/auth.service';
 import { Router } from '@angular/router';
-import { AuthErrorCodes } from '@angular/fire/auth';
 import { MessageService } from 'primeng/api';
 
 @Component({
@@ -19,22 +18,38 @@ export class RegisterComponent {
     passwordUser: new FormControl('', [Validators.required, Validators.minLength(9)])
   })
   Register():boolean{
-    if(this.registerForm.invalid)
+    if(this.registerForm.invalid){
+      this.message.add({severity: 'warn', detail: 'Email or password incorrect'})
       return false;
-    this._auth.RegisterWithEmailAndPassword(this.registerForm.value.emailUser!, this.registerForm.value.nameUser!)
-    .then((data)=>{
-      this.router.navigate(['profile']);
-    })
-    .catch((err)=>{
-      switch(err.code){
-        case AuthErrorCodes.EMAIL_EXISTS: 
-        this.message.add({severity: 'error', detail: 'Email already in use'})
-        break;
+    }
+    this._auth.RegisterNewUser(this.registerForm.value.nameUser!, this.registerForm.value.emailUser!, this.registerForm.value.passwordUser!)
+    .subscribe({
+      next: (resp)=>{
+        console.log(resp)
+        this.router.navigate(['profile'], {state: {idUser: resp.idUser}});
+      },
+      error: (err)=>{
+        switch(err.status){
+          case 409:
+            this.message.add({severity:'error', detail:'Email or username in use'});
+          break;
+          case 400: 
+          this.message.add({severity: 'error', detail: 'An error has ocurred'});
+          break;
+        }
       }
-    })
+    });
+    // this._auth.RegisterWithEmailAndPassword(this.registerForm.value.emailUser!, this.registerForm.value.nameUser!)
+    // .then((data)=>{
+    //   this.router.navigate(['profile']);
+    // })
+    // .catch((err)=>{
+    //   switch(err.code){
+    //     case AuthErrorCodes.EMAIL_EXISTS: 
+    //     this.message.add({severity: 'error', detail: 'Email already in use'})
+    //     break;
+    //   }
+    // })
     return true;
-  }
-  RegisterWithGoogle(){
-    this._auth.LoginWithGoogle().then(()=>this.router.navigate(['profile']));
   }
 }

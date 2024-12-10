@@ -1,9 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { ProfileService } from './service/profile.service';
-import { Profile, RickAndMortyCharacters } from './api/account';
-import { Observable, tap } from 'rxjs';
+import { RickAndMortyCharacters } from './api/account';
+import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-selectprofile',
@@ -18,7 +18,7 @@ import { ConfirmationService } from 'primeng/api';
 })
 export class SelectprofileComponent {
   private _profile = inject(ProfileService);
-  profiles$!: Observable<Profile[]>;
+  profiles$!: Observable<any>;
   photos$!: Observable<RickAndMortyCharacters>;
   //Control view panel of edit
   addProfile: boolean = false;
@@ -26,16 +26,19 @@ export class SelectprofileComponent {
   //Variables for new profile
   urlProfileSelected!: string;
   nameProfileSelected!: string;
-  constructor(private router: Router, private confirmationService: ConfirmationService){}
+  private idUser: number | undefined;
+  constructor(private router: Router, private confirmationService: ConfirmationService, private message: MessageService){}
   ngOnInit(){
-    this.profiles$ = this._profile.profiles$;
+    this.idUser = Number(localStorage.getItem('idUser'));
+    this.profiles$ = this._profile.getAllProfiles(this.idUser);
   }
   SelectProfile(id: number){
-    this.router.navigate(['home'], {state: {idProfile: id}});
+    localStorage.setItem('idProfile', id+"");
+    this.router.navigate(['home']);
   }
   ViewPhotosForProfile(){
     this.selectPhotoProfile = true;
-    //Avoid repeat request when get all of view photos
+    //Avoid repeat the request when get all photos for view
     if(this.photos$)
       return;
     this.photos$ = this._profile.getAllPhotosForProfile();
@@ -58,11 +61,16 @@ export class SelectprofileComponent {
         }
       });
     }
-  //This send all info to database
+  //It's when send info to backend
   private CreatingProfile(){
-    this._profile.AddProfile(this.urlProfileSelected, this.nameProfileSelected).then((idProfile)=>{
-      console.log(idProfile);
-      this.router.navigate(['home'], {state: {idProfile: idProfile}});
+    if(!this.urlProfileSelected || !this.nameProfileSelected){
+      this.message.add({severity: 'warn', detail: 'Select one image to your profile'});
+      return;
+    }
+    this._profile.AddProfile(Number(localStorage.getItem('idUser')), this.urlProfileSelected, this.nameProfileSelected)
+    .subscribe((idProfile)=>{
+      this.router.navigate(['home']);
+      localStorage.setItem('idProfile', idProfile);
     })
   }
 }

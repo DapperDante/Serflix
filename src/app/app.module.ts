@@ -6,10 +6,6 @@ import { AppLayoutModule } from './layout/app.layout.module';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { tmdbInterceptor } from './interceptors/tmdb.interceptor';
 import { ItemMoviesInterceptor } from './movies/service/item-movies.service';
-import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
-import { getAuth, provideAuth } from '@angular/fire/auth';
-import { getFirestore, provideFirestore } from '@angular/fire/firestore';
-import { environment } from 'src/environments/environment';
 import { ItemSeriesInterceptor } from './series/service/item-series.service';
 
 @NgModule({
@@ -28,10 +24,7 @@ import { ItemSeriesInterceptor } from './series/service/item-series.service';
                 ItemMoviesInterceptor,
                 ItemSeriesInterceptor
             ])
-        ),
-        provideFirebaseApp(() => initializeApp(environment._firebaseConfig)),
-        provideAuth(() => getAuth()),
-        provideFirestore(() => getFirestore())
+        )
     ],
     bootstrap: [AppComponent]
 })

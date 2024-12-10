@@ -30,8 +30,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ProfileService } from './service/profile.service';
 import { DialogModule } from 'primeng/dialog';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { ConfirmationService } from "primeng/api";
-import { CookieService } from 'ngx-cookie-service';
+import { ConfirmationService, MessageService } from "primeng/api";
+import { ToastModule } from 'primeng/toast';
 @NgModule({ declarations: [
         AppLayoutComponent,
         AppBreadcrumbComponent,
@@ -42,8 +42,9 @@ import { CookieService } from 'ngx-cookie-service';
         AppSidebarComponent,
         AppMenuitemComponent,
         AppFooterComponent,
-        SelectprofileComponent
+        SelectprofileComponent,
     ], imports: [BrowserModule,
+        ToastModule,
         FormsModule,
         BrowserAnimationsModule,
         StyleClassModule,
@@ -64,7 +65,7 @@ import { CookieService } from 'ngx-cookie-service';
         ConfirmDialogModule], providers: [
         ProfileService,
         ConfirmationService,
-        CookieService,
+        MessageService,
         provideHttpClient(withInterceptorsFromDi())
     ] })
 export class AppLayoutModule { }

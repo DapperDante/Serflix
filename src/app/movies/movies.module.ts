@@ -21,7 +21,7 @@ import { ItemMoviesService } from './service/item-movies.service';
     ProgressSpinnerModule,
     TabMenuModule,
     ToastModule,
-    SharedComponentsModule
+    SharedComponentsModule,
 ],
   providers: [
     MessageService,

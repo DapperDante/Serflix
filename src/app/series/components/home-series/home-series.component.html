@@ -3,7 +3,7 @@
   [activeItem]="activeItem"/>
 <p-toast/>
 @if(data$ | async; as series){
-   <app-panel-card [entertaiments]="series" (clickEntertaiment)="AddSerieFavorite($event)"></app-panel-card>
+   <app-panel-card [entertaiments]="series"></app-panel-card>
 }@else {
     <div class="flex justify-content-center">
         <p-progressSpinner/>

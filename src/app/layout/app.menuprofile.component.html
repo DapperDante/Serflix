@@ -1,14 +1,14 @@
 <div class="layout-menu-profile">
     @if(profile$ | async; as profile){
         <button class="p-link border-noround" (click)="toggleMenu()" pTooltip="Profile" [tooltipDisabled]="isTooltipDisabled">
-            <img [src]="profile.url" alt="avatar" style="width: 32px; height: 32px;">
+            <img [src]="profile.img" alt="avatar" style="width: 32px; height: 32px;">
             <span>
                 <strong>{{profile.name}}</strong>
             </span>
             <i class="layout-menu-profile-toggler pi pi-fw" [ngClass]="{'pi-angle-down': menuProfilePosition === 'start' || isHorizontal, 'pi-angle-up': menuProfilePosition === 'end' && !isHorizontal}"></i>
         </button>
     }@else{
-        <p-progressSpinner/>
+        <p-progressSpinner styleClass="w-2rem h-2rem"/>
     }
 
     <ul *ngIf="menuProfileActive" [@menu]="isHorizontal ? 'overlay' : 'inline'">
@@ -19,15 +19,15 @@
             </button>
         </li>
         <li pTooltip="Profile" [tooltipDisabled]="isTooltipDisabled">
-            <button class="p-link" (click)="Navigate('profile')">
+            <button class="p-link">
                 <i class="pi pi-file-o pi-fw"></i>
                 <span>Profile</span>
             </button>
         </li>
         <li pTooltip="Support" [tooltipDisabled]="isTooltipDisabled">
-            <button class="p-link" [routerLink]="['/documentation']">
+            <button class="p-link" (click)="ChangeProfile()">
                 <i class="pi pi-compass pi-fw"></i>
-                <span>Support</span>
+                <span>Change profile</span>
             </button>
         </li>
         <li pTooltip="Logout" [tooltipDisabled]="isTooltipDisabled">

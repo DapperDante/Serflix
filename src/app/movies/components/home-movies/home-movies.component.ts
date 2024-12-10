@@ -38,8 +38,6 @@ export class HomeMoviesComponent {
   controlStatePaginator: number = 0;
   constructor(private router: Router, private message: MessageService){}
   ngOnInit(){
-    if(!history.state?.idProfile)
-      this.router.navigate(['']);
     this.data$ = this._movies.getMoviesPopular()
     .pipe(map((movies)=>{
       //The api not allow request greater that 500 pages when do request, so put limit to 500 page for navigate
@@ -116,10 +114,8 @@ export class HomeMoviesComponent {
         break;
     }
   }
-  AddMovieFavorite(event: {id: number, title: string, poster_path: string, genresId: number[]}){
-    this._favorite.AddMovieFavorite(event.id, event.title, event.poster_path, event.genresId, history.state.idProfile).then((data)=>{
-      this._profile.UpdateProfileWithNewItemFavorite(data.id, 'refDocMovies');
-      this.message.add({severity: 'success', detail: 'Movie add to favorites'});
-    });
-  }
+  /* AddMovieFavorite(event: {id: number, title: string, poster_path: string, genresId: number[]}){
+    this._favorite.AddMovieFavorite(event.id, event.title, event.poster_path, event.genresId, history.state.idProfile)
+    .subscribe();
+  } */
 }

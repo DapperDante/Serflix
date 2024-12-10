@@ -1,18 +1,27 @@
-import { Injectable } from '@angular/core';
-import { Auth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword } from '@angular/fire/auth';
-import { CookieService } from 'ngx-cookie-service'
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment.development';
+const PATH_DB = environment._ApiDbUsers;
 @Injectable({
   providedIn: 'any'
 })
 export class AuthService {
-  constructor(private auth: Auth, private cookie: CookieService) { }
-  async LoginWithEmailAndPassword(email: string, password: string):Promise<void>{
-    return signInWithEmailAndPassword(this.auth, email, password).then((data)=>{this.cookie.set('uid', data.user.uid)});
+  private http = inject(HttpClient);
+  constructor() { }
+  RegisterNewUser(username: string, email: string, password: string):Observable<any>{
+    const newUser = {
+      username: username,
+      email: email,
+      password: password
+    };
+    return this.http.post<any>(`${PATH_DB}/add-user`, newUser);
   }
-  async LoginWithGoogle():Promise<void>{
-    return signInWithPopup(this.auth, new GoogleAuthProvider).then((data)=>{this.cookie.set('uid', data.user.uid)});
-  }
-  async RegisterWithEmailAndPassword(email: string, password: string):Promise<void>{
-    return createUserWithEmailAndPassword(this.auth, email, password).then((data)=>{this.cookie.set('uid', data.user.uid)});
+  LoginWithUsername(username: string, password: string):Observable<any>{
+    const user = {
+      username: username,
+      password: password
+    };
+    return this.http.post<any>(`${PATH_DB}/verify-user`, user);
   }
 }

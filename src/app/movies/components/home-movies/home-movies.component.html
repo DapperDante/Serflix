@@ -1,7 +1,7 @@
 <p-tabMenu [model]="items" [activeItem]="activeItem"/>
 <p-toast/>
 @if(data$ | async; as movies){
-  <app-panel-card [entertaiments]="movies" (clickEntertaiment)="AddMovieFavorite($event)"></app-panel-card>
+  <app-panel-card [entertaiments]="movies" ></app-panel-card>
 }@else {
   <div class="flex justify-content-center">
       <p-progressSpinner/>

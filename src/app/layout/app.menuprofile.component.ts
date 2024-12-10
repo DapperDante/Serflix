@@ -37,19 +37,31 @@ import { Router } from '@angular/router';
 export class AppMenuProfileComponent {
     _profile = inject(ProfileService);
     profile$!: Observable<Profile | undefined>;
+    private idProfile: number | undefined;
+    private idUser: number | undefined;
     constructor(public layoutService: LayoutService, public el: ElementRef, private router: Router) {}
     ngOnInit(){
-        this.profile$ = this._profile.profiles$.pipe(map((data)=>data.find((profile)=>profile.id===history.state.idProfile)));
+        this.idProfile = Number(localStorage.getItem('idProfile'));
+        this.idUser = Number(localStorage.getItem('idUser'));
+        this.profile$ = this._profile.getAllProfiles(this.idUser)
+        .pipe(
+            map((data: any)=>
+                data.find((profile:any)=>
+                    profile.id===this.idProfile
+            ))
+        );
     }
     LogOut(){
-        this._profile.LogOut().then(()=>this.router.navigate(['']))
+        localStorage.removeItem('idUser');
+        localStorage.removeItem('idProfile');
+        this.router.navigate(['']);
     }
     toggleMenu() {
         this.layoutService.onMenuProfileToggle();
     }
-    //All navigate must through that method
-    Navigate(path: string){
-        this.router.navigate(['home', path], {state: {idProfile: history.state.idProfile}})
+    ChangeProfile(){
+        localStorage.removeItem('idProfile');
+        this.router.navigate(['profile']);
     }
     get isHorizontal() {
         return (

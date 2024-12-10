@@ -7,7 +7,7 @@ import { PageEvent } from 'src/app/layout/api/api-config';
 import { Router } from '@angular/router';
 import { FavoriteSeriesService } from '../../service/favorite-series.service';
 import { ProfileService } from 'src/app/layout/service/profile.service';
-//The ng-deep is for access to styles of component by primeng and change property
+//The ng-deep is for access to styles of component by primeng and change properties
 @Component({
   selector: 'app-home-series',
   templateUrl: './home-series.component.html',
@@ -117,10 +117,7 @@ export class HomeSeriesComponent {
         break;
     }
   }
-  AddSerieFavorite(event: {id: number, title: string, poster_path: string, genresId: number[]}){
-    this._favorite.AddSerieFavorite(event.id, event.title, event.poster_path, event.genresId, history.state.idProfile).then((data)=>{
-      this._profile.UpdateProfileWithNewItemFavorite(data.id, 'refDocSeries');
-      this.message.add({severity: 'success', detail: 'Serie add to favorites'})
-    })
-  }
+  /* AddSerieFavorite(event: {id: number, title: string, poster_path: string, genresId: number[]}){
+    this._favorite.AddSerieFavorite(event.id, event.title, event.poster_path, event.genresId, history.state.idProfile).subscribe()
+  } */
 }

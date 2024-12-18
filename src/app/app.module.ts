@@ -7,6 +7,7 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { tmdbInterceptor } from './interceptors/tmdb.interceptor';
 import { ItemMoviesInterceptor } from './movies/service/item-movies.service';
 import { ItemSeriesInterceptor } from './series/service/item-series.service';
+import { FavoriteMoviesInterceptor } from './movies/service/favorite-movies.service';
 
 @NgModule({
     declarations: [
@@ -22,7 +23,8 @@ import { ItemSeriesInterceptor } from './series/service/item-series.service';
             withInterceptors([
                 tmdbInterceptor,
                 ItemMoviesInterceptor,
-                ItemSeriesInterceptor
+                ItemSeriesInterceptor,
+                FavoriteMoviesInterceptor
             ])
         )
     ],

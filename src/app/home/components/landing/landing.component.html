@@ -5,7 +5,7 @@
             <div class="flex flex-column gap-5 lg:flex-row justify-content-between p-4">
                 <div class="flex justify-content-center lg:justify-content-start align-items-center gap-4">
                     <ul class="list-none flex gap-6 p-0 m-0">
-                        <a href="#" class="text-white cursor-pointer  transition-duration-200 hover:text-primary-100">
+                        <a class="text-white cursor-pointer  transition-duration-200 hover:text-primary-100">
                             <li>Home</li>
                         </a>
                         <a (click)="scrollToElement(features)" class="text-white cursor-pointer transition-duration-200 hover:text-primary-100">
@@ -26,13 +26,15 @@
             <div class="mt-6 pt-0 box relative flex-grow-1">
                 <!-- The main logo -->
                 <h1 class="text-red-500 font-bold text-center sticky top-0" [style]="{'font-size': '18vw', 'letter-spacing': '-10px', 'z-index': '-1'}">SERFLIX</h1>
-                <img src="assets/home/chairs.png" alt="Not found" id= "chairs" class="w-full h-20rem absolute" [style]="{
-                    'object-fit': 'cover', 
-                    'object-position': 'center 82%', 
-                    'mask-image': 
-                    'linear-gradient(black 95%, transparent)', 
-                    'bottom': '-20px'
-                    }">
+                <div class="absolute bottom-0 w-full" [style]="{height: '40vh'}">
+                    <img ngSrc="assets/home/chairs.png" alt="chairs"[style]="{
+                        'object-fit': 'cover', 
+                        'object-position': 'center 82%', 
+                        'mask-image': 
+                        'linear-gradient(black 95%, transparent)',
+                        'background-repeat': 'repeat-x'
+                        }" priority fill>
+                </div>
             </div>
         </div>
     </div>
@@ -57,32 +59,68 @@
         </div>
     </div>
     <div class="h-screen overflow-hidden relative">
-        <div class="h-28rem my-2 all-posters" [style]="{'transform': 'translateX('+(dataScrollY-1200)+'px) rotateX(-4deg) rotateY(-10deg) rotateZ(7deg)', 'width': 'max-content'}">
-            <img src="assets/home/Movie-poster/Bad-boys-ride.jpg" alt="" class="h-full mx-1 posters">
-            <img src="assets/home/Movie-poster/Beetlejuice.jpg" alt="" class="h-full mx-1 posters">
-            <img src="assets/home/Movie-poster/Borderlands.jpg" alt="" class="h-full mx-1 posters">
-            <img src="assets/home/Movie-poster/Deadpool.jpg" alt="" class="h-full mx-1 posters">
-            <img src="assets/home/Movie-poster/Despicable-4.jpg" alt="" class="h-full mx-1 posters">
-            <img src="assets/home/Movie-poster/Inside-out-2.jpg" alt="" class="h-full mx-1 posters">
+        <div class="h-28rem w-full my-2 flex" [style]="{'transform': 'translateX('+(dataScrollY-1200)+'px) rotateX(-4deg) rotateY(-10deg) rotateZ(7deg)'}">
+            <div class="h-full w-22rem relative">
+                <img ngSrc="assets/home/Movie-poster/Bad-boys-ride.jpg" alt="" class="mx-1 posters" loading="lazy" fill [style]="{objectFit: 'contain'}" priority="false">
+            </div>
+            <div class="h-full w-22rem relative">
+                <img ngSrc="assets/home/Movie-poster/Beetlejuice.jpg" alt="" class="mx-1 posters" loading="lazy" fill [style]="{objectFit: 'contain'}">
+            </div>
+            <div class="h-full w-22rem relative">
+                <img ngSrc="assets/home/Movie-poster/Borderlands.jpg" alt="" class="h-full mx-1 posters" loading="lazy" fill [style]="{objectFit: 'contain'}" priority="false">
+            </div>
+            <div class="h-full w-22rem relative">
+                <img ngSrc="assets/home/Movie-poster/Deadpool.jpg" alt="" class="h-full mx-1 posters" loading="lazy" fill [style]="{objectFit: 'contain'}" priority="false">
+            </div>
+            <div class="h-full w-22rem relative">
+                <img ngSrc="assets/home/Movie-poster/Despicable-4.jpg" alt="" class="h-full mx-1 posters" loading="lazy" fill [style]="{objectFit: 'contain'}" priority="false">
+            </div>
+            <div class="h-full w-22rem relative">
+                <img ngSrc="assets/home/Movie-poster/Inside-out-2.jpg" alt="" class="h-full mx-1 posters" loading="lazy" fill [style]="{objectFit: 'contain'}" priority="false">
+            </div>
         </div>
-        <div class="h-28rem my-2 all-posters" [style]="{'transform': 'translateX('+(-dataScrollY+800)+'px) rotateX(-4deg) rotateY(-10deg) rotateZ(7deg)', 'width': 'max-content'}">
-            <img src="assets/home/Serie-poster/Anne-with-an-e.jpg" alt="" class="h-full mx-1 posters">
-            <img src="assets/home/Serie-poster/Breaking-bad.jpg" alt="" class="h-full mx-1 posters">
-            <img src="assets/home/Serie-poster/Chronicles-of-the-sun.jpg" alt="" class="h-full mx-1 posters">
-            <img src="assets/home/Serie-poster/Real-time-with-bill-maher.jpg" alt="" class="h-full mx-1 posters">
-            <img src="assets/home/Serie-poster/Rick-and-morty.jpg" alt="" class="h-full mx-1 posters">
-            <img src="assets/home/Serie-poster/Salatut-elamat.jpg" alt="" class="h-full mx-1 posters">
+        <div class="h-28rem w-full my-2 flex" [style]="{'transform': 'translateX('+(-dataScrollY+800)+'px) rotateX(-4deg) rotateY(-10deg) rotateZ(7deg)'}">
+            <div class="h-full w-22rem relative">
+                <img ngSrc="assets/home/Serie-poster/Anne-with-an-e.jpg" alt="" class="h-full mx-1 posters" loading="lazy" fill [style]="{objectFit: 'contain'}" priority="false">
+            </div>
+            <div class="h-full w-22rem relative">
+                <img ngSrc="assets/home/Serie-poster/Breaking-bad.jpg" alt="" class="h-full mx-1 posters" loading="lazy" fill [style]="{objectFit: 'contain'}" priority="false">
+            </div>
+            <div class="h-full w-22rem relative">
+                <img ngSrc="assets/home/Serie-poster/Chronicles-of-the-sun.jpg" alt="" class="h-full mx-1 posters" loading="lazy" fill [style]="{objectFit: 'contain'}" priority="false">
+            </div>
+            <div class="h-full w-22rem relative">
+                <img ngSrc="assets/home/Serie-poster/Real-time-with-bill-maher.jpg" alt="" class="h-full mx-1 posters" loading="lazy" fill [style]="{objectFit: 'contain'}" priority="false">
+            </div>
+            <div class="h-full w-22rem relative">
+                <img ngSrc="assets/home/Serie-poster/Rick-and-morty.jpg" alt="" class="h-full mx-1 posters" loading="lazy" fill [style]="{objectFit: 'contain'}" priority="false">
+            </div>
+            <div class="h-full w-22rem relative">
+                <img ngSrc="assets/home/Serie-poster/Salatut-elamat.jpg" alt="" class="h-full mx-1 posters" loading="lazy" fill [style]="{objectFit: 'contain'}" priority="false">
+            </div>
         </div>
         <div class="absolute top-50 left-50 text-backdrop" [style]="{'transform': 'translate(-50%, -50%)'}"><h2 [style]="{'text-wrap': 'nowrap', 'font-size': '5rem'}">The best platform</h2></div>
     </div>
     <div #events id="events"
-        class=" flex justify-content-around surface-card py-6 w-full bg-cover bg-no-repeat bg-bottom py-6 px-3 lg:px-6 relative">
-            <img src="assets/home/Providers/apple-tv.jpg" alt="" class="h-full mx-1 posters providers-image">
-            <img src="assets/home/Providers/prime-video.jpg" alt="" class="h-full mx-1 posters providers-image">
-            <img src="assets/home/Providers/hulu.jpg" alt="" class="h-full mx-1 posters providers-image">
-            <img src="assets/home/Providers/google-play.jpg" alt="" class="h-full mx-1 posters providers-image">
-            <img src="assets/home/Providers/sky.jpg" alt="" class="h-full mx-1 posters providers-image">
-            <img src="assets/home/Providers/play-suisse.jpg" alt="" class="h-full mx-1 posters providers-image">
+        class=" flex justify-content-around surface-card w-full bg-cover bg-no-repeat bg-bottom px-3 lg:px-6 relative h-7rem">
+            <div class="h-full w-5rem relative">
+                <img ngSrc="assets/home/Providers/apple-tv.jpg" alt="" class="posters providers-image" fill [style]="{objectFit: 'contain'}" priority="false">
+            </div>
+            <div class="h-full w-5rem relative">
+                <img ngSrc="assets/home/Providers/prime-video.jpg" alt="" class="h-full mx-1 posters providers-image"  fill [style]="{objectFit: 'contain'}" priority="false">
+            </div>
+            <div class="h-full w-5rem relative">
+                <img ngSrc="assets/home/Providers/hulu.jpg" alt="" class="h-full mx-1 posters providers-image" fill [style]="{objectFit: 'contain'}" priority="false">
+            </div>
+            <div class="h-full w-5rem relative">
+                <img ngSrc="assets/home/Providers/google-play.jpg" alt="" class="h-full mx-1 posters providers-image" fill [style]="{objectFit: 'contain'}" priority="false">
+            </div>
+            <div class="h-full w-5rem relative">
+                <img ngSrc="assets/home/Providers/sky.jpg" alt="" class="h-full mx-1 posters providers-image" fill [style]="{objectFit: 'contain'}" priority="false">
+            </div>
+            <div class="h-full w-5rem relative">
+                <img ngSrc="assets/home/Providers/play-suisse.jpg" alt="" class="h-full mx-1 posters providers-image" fill [style]="{objectFit: 'contain'}" priority="false">
+            </div>
     </div>
 
     <div #pricing id="pricing" class="flex justify-content-center py-6 w-full px-3 lg:px-6">

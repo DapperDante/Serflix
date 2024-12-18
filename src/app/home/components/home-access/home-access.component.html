@@ -1,4 +1,4 @@
-<div class="h-20rem">
+<div class="h-20rem w-full">
     @if(mainEntertaiment | async; as mains){
         <p-carousel 
             [value]="mains.results"
@@ -8,11 +8,11 @@
             [showNavigators]="false">
             <ng-template let-main pTemplate="item">
                 <div class="mr-2 mb-2 border-round-xl overflow-hidden flex">
-                    <div>
+                    <div class="relative w-9" (click)="SelectedMovie(main.id)">
                         <img
                             title="movie"
-                            [src]="main.backdrop_path"
-                            class="h-20rem"/>
+                            [ngSrc]="main.backdrop_path"
+                            fill priority [style]="{objectFit: 'cover'}"/>
                     </div>
                     <div class="p-4 relative">
                         <h3>{{main.original_title}}</h3>
@@ -26,7 +26,10 @@
                 </div>
             </ng-template>
         </p-carousel>
+    }@else {
+        <p-skeleton height="20rem"/>
     }
 </div>
-<app-list-movies [movies]="moviesData" title="Popular movies"/>
-<app-list-series [series]="serieData" title="Popular series"/>
+<app-list-items [items]="moviesFavoriteData" title="Favorite movies" (getId)="SelectedMovie($event)"/>
+<app-list-items [items]="moviesData" title="Popular movies" (getId)="SelectedMovie($event)"/>
+<app-list-items [items]="serieData" title="Popular series" (getId)="SelectedSerie($event)"/>

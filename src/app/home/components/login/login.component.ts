@@ -27,8 +27,11 @@ export class LoginComponent {
             }, 
             error: (err) =>{
                 switch(err.status){
+                    case 400:
+                        this.message.add({severity: 'error', detail: "There isn't that username"})
+                        break;
                     case 404:
-                        this.message.add({severity: 'error', detail: 'username or password incorrect'})
+                        this.message.add({severity: 'error', detail: 'Password incorrect'});
                         break;
                 }
             }

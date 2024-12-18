@@ -4,9 +4,6 @@ import { Component, HostListener } from '@angular/core';
   selector: 'app-landing',
   templateUrl: './landing.component.html',
   styles: `
-  #chairs{
-    
-  }
     .posters{
       filter: brightness(40%);
       transition-duration: 200ms;

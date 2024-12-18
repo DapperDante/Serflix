@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { HomeRoutingModule } from './home-routing.module';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
@@ -22,14 +22,13 @@ import { HomeAccessComponent } from './components/home-access/home-access.compon
 import { CarouselModule } from 'primeng/carousel';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { SkeletonModule } from 'primeng/skeleton';
-import { ListMoviesComponent } from './components/list-movies/list-movies.component';
-import { ListSeriesComponent } from './components/list-series/list-series.component';
+import { SharedComponentsModule } from '../shared-components/shared-components.module';
 @NgModule({
   declarations: [
     LandingComponent, 
     LoginComponent, 
     RegisterComponent, 
-    HomeAccessComponent, ListMoviesComponent, ListSeriesComponent
+    HomeAccessComponent
   ],
   imports: [
     CommonModule,
@@ -48,7 +47,9 @@ import { ListSeriesComponent } from './components/list-series/list-series.compon
     FloatLabelModule,
     CarouselModule,
     ProgressSpinnerModule,
-    SkeletonModule
+    SkeletonModule,
+    NgOptimizedImage,
+    SharedComponentsModule
   ],
   providers: [
     MessageService,

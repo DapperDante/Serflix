@@ -1,9 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { ItemMoviesService } from '../../service/item-movies.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { map, Observable, tap } from 'rxjs';
-import { MovieInfo } from '../../api/movie-info';
-import { Movies } from '../../api/movies';
+import { map, Observable } from 'rxjs';
+import { MovieInfo } from '../../api/movie-info.api';
+import { Movies } from '../../api/movies.api';
 import { ScoreMoviesService } from '../../service/score-movies.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
@@ -36,11 +36,12 @@ export class MovieInfoComponent {
     review: new FormControl('',[Validators.required, Validators.minLength(15)])
   })
   movie$!: Observable<MovieInfo>;
-  similarMovies$!: Observable<Movies>;
-  recommendationMovies$!: Observable<Movies>;
+  similar$!: Observable<Movies>;
+  recommendation$!: Observable<Movies>;
   review$!: Observable<any>;
   isFavorite!: boolean;
   idDoc!: number;
+  //It's only variables for button's animate
   loadingReview: boolean = false;
   loadingFavorite: boolean = false;
   idProfile!: number;
@@ -52,19 +53,18 @@ export class MovieInfoComponent {
       this.idMovie = Number(routerCurrent.get('id'));
       this.movie$ = this._movies.getMovieById(this.idMovie)
       .pipe(map((movie)=>{
-        this.similarMovies$ = new Observable((suscriber)=>{
+        this.similar$ = new Observable((suscriber)=>{
           suscriber.next(movie.similar);
         });
-        this.recommendationMovies$ = new Observable((suscriber)=>{
+        this.recommendation$ = new Observable((suscriber)=>{
           suscriber.next(movie.recommendations);
         });
-        this.review$ = this._reviews.getReviewsOfMovieById(movie.id);
+        this.review$ = this._reviews.getReviewsOfMovie(movie.id);
         this._favoriteMovies.isMovieFavorite(this.idProfile, this.idMovie).subscribe((value)=>{
           if(value.id){
             this.idDoc = value.id;
             this.isFavorite = true;
           }
-          console.log(value.id);
         })
         return movie;
       }))
@@ -84,7 +84,7 @@ export class MovieInfoComponent {
       complete: ()=>{
         this.loadingReview = false;
         this.message.add({severity: 'success', detail: 'Review added'});
-        this.review$ = this._reviews.getReviewsOfMovieById(this.idMovie);
+        this.review$ = this._reviews.getReviewsOfMovie(this.idMovie);
       }
     })
   }
@@ -108,7 +108,6 @@ export class MovieInfoComponent {
   }
   deleteFavoriteMovie(){
     this.loadingFavorite = true;
-    console.log(this.idDoc);
     this._favoriteMovies.deleteFavoriteMovie(this.idDoc).subscribe({
       complete: ()=>{
         this.loadingFavorite = false;
@@ -116,7 +115,6 @@ export class MovieInfoComponent {
         this.message.add({severity: 'success', detail: 'movie delete to favorites'});
       },
       error: ()=>{
-        console.log("error to delete");
         this.loadingFavorite = false;
         this.message.add({severity: 'error', detail: 'Has an ocurred problem'});
       }

@@ -15,13 +15,13 @@ export class AuthService {
       email: email,
       password: password
     };
-    return this.http.post<any>(`${PATH_DB}/add-user`, newUser);
+    return this.http.post<any>(`${PATH_DB}/add`, newUser);
   }
   LoginWithUsername(username: string, password: string):Observable<any>{
     const user = {
       username: username,
       password: password
     };
-    return this.http.post<any>(`${PATH_DB}/verify-user`, user);
+    return this.http.post<any>(`${PATH_DB}/verify`, user);
   }
 }

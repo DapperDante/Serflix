@@ -1,25 +1,36 @@
-## Avalon PrimeNG
+# SERFLIX
 
-## Development server
+Manage control of entertaiment and user with profiles, if you want see your 
+favorite movie or series, so this proyect is for you.
+This project uses Api of **TMDB** like request movies, series and search, in other hand to databases is in **Mysql** where store all data about users, profiles and score of entertaiments like movies and series.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Api request
 
-## Code scaffolding
+when you request any Api, for example you request all profiles of one use, so you need use
+``../api/[topic]/[action]/...[optional]``
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+where:
+- topic: it could be ``search``, ``movie``, ``serie`` and so one.
+- action: when you decided one of them, you put like ``get``, ``add`` or ``delete``
+- optional: the optional depend on action, for example when you use ``/api/movie/get``
+you must add option to filter data, in that case you could add id of profile, so you should get all movies of that profile, but if you want get only one movie of that profile for example check that movie is favorite of that profile.
 
-## Build
+#### Body params
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+When you request any api of type post or put, some apis you need add
+ciertain values to functionaly, for example you create one user, you need add to body of ``/api/user/add`` : 
 
-## Running unit tests
+```json
+{
+  "username": "your_username",
+  "email": "your_email",
+  "password": "your_password"
+}
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io/).
+Don't care to your password, in the server-side encryption that information.
 
-## Running end-to-end tests
+> in later version, there will manage other information about the user, profile or manage control of goals by account
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+## Aditional information
+That project has based the avalon's layout and many components of primeng on the version 17 with angular 18

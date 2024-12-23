@@ -1,12 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { ItemSeriesService } from '../../service/item-series.service';
-import { MenuItem, MessageService } from "primeng/api";
+import { MenuItem } from "primeng/api";
 import { Series } from '../../api/series';
 import { map, Observable } from 'rxjs';
 import { PageEvent } from 'src/app/layout/api/api-config';
-import { Router } from '@angular/router';
-import { FavoriteSeriesService } from '../../service/favorite-series.service';
-import { ProfileService } from 'src/app/layout/service/profile.service';
+import { ActivatedRoute, Router } from '@angular/router';
 //The ng-deep is for access to styles of component by primeng and change properties
 @Component({
   selector: 'app-home-series',
@@ -24,11 +22,10 @@ import { ProfileService } from 'src/app/layout/service/profile.service';
 })
 export class HomeSeriesComponent {
   private _series = inject(ItemSeriesService);
-  private _favorite = inject(FavoriteSeriesService);
-  private _profile = inject(ProfileService);
+  //Variable to tabmenu
   items!: MenuItem[];
   activeItem!: MenuItem;
-  data$!: Observable<Series>;
+  series$!: Observable<Series>;
   //It's for control of what show to user about types of series
   indexSection: number = 1;
   //Those variables is for get control through the paginator 
@@ -37,11 +34,9 @@ export class HomeSeriesComponent {
   //How many series will show for page
   numberOfSeriesForShow!: number;
   controlStatePaginator: number = 0;
-  constructor(private router: Router, private message: MessageService){}
+  constructor(private router: Router, private currentRouter: ActivatedRoute){}
   ngOnInit(){
-    if(!history.state?.idProfile)
-      this.router.navigate(['']);
-    this.data$ = this._series.getSeriesPopular()
+    this.series$ = this._series.getSeriesPopular()
     .pipe(map((series)=>{
       if(series.total_pages > 500)
         this.totalSeries = 500*20;
@@ -72,11 +67,14 @@ export class HomeSeriesComponent {
     this.controlStatePaginator = event.first!;
     this.UpdateRequest(this.indexSection, this.indexPage);
   }
+  SelectedSerie(idSerie: number){
+    this.router.navigate([idSerie], {relativeTo: this.currentRouter});
+  }
   //For give control of when update data of request
   private UpdateRequest(index: number, page: number = 1){
     switch(index){
       case 1: 
-        this.data$ = this._series.getSeriesPopular(page)
+        this.series$ = this._series.getSeriesPopular(page)
         .pipe(map((series)=>{
           if(series.total_pages > 500)
             this.totalSeries = 500*20;
@@ -86,7 +84,7 @@ export class HomeSeriesComponent {
         }));
         break;
       case 2:
-        this.data$ = this._series.getSeriesAiringToday(page)
+        this.series$ = this._series.getSeriesAiringToday(page)
         .pipe(map((series)=>{
           if(series.total_pages > 500)
             this.totalSeries = 500*20;
@@ -96,7 +94,7 @@ export class HomeSeriesComponent {
         }));
         break;
       case 3:
-        this.data$ = this._series.getSeriesOnTheAir(page)
+        this.series$ = this._series.getSeriesOnTheAir(page)
         .pipe(map((series)=>{
           if(series.total_pages > 500)
             this.totalSeries = 500*20;
@@ -106,7 +104,7 @@ export class HomeSeriesComponent {
         }));
         break;
       case 4: 
-        this.data$ = this._series.getSeriesTopRated(page)
+        this.series$ = this._series.getSeriesTopRated(page)
         .pipe(map((series)=>{
           if(series.total_pages > 500)
             this.totalSeries = 500*20;
@@ -117,7 +115,4 @@ export class HomeSeriesComponent {
         break;
     }
   }
-  /* AddSerieFavorite(event: {id: number, title: string, poster_path: string, genresId: number[]}){
-    this._favorite.AddSerieFavorite(event.id, event.title, event.poster_path, event.genresId, history.state.idProfile).subscribe()
-  } */
 }

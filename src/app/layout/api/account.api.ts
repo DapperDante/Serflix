@@ -1,22 +1,12 @@
-export interface Account {
-    idRef?: string,
-    profiles: Profile[],
-    uid: string
-}
-export interface Profile{
-    id: number, 
-    user_id: number,
-    name: string, 
-    img: string,
-    // favorite: Favorite
+export interface profile {
+	name: string,
+	img: string,
+	movies: number[],
+	series: number[]
 }
 export interface RickAndMortyCharacters {
     info:    Info;
     results: Character[];
-}
-export interface Favorite{
-    refDocMovies: string[],
-    refDocSeries: string[]
 }
 export interface Info {
     count: number;
@@ -24,7 +14,6 @@ export interface Info {
     next:  string;
     prev:  null;
 }
-
 export interface Character {
     id:       number;
     name:     string;

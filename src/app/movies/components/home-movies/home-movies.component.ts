@@ -1,17 +1,15 @@
 import { Component, inject } from '@angular/core';
-import { MenuItem, MessageService } from 'primeng/api';
+import { MenuItem } from 'primeng/api';
 import { ItemMoviesService } from '../../service/item-movies.service';
-import { Movies, MoviesWithDate } from '../../api/movies';
+import { Movies } from '../../api/movies.api';
 import { Observable, map, tap } from 'rxjs';
 import { PageEvent } from '../../../layout/api/api-config'
-import { FavoriteMoviesService } from '../../service/favorite-movies.service';
-import { Router } from '@angular/router';
-import { ProfileService } from 'src/app/layout/service/profile.service';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-home-movies',
   templateUrl: './home-movies.component.html',
   styles: `
-    ::ng-deep .p-card-title{
+    ::ng-deep .card-custom .p-card-title{
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -23,11 +21,10 @@ import { ProfileService } from 'src/app/layout/service/profile.service';
 })
 export class HomeMoviesComponent {
   private _movies = inject(ItemMoviesService);
-  private _favorite = inject(FavoriteMoviesService);
-  private _profile = inject(ProfileService);
+  //Variable to tabmenu
   items!: MenuItem[];
   activeItem!: MenuItem;
-  data$!: Observable<MoviesWithDate | Movies>;
+  movies$!: Observable<Movies>;
   //It's for control of what show to user about types of movies
   indexSection: number = 1;
   //Those variables is for get control through the paginator 
@@ -36,9 +33,9 @@ export class HomeMoviesComponent {
   //How many movies will show for page
   numberOfMoviesForShow!: number;
   controlStatePaginator: number = 0;
-  constructor(private router: Router, private message: MessageService){}
+  constructor(private router: Router, private currentRouter: ActivatedRoute){}
   ngOnInit(){
-    this.data$ = this._movies.getMoviesPopular()
+    this.movies$ = this._movies.getMoviesPopular()
     .pipe(map((movies)=>{
       //The api not allow request greater that 500 pages when do request, so put limit to 500 page for navigate
       if(movies.total_pages > 500)
@@ -69,11 +66,14 @@ export class HomeMoviesComponent {
     this.controlStatePaginator = event.first!;
     this.UpdateRequest(this.indexSection, this.indexPage);
   }
+  SelectedMovie(idMovie: number){
+    this.router.navigate([idMovie], {relativeTo: this.currentRouter});
+  }
   //For give control of when update data of request
   private UpdateRequest(index: number, page: number = 1){
     switch(index){
       case 1: 
-        this.data$ = this._movies.getMoviesPopular(page)
+        this.movies$ = this._movies.getMoviesPopular(page)
         .pipe(map((movies)=>{
           if(movies.total_pages > 500)
             this.totalMovies = 500*20;
@@ -83,7 +83,7 @@ export class HomeMoviesComponent {
         }));
         break;
       case 2:
-        this.data$ = this._movies.getMoviesNowPlaying(page)
+        this.movies$ = this._movies.getMoviesNowPlaying(page)
         .pipe(map((movies)=>{
           if(movies.total_pages > 500)
             this.totalMovies = 500*20;
@@ -93,7 +93,7 @@ export class HomeMoviesComponent {
         }));
         break;
       case 3:
-        this.data$ = this._movies.getMoviesTopReated(page)
+        this.movies$ = this._movies.getMoviesTopReated(page)
         .pipe(map((movies)=>{
           if(movies.total_pages > 500)
             this.totalMovies = 500*20;
@@ -103,7 +103,7 @@ export class HomeMoviesComponent {
         }));
         break;
       case 4: 
-        this.data$ = this._movies.getMoviesUpcoming(page)
+        this.movies$ = this._movies.getMoviesUpcoming(page)
         .pipe(map((movies)=>{
           if(movies.total_pages > 500)
             this.totalMovies = 500*20;
@@ -114,8 +114,4 @@ export class HomeMoviesComponent {
         break;
     }
   }
-  /* AddMovieFavorite(event: {id: number, title: string, poster_path: string, genresId: number[]}){
-    this._favorite.AddMovieFavorite(event.id, event.title, event.poster_path, event.genresId, history.state.idProfile)
-    .subscribe();
-  } */
 }

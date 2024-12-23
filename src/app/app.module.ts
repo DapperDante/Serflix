@@ -8,6 +8,10 @@ import { tmdbInterceptor } from './interceptors/tmdb.interceptor';
 import { ItemMoviesInterceptor } from './movies/service/item-movies.service';
 import { ItemSeriesInterceptor } from './series/service/item-series.service';
 import { FavoriteMoviesInterceptor } from './movies/service/favorite-movies.service';
+import { SearchMoviesInterceptor } from './search/movies/search-movies.service';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FavoriteSeriesInterceptor } from './series/service/favorite-series.service';
 
 @NgModule({
     declarations: [
@@ -15,7 +19,9 @@ import { FavoriteMoviesInterceptor } from './movies/service/favorite-movies.serv
     ],
     imports: [
         AppRoutingModule,
-        AppLayoutModule
+        AppLayoutModule,
+        BrowserModule,
+        BrowserAnimationsModule
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },
@@ -24,7 +30,9 @@ import { FavoriteMoviesInterceptor } from './movies/service/favorite-movies.serv
                 tmdbInterceptor,
                 ItemMoviesInterceptor,
                 ItemSeriesInterceptor,
-                FavoriteMoviesInterceptor
+                FavoriteMoviesInterceptor,
+								FavoriteSeriesInterceptor,
+                SearchMoviesInterceptor
             ])
         )
     ],

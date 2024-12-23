@@ -1,6 +1,6 @@
 <div class="h-20rem w-full">
-    @if(mainEntertaiment | async; as mains){
-        <p-carousel 
+    @if(mainEntertaiment$ | async; as mains){
+        <p-carousel
             [value]="mains.results"
             [numVisible]="1"
             [numScroll]="1"
@@ -30,6 +30,7 @@
         <p-skeleton height="20rem"/>
     }
 </div>
-<app-list-items [items]="moviesFavoriteData" title="Favorite movies" (getId)="SelectedMovie($event)"/>
-<app-list-items [items]="moviesData" title="Popular movies" (getId)="SelectedMovie($event)"/>
-<app-list-items [items]="serieData" title="Popular series" (getId)="SelectedSerie($event)"/>
+<app-list-items [items]="moviesFavoriteData$" title="Favorite movies" (getId)="SelectedMovie($event)"/>
+<app-list-items [items]="seriesFavoriteData$" title="Favorite series" (getId)="SelectedSerie($event)"/>
+<app-list-items [items]="moviesData$" title="Popular movies" (getId)="SelectedMovie($event)"/>
+<app-list-items [items]="serieData$" title="Popular series" (getId)="SelectedSerie($event)"/>

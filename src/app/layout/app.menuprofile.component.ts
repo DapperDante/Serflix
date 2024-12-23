@@ -3,8 +3,8 @@ import { trigger, transition, style, animate } from '@angular/animations';
 import { LayoutService } from './service/app.layout.service';
 import { ProfileService } from './service/profile.service';
 import { map, Observable } from 'rxjs';
-import { Profile } from './api/account';
 import { Router } from '@angular/router';
+import { profile } from './api/account.api';
 
 @Component({
     selector: 'app-menu-profile',
@@ -36,14 +36,14 @@ import { Router } from '@angular/router';
 })
 export class AppMenuProfileComponent {
     _profile = inject(ProfileService);
-    profile$!: Observable<Profile | undefined>;
+    profile$!: Observable<profile>;
     private idProfile: number | undefined;
     private idUser: number | undefined;
     constructor(public layoutService: LayoutService, public el: ElementRef, private router: Router) {}
     ngOnInit(){
         this.idProfile = Number(localStorage.getItem('idProfile'));
         this.idUser = Number(localStorage.getItem('idUser'));
-        this.profile$ = this._profile.getAllProfiles(this.idUser)
+        this.profile$ = this._profile.getProfiles(this.idUser)
         .pipe(
             map((data: any)=>
                 data.find((profile:any)=>

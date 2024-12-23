@@ -1,31 +1,50 @@
-<div class="grid">
+<div class="grid nested-grid grid-nogutter" [style]="{height: '80vh'}">
     <p-toast/>
-    @if(profile$ | async; as profile){
-            <h1 class="text-center col-12">Hello {{profile.name}}</h1>
-            <div class="w-full cursor-pointer col">
-                <img [src]="profile.url" alt="Not found" class="w-full" (click)="ViewPhotosForChange()">
-            </div>
-            <p-dialog header="Select photo" [(visible)]="selectPhotoProfile" [style]="{'width': '100%', 'height': '100%'}">
-                <div class="flex justify-content-center h-full flex-wrap">
-                    @if(photos$ | async; as photos){
-                        @for (photo of photos.results; track $index) {
-                            <div class="h-10rem inline-block m-3 cursor-pointer">
-                                <img [src]="photo.image" alt="Not found" class="h-full border-round select-profile" (click)="ChangePhotoProfile(photo.image)">
-                            </div>
-                        }
-                    }@else {
-                        <p-progressSpinner/>
-                    }
-                </div>
-            </p-dialog>
-            <div class="col-9 flex justify-content-center align-items-center">
-            @if(dataChartFavorite){
-                    <p-chart type="doughnut" [data]="dataChartFavorite" [options]="dataChartOptions" height="250"/>
-                }@else{
-                    <p>You don't have movies or series favorites</p>
-                }
-            </div>
-    }@else{
-        <p-progressSpinner class="flex col-12"/>
-    }
+		@if(profile$ | async; as profile){
+			<div class="col-2 grid grid-nogutter h-full">
+				<div class="col-12 relative">
+					<img [ngSrc]="profile.img" alt="" fill priority [style]="{objectFit: 'contain'}" (click)="ChangePhotoProfile()">
+					<app-show-images title="Select an image" [images$]="photos$" [(isActive)]="selectPhotoProfile"/>
+				</div>
+			</div>
+			<div class="col-10 grid nested-grid grid-nogutter">
+					<div class="col-12 grid grid-nogutter" [style]="{height: '50%'}">
+						<div class="col-6 h-full p-4">
+							@if(dataChartFavorite){
+								<p-chart type="doughnut" [data]="dataChartFavorite" [options]="dataChartOptions" height="100%"/>
+							}
+						</div>
+						<div class="col-6 h-full p-5">
+							<p-floatLabel>
+								<input type="text" pInputText title="change name" id="change-name" class="w-full" [style]="{fontSize: '1.2rem'}"/>
+								<label for="change-name">Change name</label>
+							</p-floatLabel>
+							<p-button label="Change" icon="pi pi-pencil" [style]="{marginTop: '2rem'}"/>
+						</div>
+					</div>
+					<div class="col-12 grid grid-nogutter align-content-center p-6" [style]="{height: '50%'}">
+						<div class="col">
+							<img src="assets/goals/goal_favorite_x5.png" alt="five favorite movies" class="h-10rem opacity-10 border-round">
+						</div>
+						<div class="col">
+							<img src="assets/goals/goal_favorite_x10.png" alt="ten favorite movies" class="h-10rem opacity-10 border-round">
+						</div>
+						<div class="col">
+							<img src="assets/goals/goal_favorite_x20.png" alt="twelve favorite movies" class="h-10rem opacity-10 border-round">
+						</div>
+						<div class="col">
+							<img src="assets/goals/goal_favorite_x50.png" alt="fifty favorite movies" class="h-10rem opacity-10 border-round">
+						</div>
+					</div>
+			</div>
+		}@else {
+			<p-skeleton height="100%" class="col-2 p-2"/>
+			<div class="col-10 grid nested-grid grid-nogutter">
+					<div class="col-12 grid grid-nogutter p-2">
+						<p-skeleton class="col-6 pr-2" height="100%"/>
+						<p-skeleton class="col-6 pl-2" height="100%"/>
+					</div>
+					<p-skeleton class="col-12 p-2" height="100%"/>
+			</div>
+		}
 </div>

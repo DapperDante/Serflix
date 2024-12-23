@@ -13,11 +13,10 @@ const routes: Routes = [
         path: 'home', component: AppLayoutComponent,
         children: [
             {path: '', component: HomeAccessComponent},
-            { path: 'movies', data: {breadcrumb: 'Movies'},loadChildren: () => import('./movies/movies.module').then(m => m.MoviesModule) },
-            { path: 'series', data: {breadcrumb: 'Series'},loadChildren: () => import('./series/series.module').then(m => m.SeriesModule) },
+            { path: 'movie', data: {breadcrumb: 'Movies'},loadChildren: () => import('./movies/movies.module').then(m => m.MoviesModule) },
+            { path: 'serie', data: {breadcrumb: 'Series'},loadChildren: () => import('./series/series.module').then(m => m.SeriesModule) },
             { path: 'profile', loadChildren: ()=> import('./profile/profile.module').then(m => m.ProfileModule), title: 'Profile'},
-            { path: 'search-movies', data: {breadcrumb: 'search'}, loadChildren: ()=> import('./search/movies/search-movies.module').then(m=> m.SearchMoviesModule)},
-            { path: 'search-series', data: {breadcrumb: 'search'}, loadChildren: ()=> import('./search/series/search-series.module').then(m=> m.SearchSeriesModule)}
+            { path: 'search', data: {breadcrumb: 'search'}, loadChildren: ()=> import('./search/movies/search.module').then(m=> m.SearchMoviesModule)}
         ],
         canActivate: [viewContent]
     },

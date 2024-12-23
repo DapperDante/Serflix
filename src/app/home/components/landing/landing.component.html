@@ -42,7 +42,7 @@
         <div class="grid  justify-content-around w-full">
             <div class="col-12 md:col-6 lg:col-3">
                 <div class="relative h-4rem">
-                    <img src="assets/home/movie.png" alt="" class="h-full">
+                    <img ngSrc="assets/home/movie.png" alt="" class="h-full" fill [style]="{objectFit: 'contain'}">
                 </div>
                 <h3 class="text-2xl font-medium">Movies</h3>
                 <p class="text-base m-0 mt-2 text-color">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -50,7 +50,7 @@
             </div>
             <div class="col-12 md:col-6 lg:col-3">
                 <div class="relative h-4rem">
-                    <img src="assets/home/popcorn.png" alt="" class="h-full">
+                    <img ngSrc="assets/home/popcorn.png" alt="" class="h-full" fill [style]="{objectFit: 'contain'}">
                 </div>
                 <h3 class="text-2xl font-medium">Series</h3>
                 <p class="text-base m-0 mt-2 text-color">Ut enim ad minim veniam, quis nostrud exercitation ullamco
@@ -58,8 +58,10 @@
             </div>
         </div>
     </div>
+    <!-- Parallax efect -->
     <div class="h-screen overflow-hidden relative">
-        <div class="h-28rem w-full my-2 flex" [style]="{'transform': 'translateX('+(dataScrollY-1200)+'px) rotateX(-4deg) rotateY(-10deg) rotateZ(7deg)'}">
+        <!-- if you want move position, you must change values of the operation to translateY of both main div -->
+        <div class="h-28rem w-full my-2 flex" [style]="{'transform': 'translateX('+(dataScrollY-1000)+'px) rotateX(-4deg) rotateY(-10deg) rotateZ(7deg)'}">
             <div class="h-full w-22rem relative">
                 <img ngSrc="assets/home/Movie-poster/Bad-boys-ride.jpg" alt="" class="mx-1 posters" loading="lazy" fill [style]="{objectFit: 'contain'}" priority="false">
             </div>
@@ -79,7 +81,7 @@
                 <img ngSrc="assets/home/Movie-poster/Inside-out-2.jpg" alt="" class="h-full mx-1 posters" loading="lazy" fill [style]="{objectFit: 'contain'}" priority="false">
             </div>
         </div>
-        <div class="h-28rem w-full my-2 flex" [style]="{'transform': 'translateX('+(-dataScrollY+800)+'px) rotateX(-4deg) rotateY(-10deg) rotateZ(7deg)'}">
+        <div class="h-28rem w-full my-2 flex" [style]="{'transform': 'translateX('+(-dataScrollY+1000)+'px) rotateX(-4deg) rotateY(-10deg) rotateZ(7deg)'}">
             <div class="h-full w-22rem relative">
                 <img ngSrc="assets/home/Serie-poster/Anne-with-an-e.jpg" alt="" class="h-full mx-1 posters" loading="lazy" fill [style]="{objectFit: 'contain'}" priority="false">
             </div>
@@ -122,7 +124,6 @@
                 <img ngSrc="assets/home/Providers/play-suisse.jpg" alt="" class="h-full mx-1 posters providers-image" fill [style]="{objectFit: 'contain'}" priority="false">
             </div>
     </div>
-
     <div #pricing id="pricing" class="flex justify-content-center py-6 w-full px-3 lg:px-6">
         <div class="grid justify-content-center w-full" style="max-width: 1200px;">
             <div class="col-12 lg:col-4">
@@ -152,36 +153,6 @@
             <div class="col-12 lg:col-6 ">
                  <h5 [style]="{'font-size': '5rem'}" class="font-bold">SERFLIX</h5>
             </div>
-            <!-- <div class="col-12 lg:col-6">
-                <ul class="list-none m-0  text-center p-0">
-                    <div class="grid">
-                        <div class="col-12 lg:col-6 text-center">
-                            <li class="block text-lg text-left pb-2">
-                                <a class="text-white border-bottom-1 border-transparent hover:border-white"
-                                    href="/">Home</a>
-                            </li>
-                            <li class="block text-lg text-left pb-2">
-                                <a class="text-white border-bottom-1 border-transparent hover:border-white"
-                                    href="/#/landing#features">Features</a>
-                            </li>
-                            <li class="block text-lg text-left pb-2">
-                                <a class="text-white border-bottom-1 border-transparent hover:border-white"
-                                    href="/#/landing#events">Events</a>
-                            </li>
-                        </div>
-                        <div class="col-12 lg:col-6 text-center ">
-                            <li class="block text-lg text-left pb-2">
-                                <a class="text-white border-bottom-1 border-transparent hover:border-white"
-                                    href="/#/landing#pricing">Pricing</a>
-                            </li>
-                            <li class="block text-lg text-left pb-2">
-                                <a class="text-white border-bottom-1 border-transparent hover:border-white"
-                                    href="/#/landing#video">Video</a>
-                            </li>
-                        </div>
-                    </div>
-                </ul>
-            </div> -->
         </div>
     </div>
 </div>

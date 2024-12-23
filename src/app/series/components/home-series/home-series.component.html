@@ -1,14 +1,7 @@
-<p-tabMenu 
-  [model]="items" 
+<p-tabMenu
+  [model]="items"
   [activeItem]="activeItem"/>
-<p-toast/>
-@if(data$ | async; as series){
-   <app-panel-card [entertaiments]="series"></app-panel-card>
-}@else {
-    <div class="flex justify-content-center">
-        <p-progressSpinner/>
-    </div>
-}
+<app-panel-items [items]="series$" title="series" (getId)="SelectedSerie($event)"></app-panel-items>
 <p-paginator
   (onPageChange)="ChangePage($event)"
   [totalRecords]="totalSeries"

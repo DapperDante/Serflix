@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { ProfileService } from './service/profile.service';
-import { RickAndMortyCharacters } from './api/account';
+import { RickAndMortyCharacters } from './api/account.api';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -30,7 +30,7 @@ export class SelectprofileComponent {
   constructor(private router: Router, private confirmationService: ConfirmationService, private message: MessageService){}
   ngOnInit(){
     this.idUser = Number(localStorage.getItem('idUser'));
-    this.profiles$ = this._profile.getAllProfiles(this.idUser);
+    this.profiles$ = this._profile.getProfiles(this.idUser);
   }
   SelectProfile(id: number){
     localStorage.setItem('idProfile', id+"");

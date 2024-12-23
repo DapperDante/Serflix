@@ -6,7 +6,7 @@ import { Component, HostListener } from '@angular/core';
   styles: `
     .posters{
       filter: brightness(40%);
-      transition-duration: 200ms;
+      transition-duration: 100ms;
     }
     .posters:hover{
       filter: brightness(1);

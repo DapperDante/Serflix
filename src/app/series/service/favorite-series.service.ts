@@ -1,28 +1,55 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { ItemFavorite } from 'src/app/api/item-favorite';
+import { map, Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
+import { SeriesInfo } from '../api/serie-info.api';
 
-// const PATH_DB = environment._ApiDbSeries;
+const PATH_DB = environment._ApiDbSeries;
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root',
 })
 export class FavoriteSeriesService {
-  private idProfile: number | undefined;
-  private idUser: number | undefined;
-  private http = inject(HttpClient);
-  constructor(private router: Router) { 
-    this.idProfile = history.state.idProfile;
-    this.idUser = history.state.idUser;
-  }
-  /* AddSerieFavorite(id: number, title: string, poster_path: string, genres: number[], idProfile: number):Observable<void>{
-    let newPosterPath = '/'+poster_path.split('/').at(-1);
-    return this.http.post<void>(`${PATH_DB}/add-favorite`, favorite);
-  }
-  getMoviesOfProfile():Observable<ItemFavorite[]>{
-    return this.http.get<ItemFavorite[]>(`${PATH_DB}/get-all-favorite`);
-  } */
+	private http = inject(HttpClient);
+	getAllSeriesOfProfile(idProfile: number): Observable<SeriesInfo> {
+		return this.http.get<SeriesInfo>(`${PATH_DB}/get/${idProfile}`).pipe(tap(console.log));
+	}
+	AddSerieFavorite(profile_id: number, serie_id: number): Observable<{ msg: string; id: number }> {
+		return this.http.post<{ msg: string; id: number }>(`${PATH_DB}/add`, {
+			profile_id,
+			serie_id,
+		});
+	}
+	isSerieFavorite(idProfile: number | string, idSerie: number | string): Observable<{ msg: string; id: number }> {
+		return this.http.get<{ msg: string; id: number }>(`${PATH_DB}/get/${idProfile}/${idSerie}`);
+	}
+	deleteFavoriteSerie(idDoc: number | string): Observable<void> {
+		return this.http.delete<void>(`${PATH_DB}/delete/${idDoc}`);
+	}
+}
+export function FavoriteSeriesInterceptor(
+	req: HttpRequest<unknown>,
+	next: HttpHandlerFn
+): Observable<HttpEvent<unknown>> {
+	if (req.url.includes(PATH_DB)) {
+		const BASE_URL_IMAGE = environment._BaseUrlImage;
+		const newReq = req.clone();
+		return next(newReq).pipe(
+			map((data: any) => {
+				const { body } = data;
+				if (body) {
+					if ('results' in body && Array.isArray(body.results)) {
+						body.results = body.results
+						.filter((item:any)=>item.poster_path)
+						.map((item:any)=>{
+							item.poster_path = BASE_URL_IMAGE+item.poster_path;
+							return item;
+						})
+					}
+				}
+				return data;
+			})
+		);
+	}
+	return next(req);
 }

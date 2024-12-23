@@ -19,41 +19,21 @@ export class AppMenuComponent implements OnInit {
                         label: 'Movies',
                         icon: 'pi pi-caret-right',
                         command: ()=>{
-                            this.NavigateOtherPage('movies');
+                            this.NavigateOtherPage('movie');
                         }
                     },
                     {
                         label: 'Series',
                         icon: 'pi pi-chart-line',
                         command: ()=>{
-                            this.NavigateOtherPage('series');
-                        }
-                    }
-                ]
-            },
-            {
-                label: 'Search',
-                items: [
-                    {
-                        label: 'Movies',
-                        icon: 'pi pi-caret-right',
-                        command: ()=>{
-                            this.NavigateOtherPage('search-movies');
-                        }
-                    },
-                    {
-                        label: 'Series',
-                        icon: 'pi pi-globe',
-                        command: ()=>{
-                            this.NavigateOtherPage('search-series');
+                            this.NavigateOtherPage('serie');
                         }
                     }
                 ]
             }
         ]
     }
-    NavigateOtherPage(url: string){
-        console.log("I'm here");
-        this.router.navigate(['home', url], {state: {idProfile: history.state.idProfile, idUser: history.state.idUser}});
+    NavigateOtherPage(path: string){
+        this.router.navigate(['home', path]);
     }
 }

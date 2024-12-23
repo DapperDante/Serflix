@@ -30,42 +30,51 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ProfileService } from './service/profile.service';
 import { DialogModule } from 'primeng/dialog';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { ConfirmationService, MessageService } from "primeng/api";
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
-@NgModule({ declarations: [
-        AppLayoutComponent,
-        AppBreadcrumbComponent,
-        AppMenuProfileComponent,
-        AppTopbarComponent,
-        AppRightMenuComponent,
-        AppMenuComponent,
-        AppSidebarComponent,
-        AppMenuitemComponent,
-        AppFooterComponent,
-        SelectprofileComponent,
-    ], imports: [BrowserModule,
-        ToastModule,
-        FormsModule,
-        BrowserAnimationsModule,
-        StyleClassModule,
-        InputTextModule,
-        SidebarModule,
-        BadgeModule,
-        RadioButtonModule,
-        InputSwitchModule,
-        TooltipModule,
-        MegaMenuModule,
-        RippleModule,
-        RouterModule,
-        ButtonModule,
-        MenuModule,
-        AppConfigModule,
-        ProgressSpinnerModule,
-        DialogModule,
-        ConfirmDialogModule], providers: [
-        ProfileService,
-        ConfirmationService,
-        MessageService,
-        provideHttpClient(withInterceptorsFromDi())
-    ] })
-export class AppLayoutModule { }
+import { SkeletonModule } from 'primeng/skeleton';
+@NgModule({
+	declarations: [
+		AppLayoutComponent,
+		AppBreadcrumbComponent,
+		AppMenuProfileComponent,
+		AppTopbarComponent,
+		AppRightMenuComponent,
+		AppMenuComponent,
+		AppSidebarComponent,
+		AppMenuitemComponent,
+		AppFooterComponent,
+		SelectprofileComponent,
+	],
+	imports: [
+		BrowserModule,
+		ToastModule,
+		FormsModule,
+		BrowserAnimationsModule,
+		StyleClassModule,
+		InputTextModule,
+		SidebarModule,
+		BadgeModule,
+		RadioButtonModule,
+		InputSwitchModule,
+		TooltipModule,
+		MegaMenuModule,
+		RippleModule,
+		RouterModule,
+		ButtonModule,
+		MenuModule,
+		AppConfigModule,
+		ProgressSpinnerModule,
+		DialogModule,
+		ConfirmDialogModule,
+		SkeletonModule
+	],
+	providers: [
+		ProfileService,
+		ConfirmationService,
+		MessageService,
+		InputTextModule,
+		provideHttpClient(withInterceptorsFromDi()),
+	],
+})
+export class AppLayoutModule {}

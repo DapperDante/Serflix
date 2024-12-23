@@ -1,0 +1,37 @@
+<div class="grid my-3">
+    @if(items() | async; as items){
+        @for(item of items.results; track $index){
+            <div class="select-item col-1 w-14rem cursor-pointer hover:shadow-7 transition-duration-200 m-1"
+                (click)="getId.emit(item.id)"
+                [@showItems]>
+                <p-card [header]="item.original_title || item.original_name"
+                    class="card-custom">
+                    <ng-template pTemplate="header">
+                        <div class="relative h-16rem w-12rem">
+                            <img [ngSrc]="item.poster_path" alt="Not found" 
+                            [style]="{objectFit: 'cover'}" 
+                            loading="lazy"
+                            fill>
+                        </div>
+                    </ng-template>
+                </p-card>
+            </div>
+        }
+    }@else {
+        <p-skeleton height="16rem" width="12rem" class="col"/>
+        <p-skeleton height="16rem" width="12rem" class="col"/>
+        <p-skeleton height="16rem" width="12rem" class="col"/>
+        <p-skeleton height="16rem" width="12rem" class="col"/>
+        <p-skeleton height="16rem" width="12rem" class="col"/>
+        <p-skeleton height="16rem" width="12rem" class="col"/>
+        <p-skeleton height="16rem" width="12rem" class="col"/>
+        <p-skeleton height="16rem" width="12rem" class="col"/>
+        <p-skeleton height="16rem" width="12rem" class="col"/>
+        <p-skeleton height="16rem" width="12rem" class="col"/>
+        <p-skeleton height="16rem" width="12rem" class="col"/>
+        <p-skeleton height="16rem" width="12rem" class="col"/>
+        <p-skeleton height="16rem" width="12rem" class="col"/>
+        <p-skeleton height="16rem" width="12rem" class="col"/>
+    }
+    
+</div>

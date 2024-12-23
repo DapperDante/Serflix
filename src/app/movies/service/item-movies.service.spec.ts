@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { ItemMoviesService } from './item-movies.service';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient } from '@angular/common/http';
-import { MoviesWithDate, OriginalLanguage } from '../api/movies';
+import { MoviesWithDate, OriginalLanguage } from '../api/movies.api';
 import { environment } from 'src/environments/environment';
 describe('ItemMoviesService', () => {
   let service: ItemMoviesService;

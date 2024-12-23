@@ -65,14 +65,14 @@
         </div>
         <div class="col-12">
             @defer (on viewport) {
-                <app-list-items [items]="similarMovies$" title="Similar" (getId)="ChangeMovie($event)"/>
+                <app-list-items [items]="similar$" title="Similar" (getId)="ChangeMovie($event)"/>
             }@placeholder {
                 <p>similar movies</p>
             }
         </div>
         <div class="col-12">
         @defer (on viewport) {
-                <app-list-items [items]="recommendationMovies$" title="Recommendation" (getId)="ChangeMovie($event)"/>
+                <app-list-items [items]="recommendation$" title="Recommendation" (getId)="ChangeMovie($event)"/>
             }@placeholder {
                 <p>recommendation movies</p>
             }

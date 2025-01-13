@@ -1,254 +1,146 @@
 <div>
-    <div class="relative h-screen">
-        <div class="w-full h-full relative flex flex-column" [style]="{'background': 'linear-gradient(transparent 55%, black)'}">
-            <!-- This is nav of page -->
-            <div class="flex flex-column gap-5 lg:flex-row justify-content-between p-4">
-                <div class="flex justify-content-center lg:justify-content-start align-items-center gap-4">
-                    <ul class="list-none flex gap-6 p-0 m-0">
-                        <a href="#" class="text-white cursor-pointer  transition-duration-200 hover:text-primary-100">
-                            <li>Home</li>
-                        </a>
-                        <a (click)="scrollToElement(features)" class="text-white cursor-pointer transition-duration-200 hover:text-primary-100">
-                            <li>Features</li>
-                        </a>
-                        <a (click)="scrollToElement(events)" class="text-white cursor-pointer  transition-duration-200 hover:text-primary-100">
-                            <li>Events</li>
-                        </a>
-                        <a (click)="scrollToElement(pricing)" class="text-white cursor-pointer  transition-duration-200 hover:text-primary-100">
-                            <li>Pricing</li>
-                        </a>
-                        <a (click)="scrollToElement(video)" class="text-white cursor-pointer  transition-duration-200 hover:text-primary-100">
-                            <li>About us</li>
-                        </a>
-                    </ul>
-                </div>
-                <div class="flex justify-content-center lg:justify-content-end align-items-center gap-3">
-                    <button pButton pRipple label="Login" title="login" routerLink="login"
-                        class="w-8rem p-button-outlined text-white hover:text-white transition-duration-200 hover:bg-red-500"></button>
-                    <button pButton pRipple label="Register" title="Register" routerLink="register"
-                        class="w-8rem p-button-outlined text-white hover:text-white  transition-duration-200 hover:bg-red-500"></button>
-                </div>
-            </div>
-            <div class="mt-6 pt-0 box relative flex-grow-1">
-                <h1 class="text-red-500 font-bold text-center sticky top-0" [style]="{'font-size': '18vw', 'letter-spacing': '-10px', 'z-index': '-1'}">SERFLIX</h1>
-                <img src="assets/home/chairs.png" alt="" class="w-full h-20rem absolute" [style]="{'object-fit': 'cover', 'object-position': 'center 82%', 'mask-image': 'linear-gradient(black 95%, transparent)', 'bottom': '-20px'}">
-            </div>
-        </div>
-    </div>
-    <div #features id="features" class="flex justify-content-between py-6 px-3 lg:px-6 w-full">
-        <div class="grid  justify-content-around w-full">
-            <div class="col-12 md:col-6 lg:col-3">
-                <div class="relative h-4rem">
-                    <img src="assets/home/movie.png" alt="" class="h-full">
-                </div>
-                <h3 class="text-2xl font-medium">Movies</h3>
-                <p class="text-base m-0 mt-2 text-color">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                    eiusmod tempor incididunt dolor magna aliqua.</p>
-            </div>
-            <div class="col-12 md:col-6 lg:col-3">
-                <div class="relative h-4rem">
-                    <img src="assets/home/popcorn.png" alt="" class="h-full">
-                </div>
-                <h3 class="text-2xl font-medium">Series</h3>
-                <p class="text-base m-0 mt-2 text-color">Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                    laboris nisi ut aliquip ex ea commodo consequat.</p>
-            </div>
-        </div>
-    </div>
-    <div class="h-screen overflow-hidden relative">
-        <div class="h-28rem my-2 all-posters">
-            <img src="assets/home/Movie-poster/Bad-boys-ride.jpg" alt="" class="h-full mx-1 posters">
-            <img src="assets/home/Movie-poster/Beetlejuice.jpg" alt="" class="h-full mx-1 posters">
-            <img src="assets/home/Movie-poster/Borderlands.jpg" alt="" class="h-full mx-1 posters">
-            <img src="assets/home/Movie-poster/Deadpool.jpg" alt="" class="h-full mx-1 posters">
-            <img src="assets/home/Movie-poster/Despicable-4.jpg" alt="" class="h-full mx-1 posters">
-            <img src="assets/home/Movie-poster/Inside-out-2.jpg" alt="" class="h-full mx-1 posters">
-        </div>
-        <div class="h-28rem my-2 all-posters">
-            <img src="assets/home/Serie-poster/Anne-with-an-e.jpg" alt="" class="h-full mx-1 posters">
-            <img src="assets/home/Serie-poster/Breaking-bad.jpg" alt="" class="h-full mx-1 posters">
-            <img src="assets/home/Serie-poster/Chronicles-of-the-sun.jpg" alt="" class="h-full mx-1 posters">
-            <img src="assets/home/Serie-poster/Real-time-with-bill-maher.jpg" alt="" class="h-full mx-1 posters">
-            <img src="assets/home/Serie-poster/Rick-and-morty.jpg" alt="" class="h-full mx-1 posters">
-            <img src="assets/home/Serie-poster/Salatut-elamat.jpg" alt="" class="h-full mx-1 posters">
-        </div>
-        <div class="absolute top-50 left-50" [style]="{'transform': 'translate(-50%, -50%)'}"><h2>The best of platform</h2></div>
-    </div>
-    <div #events id="events"
-        class=" flex justify-content-center surface-card py-6 w-full bg-cover bg-no-repeat bg-bottom py-6 px-3 lg:px-6 relative">
-       
-
-        <div class="grid w-full justify-content-center relative z-2" style="max-width: 1200px;">
-            <div class="col-12 md:col-4">
-                <div class=" p-5 border-round h-full" style="background-color:rgba(214, 51, 132,0.8);">
-                    <img src="assets/layout/images/landing/icon-ui.svg" class="mb-3" />
-                    <p class="text-white  m-0 mb-2 font-semibold text-lg">UI Components</p>
-                    <p class="text-white m-0 font-semibold text-lg">100+</p>
-                </div>
-            </div>
-            <div class="col-12 md:col-4">
-                <div class=" p-5 border-round  h-full" style="background-color:rgba(13, 110, 253,0.8);">
-                    <img src="assets/layout/images/landing/icon-hours.svg" class="mb-3" />
-                    <p class="text-white m-0 mb-2 font-semibold text-lg">Hours of Development</p>
-                    <p class="text-white m-0 font-semibold text-lg">425</p>
-                </div>
-            </div>
-            <div class="col-12 md:col-4">
-                <div class=" p-5 border-round h-full" style="background-color:rgba(102, 16, 242,0.8);">
-                    <img src="assets/layout/images/landing/icon-coffee.svg" class="mb-3" />
-                    <p class="text-white  m-0 mb-2 font-semibold text-lg">Cups of Coffee Consumed</p>
-                    <p class="text-white m-0 font-semibold text-lg">129</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div #pricing id="pricing" class="flex justify-content-center py-6 w-full px-3 lg:px-6">
-        <div class="grid justify-content-center w-full" style="max-width: 1200px;">
-            <div class="col-12 lg:col-4">
-                <div class="border-1 surface-border surface-card h-full text-color border-round">
-                    <div class="p-5 border-bottom-1 surface-border">
-                        <h3 class="text-xl m-0 mb-1 text-800">Beginner</h3>
-                        <span class="text-600 ">For starters and side projects</span>
-                        <p class="text-color-secondary mt-2  font-medium">$10 / per year</p>
-                    </div>
-                    <div>
-                        <ul class="p-0 mt-0" style="min-height: 175px;">
-                            <li class="list-none px-5 py-2 border-bottom-1 surface-border"><span
-                                    class="text-color-secondary">Responsive</span></li>
-                            <li class="list-none px-5 py-2 border-bottom-1 surface-border"><span
-                                    class="text-color-secondary">Push Messages</span></li>
-                        </ul>
-                    </div>
-                    <div class="py-5 px-5">
-                        <button pButton pRipple class="flex justify-content-center w-full">Get Started</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 lg:col-4">
-                <div class="border-1 surface-border surface-card h-full text-color border-round">
-                    <div class="p-5 border-bottom-1 surface-border">
-                        <h3 class="text-xl m-0 mb-1 text-800">Professional</h3>
-                        <span class="text-600  ">For starters and side projects</span>
-                        <p class="text-color-secondary font-medium  mt-2">$25 / per year</p>
-                    </div>
-                    <div>
-                        <ul class="p-0 mt-0" style="min-height: 175px;">
-                            <li class="list-none px-5 py-2 border-bottom-1 surface-border"><span
-                                    class="text-color-secondary">Responsive</span></li>
-                            <li class="list-none px-5 py-2 border-bottom-1 surface-border"><span
-                                    class="text-color-secondary">Push Messages</span></li>
-                            <li class="list-none px-5 py-2 border-bottom-1 surface-border"><span
-                                    class="text-color-secondary">7/24 Support</span></li>
-                        </ul>
-                    </div>
-                    <div class="py-5 px-5">
-                        <button pButton pRipple class="flex justify-content-center w-full">Get Started</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 lg:col-4">
-                <div class="border-1 surface-border surface-card h-full text-color border-round">
-                    <div class="p-5 border-bottom-1 surface-border">
-                        <h3 class="text-xl m-0 mb-1 text-800">Enterprise</h3>
-                        <span class="text-600">For starters and side projects</span>
-                        <p class="text-color-secondary mt-2  font-medium">Get a quote</p>
-                    </div>
-                    <div>
-                        <ul class="p-0 mt-0" style="min-height: 175px;">
-                            <li class="list-none px-5 py-2 border-bottom-1 surface-border"><span
-                                    class="text-color-secondary">Responsive</span></li>
-                            <li class="list-none px-5 py-2 border-bottom-1 surface-border"><span
-                                    class="text-color-secondary">Push Messages</span></li>
-                            <li class="list-none px-5 py-2 border-bottom-1 surface-border"><span
-                                    class="text-color-secondary">7/24 High Priority Support</span></li>
-                            <li class="list-none px-5 py-2 border-bottom-1 surface-border"><span
-                                    class="text-color-secondary">Free Shipping</span></li>
-                        </ul>
-                    </div>
-                    <div class="py-5 px-5">
-                        <button pButton pRipple class="flex justify-content-center w-full">Get a Quote</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div #video id="video"
-        class=" flex justify-content-center py-6 w-full bg-cover bg-no-repeat bg-bottom py-6 px-3 lg:px-6 relative"
-       >
-        <div style=" background:linear-gradient(0deg, var(--primary-700) , var(--primary-500)); opacity: .8;top: 0;left: 0;"
-            class="w-full h-full absolute z-0"></div>
-
-        <div class="grid grid-nogutter align-items-center justify-content-center relative z-2 px-3 lg:px-6" style="max-width: 1200px;">
-            <div class="col-12 lg:col-6 text-center mb-5">
-                <iframe class="w-full md:w-40rem" height="300" src="https://www.youtube.com/embed/WVkX7gkNeyA" frameborder="0"
-                    allowfullscreen="true"></iframe>
-            </div>
-            <div class="col-12 lg:col-6 text-center mb-5 lg:text-right">
-                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="mb-3 w-6rem" viewBox="0 0 92 92">
-                    <defs>
-                        <rect id="j" width="56.075" height="56.075" x="11.613" y="11.613" rx="4"/>
-                        <filter id="v" width="142.8%" height="142.8%" x="-21.4%" y="-21.4%" filterUnits="objectBoundingBox">
-                            <feOffset in="SourceAlpha" result="shadowOffsetOuter1"/>
-                            <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="4"/>
-                            <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
-                        </filter>
-                    </defs>
-                    <g fill="none" fill-rule="evenodd">
-                        <g transform="rotate(45 35.408 49.893)">
-                            <use fill="#000" filter="url(#v)" xlink:href="#b"/>
-                            <use fill="var(--surface-card)" xlink:href="#j"/>
-                        </g>
-                        <path fill="var(--primary-500)" fill-rule="nonzero" d="M45.508 32H32.154c-.677 0-1.23.554-1.23 1.23v3.693H27.23c-.677 0-1.231.554-1.231 1.23v19.878c0 .677.554 1.23 1.23 1.23h27.508c.677 0 1.231-.553 1.231-1.23v-4l6.216 4c.43.246.861.369 1.353.369.431 0 .8-.123 1.17-.308.8-.43 1.292-1.292 1.292-2.215v-15.57c0-.922-.492-1.784-1.292-2.215-.8-.43-1.723-.369-2.523.123l-6.216 4v-4c0-.677-.554-1.23-1.23-1.23h-8v-3.693c0-.738-.554-1.292-1.231-1.292zm-12.123 2.462h10.892v2.461H33.385v-2.461zm30.153 5.784V56l-7.569-4.862v-6.03l7.57-4.862zm-10.03 16.616H28.462V39.385h25.046v17.477z"/>
-                    </g>
-                </svg>
-                
-                <h2 class="text-white m-0 mb-2 ">Introducing PrimeNG Avalon</h2>
-                <p class="text-white m-0 mb-4" style="line-height: 1.5;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur velit
-                    neque, aliquam sed dolor eu,
-                    sagittis rutrum erat.</p>
-                <button pButton pRipple>Learn More</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="flex align-items-center justify-content-center py-5" style="background-color: #292b2c;">
-        <div class="grid w-full" style="max-width: 1200px;">
-            <div class="col-12 lg:col-6 ">
-                <img src="assets/layout/images/landing/avalon.png" alt="Not found"/>
-            </div>
-            <div class="col-12 lg:col-6">
-                <ul class="list-none m-0  text-center p-0">
-                    <div class="grid">
-                        <div class="col-12 lg:col-6 text-center">
-                            <li class="block text-lg text-left pb-2">
-                                <a class="text-white border-bottom-1 border-transparent hover:border-white"
-                                    href="/">Home</a>
-                            </li>
-                            <li class="block text-lg text-left pb-2">
-                                <a class="text-white border-bottom-1 border-transparent hover:border-white"
-                                    href="/#/landing#features">Features</a>
-                            </li>
-                            <li class="block text-lg text-left pb-2">
-                                <a class="text-white border-bottom-1 border-transparent hover:border-white"
-                                    href="/#/landing#events">Events</a>
-                            </li>
-                        </div>
-                        <div class="col-12 lg:col-6 text-center ">
-                            <li class="block text-lg text-left pb-2">
-                                <a class="text-white border-bottom-1 border-transparent hover:border-white"
-                                    href="/#/landing#pricing">Pricing</a>
-                            </li>
-                            <li class="block text-lg text-left pb-2">
-                                <a class="text-white border-bottom-1 border-transparent hover:border-white"
-                                    href="/#/landing#video">Video</a>
-                            </li>
-                        </div>
-                    </div>
-                </ul>
-            </div>
-        </div>
-    </div>
+	<div class="relative h-screen">
+		<div class="w-full h-full relative flex flex-column"
+			[style]="{'background': 'linear-gradient(transparent 55%, black)'}">
+			<!-- It's nav of page -->
+			<div class="flex flex-column gap-5 lg:flex-row justify-content-between p-4">
+				<div class="flex justify-content-center lg:justify-content-start align-items-center gap-4">
+					<ul class="list-none flex gap-6 p-0 m-0">
+						<a class="text-white cursor-pointer  transition-duration-200 hover:text-primary-100">
+							<li>Home</li>
+						</a>
+						<a (click)="scrollToElement(features)"
+							class="text-white cursor-pointer transition-duration-200 hover:text-primary-100">
+							<li>Features</li>
+						</a>
+						<a (click)="scrollToElement(pricing)"
+							class="text-white cursor-pointer  transition-duration-200 hover:text-primary-100">
+							<li>Pricing</li>
+						</a>
+					</ul>
+				</div>
+				<div class="flex justify-content-center lg:justify-content-end align-items-center gap-3">
+					<button pButton pRipple label="Login" title="login" routerLink="login"
+						class="w-8rem p-button-outlined text-white hover:text-white transition-duration-200 hover:bg-red-500"></button>
+					<button pButton pRipple label="Register" title="Register" routerLink="register"
+						class="w-8rem p-button-outlined text-white hover:text-white  transition-duration-200 hover:bg-red-500"></button>
+				</div>
+			</div>
+			<div class="mt-6 pt-0 box relative flex-grow-1">
+				<!-- The main logo -->
+				<h1 class="text-red-500 font-bold text-center sticky top-0"
+					[style]="{'font-size': '18vw', 'letter-spacing': '-5px', 'z-index': '-1'}">SERFLIX</h1>
+				<div class="absolute bottom-0 w-full" [style]="{height: '40vh'}">
+					<img ngSrc="assets/landing/chairs.png" alt="chairs" class="chairs" priority fill>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div #features id="features" class="flex justify-content-between py-6 px-3 lg:px-6 w-full">
+		<div class="grid  justify-content-around w-full">
+			<div class="col-12 md:col-6 lg:col-3">
+				<div class="relative h-4rem">
+					<img ngSrc="assets/landing/movie.png" alt="" class="h-full" fill [style]="{objectFit: 'contain'}">
+				</div>
+				<h3 class="text-2xl font-medium">Movies</h3>
+				<p class="text-base m-0 mt-2 text-color">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+					eiusmod tempor incididunt dolor magna aliqua.</p>
+			</div>
+			<div class="col-12 md:col-6 lg:col-3">
+				<div class="relative h-4rem">
+					<img ngSrc="assets/landing/popcorn.png" alt="" class="h-full" fill [style]="{objectFit: 'contain'}">
+				</div>
+				<h3 class="text-2xl font-medium">Series</h3>
+				<p class="text-base m-0 mt-2 text-color">Ut enim ad minim veniam, quis nostrud exercitation ullamco
+					laboris nisi ut aliquip ex ea commodo consequat.</p>
+			</div>
+		</div>
+	</div>
+	<!-- Parallax efect -->
+	<div class="grid grid-nested grid-nogutter h-screen relative overflow-hidden">
+		<!-- if you want move position of posters, you must change values of the operation to translateY of both parent div -->
+		<div class="col-12">
+			<div class="grid grid-nogutter h-full" [style]="{'transform': 'translateX('+(dataScrollY-1000)+'px) rotateX(-4deg) rotateY(-10deg) rotateZ(7deg)'}">
+				<div class="col relative posters"><img ngSrc="assets/landing/Movie-poster/Bad-boys-ride.jpg" alt="" class="w-full" fill></div>
+				<div class="col relative posters"><img ngSrc="assets/landing/Movie-poster/Beetlejuice.jpg" alt="" class="w-full" fill></div>
+				<div class="col relative posters"><img ngSrc="assets/landing/Movie-poster/Borderlands.jpg" alt="" class="w-full" fill></div>
+				<div class="col relative posters"><img ngSrc="assets/landing/Movie-poster/Deadpool.jpg" alt="" class="w-full" fill></div>
+				<div class="col relative posters"><img ngSrc="assets/landing/Movie-poster/Despicable-4.jpg" alt="" class="w-full" fill></div>
+				<div class="col relative posters"><img ngSrc="assets/landing/Movie-poster/Inside-out-2.jpg" alt="" class="w-full" fill></div>
+			</div>
+		</div>
+		<div class="col-12">
+			<div class="grid grid-nogutter h-full" [style]="{'transform': 'translateX('+(-dataScrollY+800)+'px) rotateX(-4deg) rotateY(-10deg) rotateZ(7deg)'}">
+				<div class="col relative posters"><img ngSrc="assets/landing/Serie-poster/Anne-with-an-e.jpg" alt="" class="w-full" fill></div>
+				<div class="col relative posters"><img ngSrc="assets/landing/Serie-poster/Breaking-bad.jpg" alt="" class="w-full" fill></div>
+				<div class="col relative posters"><img ngSrc="assets/landing/Serie-poster/Chronicles-of-the-sun.jpg" alt="" class="w-full" fill></div>
+				<div class="col relative posters"><img ngSrc="assets/landing/Serie-poster/Real-time-with-bill-maher.jpg" alt="" class="w-full" fill></div>
+				<div class="col relative posters"><img ngSrc="assets/landing/Serie-poster/Rick-and-morty.jpg" alt="" class="w-full" fill></div>
+				<div class="col relative posters"><img ngSrc="assets/landing/Serie-poster/Salatut-elamat.jpg" alt="" class="w-full" fill></div>
+			</div>
+		</div>
+		<div class="absolute top-50 left-50 text-backdrop" [style]="{'transform': 'translate(-50%, -50%)'}">
+			<h2 [style]="{'text-wrap': 'nowrap', 'font-size': '5rem'}">THE BEST PLATFORM</h2>
+		</div>
+	</div>
+	<div #events id="events"
+		class=" flex justify-content-around surface-card w-full bg-cover bg-no-repeat bg-bottom px-3 lg:px-6 relative h-7rem">
+		<div class="h-full w-5rem relative">
+			<img ngSrc="assets/landing/Providers/apple-tv.jpg" alt="" class="posters providers-image" fill
+				[style]="{objectFit: 'contain'}" priority="false">
+		</div>
+		<div class="h-full w-5rem relative">
+			<img ngSrc="assets/landing/Providers/prime-video.jpg" alt="" class="h-full mx-1 posters providers-image" fill
+				[style]="{objectFit: 'contain'}" priority="false">
+		</div>
+		<div class="h-full w-5rem relative">
+			<img ngSrc="assets/landing/Providers/hulu.jpg" alt="" class="h-full mx-1 posters providers-image" fill
+				[style]="{objectFit: 'contain'}" priority="false">
+		</div>
+		<div class="h-full w-5rem relative">
+			<img ngSrc="assets/landing/Providers/google-play.jpg" alt="" class="h-full mx-1 posters providers-image" fill
+				[style]="{objectFit: 'contain'}" priority="false">
+		</div>
+		<div class="h-full w-5rem relative">
+			<img ngSrc="assets/landing/Providers/sky.jpg" alt="" class="h-full mx-1 posters providers-image" fill
+				[style]="{objectFit: 'contain'}" priority="false">
+		</div>
+		<div class="h-full w-5rem relative">
+			<img ngSrc="assets/landing/Providers/play-suisse.jpg" alt="" class="h-full mx-1 posters providers-image" fill
+				[style]="{objectFit: 'contain'}" priority="false">
+		</div>
+	</div>
+	<div #pricing id="pricing" class="flex justify-content-center py-6 w-full px-3 lg:px-6">
+		<div class="grid justify-content-center w-full" style="max-width: 1200px;">
+			<div class="col-12 lg:col-4">
+				<div class="border-1 surface-border surface-card h-full text-color border-round">
+					<div class="p-5 border-bottom-1 surface-border">
+						<h3 class="text-xl m-0 mb-1 text-800">Free</h3>
+						<span class="text-600 ">Know your favorites movies and series and create until five profiles in your
+							account</span>
+						<p class="text-color-secondary mt-2  font-medium">$0</p>
+					</div>
+					<div>
+						<ul class="p-0 mt-0" style="min-height: 175px;">
+							<li class="list-none px-5 py-2 border-bottom-1 surface-border"><span class="text-color-secondary">Add 5
+									profiles</span></li>
+							<li class="list-none px-5 py-2 border-bottom-1 surface-border"><span class="text-color-secondary">Visit
+									any device</span></li>
+						</ul>
+					</div>
+					<div class="py-5 px-5">
+						<button pButton pRipple class="flex justify-content-center w-full" routerLink="register">Get
+							Started</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="flex align-items-center justify-content-center py-5" style="background-color: #292b2c;">
+		<div class="grid w-full" style="max-width: 1200px;">
+			<div class="col-12 lg:col-6 ">
+				<h5 [style]="{'font-size': '5rem'}" class="font-bold">SERFLIX</h5>
+			</div>
+		</div>
+	</div>
 </div>
-<!-- <app-config [minimal]="true"></app-config> -->

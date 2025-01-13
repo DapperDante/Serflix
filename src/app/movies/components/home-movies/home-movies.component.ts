@@ -1,56 +1,106 @@
 import { Component, inject } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { ItemMoviesService } from '../../service/item-movies.service';
-import { Movies, MoviesWithDate } from '../../api/movies';
-import { Observable } from 'rxjs';
+import { Movies } from '../../api/movies.api';
+import { Observable, map } from 'rxjs';
 import { PageEvent } from '../../../layout/api/api-config'
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-home-movies',
-  templateUrl: './home-movies.component.html'
+  templateUrl: './home-movies.component.html',
 })
 export class HomeMoviesComponent {
+  private readonly _movies = inject(ItemMoviesService);
+  //Variable to tabmenu
   items!: MenuItem[];
   activeItem!: MenuItem;
-  _movies = inject(ItemMoviesService);
-  data$!: Observable<MoviesWithDate | Movies>;
+  movies$!: Observable<Movies>;
+  //It's for control of what show to user about types of movies
   indexSection: number = 1;
+  //Those variables is for get control through the paginator
   indexPage: number = 1;
-  loading: boolean = false;
+  totalMovies!: number;
+  //How many movies will show for page
+  numberOfMoviesForShow: number = 20;
+  controlStatePaginator: number = 0;
+  constructor(private router: Router, private currentRouter: ActivatedRoute){}
   ngOnInit(){
-    this.data$ = this._movies.getMoviesPopular();
+    this.movies$ = this._movies.getMoviesPopular()
+    .pipe(map((movies)=>{
+      //The api not allow request greater that 500 pages when do request, so put limit 500 page for navigate
+      if(movies.total_pages > 500)
+        this.totalMovies = 500*20;
+      else
+        this.totalMovies = movies.total_results;
+      return movies;
+    }));
     this.items = [
       {label: 'Popular', command: ()=>this.ChangeSection(1)},
       {label: 'Now playing', command: ()=>this.ChangeSection(2)},
       {label: 'Top reated', command: ()=>this.ChangeSection(3)},
       {label: 'Upcoming', command: ()=>this.ChangeSection(4)},
     ]
+    //It'll show first in the section
     this.activeItem = this.items[0];
   }
   ChangeSection(index: number){
-    //Evitar que tenga que volver a recargar la misma seccion
     if(this.indexSection == index)
       return;
-    switch(index){
-      case 1: 
-        this.data$ = this._movies.getMoviesPopular();
-        break;
-      case 2:
-        this.data$ = this._movies.getMoviesNowPlaying();
-        break;
-      case 3:
-        this.data$ = this._movies.getMoviesTopReated();
-        break;
-      case 4: 
-        this.data$ = this._movies.getMoviesUpcoming();
-        break;
-    }
+    this.UpdateRequest(index);
+    this.controlStatePaginator = 0;
     this.indexSection = index;
   }
   ChangePage(event: PageEvent){
     this.indexPage = event.page!+1;
-    console.log(this.indexPage);
+    this.controlStatePaginator = event.first!;
+    this.UpdateRequest(this.indexSection, this.indexPage);
   }
-  AddMovieFavorite(){
-
+  SelectedMovie(idMovie: number){
+    this.router.navigate([idMovie], {relativeTo: this.currentRouter});
+  }
+  //For give control when update data of movies
+  private UpdateRequest(index: number, page: number = 1){
+    switch(index){
+      case 1:
+        this.movies$ = this._movies.getMoviesPopular(page)
+        .pipe(map((movies)=>{
+          if(movies.total_pages > 500)
+            this.totalMovies = 500*20;
+          else
+            this.totalMovies = movies.total_results;
+          return movies;
+        }));
+        break;
+      case 2:
+        this.movies$ = this._movies.getMoviesNowPlaying(page)
+        .pipe(map((movies)=>{
+          if(movies.total_pages > 500)
+            this.totalMovies = 500*20;
+          else
+            this.totalMovies = movies.total_results;
+          return movies;
+        }));
+        break;
+      case 3:
+        this.movies$ = this._movies.getMoviesTopReated(page)
+        .pipe(map((movies)=>{
+          if(movies.total_pages > 500)
+            this.totalMovies = 500*20;
+          else
+            this.totalMovies = movies.total_results;
+          return movies;
+        }));
+        break;
+      case 4:
+        this.movies$ = this._movies.getMoviesUpcoming(page)
+        .pipe(map((movies)=>{
+          if(movies.total_pages > 500)
+            this.totalMovies = 500*20;
+          else
+            this.totalMovies = movies.total_results;
+          return movies;
+        }));
+        break;
+    }
   }
 }

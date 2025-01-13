@@ -1,0 +1,96 @@
+<div class="grid nested-grid min-h-screen">
+	<p-toast />
+	@if(serie$ | async; as serie){
+		<div class="col-12">
+			<div class="grid relative overflow-hidden border-round-top" style="height: 60vh;">
+				<img [src]="serie.backdrop_path" alt="background" class="absolute h-full w-full opacity-7 background">
+				<div class="col-3 relative my-auto mx-6" [style]="{boxShadow: '0 0 30px black', height: '92%'}">
+					<img [ngSrc]="serie.poster_path" alt="poster" fill priority [style]="{'object-fit': 'contain'}">
+				</div>
+				<div class="col-8">
+					@if(serie.videos?.results?.length){
+						<div class="flex justify-content-center">
+							<youtube-player [videoId]="serie.videos!.results[0].key" />
+						</div>
+					}@else {
+						<p>There isn't trailer</p>
+					}
+				</div>
+			</div>
+		</div>
+		<div class="col-6 text-justify">
+			<p [style]="{fontSize: '1.8rem'}">{{serie.overview}}</p>
+			@if(isFavorite){
+				<p-button icon="pi pi-heart-fill" [rounded]="true" size="large" (onClick)="deleteFavoriteSerie()"
+					[loading]="loadingFavorite" />
+			}@else {
+				<p-button icon="pi pi-heart" [rounded]="true" size="large" (onClick)="addFavoriteSerie()"
+					[loading]="loadingFavorite" />
+			}
+		</div>
+		<div class="col-6 flex justify-content-center align-items-center">
+			<p-rating [readonly]="true" [cancel]="false" class="stars-main" />
+		</div>
+		<div class="col-12">
+			<form [formGroup]="ratingForm" class="flex justify-content-center flex-column align-items-center">
+				<p-rating class="stars-review" formControlName="rating" />
+				<textarea rows="3" cols="30" pInputTextarea [autoResize]='true' title="review" class="my-4"
+					placeholder="Write your review about it" formControlName="review"></textarea>
+				<p-button label="submit" icon="pi pi-send" [loading]="loadingReview" (onClick)="SendReview()" />
+			</form>
+		</div>
+		<div class="col-12">
+			@if(review$ | async; as reviews){
+			<p-dataView #dv [value]="reviews">
+				<ng-template pTemplate="list" let-reviews>
+					<div class="grid grid-nogutter">
+						<div class="col-12" *ngFor="let item of reviews; let first = first" class="col-12">
+							<div class="flex flex-column sm:flex-row sm:align-items-center p-4 gap-3"
+								[ngClass]="{ 'border-top-1 surface-border': !first }">
+								<div class="flex flex-column md:flex-row justify-content-between md:align-items-center flex-1 gap-4">
+									<div class="flex flex-row md:flex-column justify-content-between align-items-start gap-2">
+										<div>
+											<div class="text-lg font-medium text-900 mt-2">{{ item.review }}</div>
+										</div>
+										<div class="surface-100 p-1" style="border-radius: 30px">
+											<div class="surface-0 flex align-items-center gap-2 justify-content-center py-1 px-2"
+												style="border-radius: 30px; box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.04), 0px 1px 2px 0px rgba(0, 0, 0, 0.06)">
+												<span class="text-900 font-medium text-sm">{{ item.score }}</span>
+												<i class="pi pi-star-fill text-yellow-500"></i>
+											</div>
+										</div>
+									</div>
+									<div class="flex flex-column md:align-items-end gap-5">
+										<span class="text-xl font-semibold text-900">{{ item.name }}</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</ng-template>
+			</p-dataView>
+			}@else {
+			<p-skeleton class="h-full" />
+			}
+		</div>
+		<div class="col-12">
+			@defer (on viewport) {
+			<app-list-items [items]="similar$" title="Similar" (getId)="ChangeSerie($event)" />
+			}@placeholder {
+			<p>similar series</p>
+			}
+		</div>
+		<div class="col-12">
+			@defer (on viewport) {
+			<app-list-items [items]="recommendation$" title="Recommendation" (getId)="ChangeSerie($event)" />
+			}@placeholder {
+			<p>recommendation series</p>
+			}
+		</div>
+	}@else{
+		<p-skeleton class="col-3" height="100%" />
+		<p-skeleton class="col-9" height="100%" />
+		<p-skeleton class="col-6" height="100%" />
+		<p-skeleton class="col-6" height="100%" />
+	}
+</div>

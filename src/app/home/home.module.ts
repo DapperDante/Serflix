@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { HomeRoutingModule } from './home-routing.module';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
@@ -15,11 +15,16 @@ import { PasswordModule } from 'primeng/password';
 import { DividerModule } from 'primeng/divider';
 import { DockModule } from 'primeng/dock';
 import { MessageService } from 'primeng/api';
-import { ToastModule } from 'primeng/toast'
+import { ToastModule } from 'primeng/toast';
+import { FloatLabelModule } from 'primeng/floatlabel';
+import { CarouselModule } from 'primeng/carousel';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { SkeletonModule } from 'primeng/skeleton';
+import { SharedComponentsModule } from '../shared-components/shared-components.module';
 @NgModule({
   declarations: [
-    LandingComponent, 
-    LoginComponent, 
+    LandingComponent,
+    LoginComponent,
     RegisterComponent
   ],
   imports: [
@@ -35,10 +40,13 @@ import { ToastModule } from 'primeng/toast'
     DividerModule,
     DockModule,
     ReactiveFormsModule,
-    ToastModule
+    FloatLabelModule,
+    CarouselModule,
+    ProgressSpinnerModule,
+    SkeletonModule,
+    NgOptimizedImage,
+    SharedComponentsModule
   ],
-  providers: [
-    MessageService
-  ]
+  providers: []
 })
 export class HomeModule { }

@@ -1,10 +1,46 @@
-<div class="flex justify-content-center">
-    @if(profile$ | async; as profile){
-        <h1>Hello {{profile.name}}</h1>
-        <!-- <div class="h-8">
-            <p-chart type="doughnut" [data]="dataChartFavorite"/>
-        </div> -->
-    }@else{
-        <p-progressSpinner/>
-    }
+<div class="grid grid-nogutter grid-nested">
+    <p-toast/>
+		@if(profile$ | async; as profile){
+			<div class="col-12 grid grid-nogutter" [@fadeIn]>
+				<div class="col-2 relative cursor-pointer flex justify-content-center align-items-center">
+					<div class="absolute h-full w-full flex justify-content-center align-items-center icon-image opacity-0" (click)="ChangePhotoProfile()">
+						<i class="pi pi-user-edit absolute"></i>
+					</div>
+					<img [ngSrc]="profile.img" alt="image's profile" fill priority [style]="{objectFit: 'contain', zIndex: -1}" class="image-profile">
+					<app-show-images title="Select an image" [images$]="photos$" [(isActive)]="selectPhotoProfile" (getImage)="UpdateImg($event)"/>
+				</div>
+				<div class="col-5">
+					@if(dataChartFavorite){
+						<p-chart type="doughnut" [data]="dataChartFavorite" [options]="dataChartOptions" height="100%"/>
+					}@else {
+						<p class="text-center pt-5">Don't have movies or series</p>
+					}
+				</div>
+				<div class="col-5 surface-overlay border-round px-5 py-7" [formGroup]="formUpdate">
+					<p-floatLabel>
+						<input type="text" pInputText title="change name" id="change-name" class="w-full" [style]="{fontSize: '1.2rem'}" formControlName="newName"/>
+						<label for="change-name">Change name</label>
+					</p-floatLabel>
+					<p-button label="Change" icon="pi pi-pencil" [style]="{marginTop: '2rem'}" (onClick)="UpdateName()" [loading]="loading"/>
+				</div>
+			</div>
+			<div class="col-12 flex justify-content-around" [style]="{height: '20rem'}" [@fadeIn]>
+				<div class="w-15rem relative">
+					<img ngSrc="assets/goals/goal_favorite_x1.png" alt="five favorite movies" [ngClass]="{'opacity-10': !controlGoals[0]}" fill priority="false" [style]="{objectFit: 'contain'}">
+				</div>
+				<div class="w-15rem relative">
+					<img ngSrc="assets/goals/goal_favorite_x5.png" alt="five favorite movies" [ngClass]="{'opacity-10': !controlGoals[1]}" fill priority="false" [style]="{objectFit: 'contain'}">
+				</div>
+				<div class="w-15rem relative">
+					<img ngSrc="assets/goals/goal_favorite_x10.png" alt="ten favorite movies" [ngClass]="{'opacity-10': !controlGoals[2]}" fill priority="false" [style]="{objectFit: 'contain'}">
+				</div>
+				<div class="w-15rem relative">
+					<img ngSrc="assets/goals/goal_favorite_x20.png" alt="twelve favorite movies" [ngClass]="{'opacity-10': !controlGoals[3]}" fill priority="false" [style]="{objectFit: 'contain'}">
+				</div>
+				<div class="w-15rem relative">
+					<img ngSrc="assets/goals/goal_favorite_x50.png" alt="fifty favorite movies" [ngClass]="{'opacity-10': !controlGoals[4]}" fill priority="false" [style]="{objectFit: 'contain'}">
+				</div>
+			</div>
+		}
 </div>
+>>>>>>> dev

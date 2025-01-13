@@ -36,11 +36,11 @@ export interface SerieInfo {
   type:                 string;
   vote_average:         number;
   vote_count:           number;
-  videos:               Videos;
-  images:               Images;
-  credits:              Credits;
-  similar:              Series;
-  recommendations:      Series;
+  videos?:               Videos;
+  images?:               Images;
+  credits?:              Credits;
+  similar?:              Series;
+  recommendations?:      Series;
 }
 
 export interface CreatedBy {
@@ -140,5 +140,17 @@ export interface SpokenLanguage {
 }
 
 export interface Videos {
-  results: any[];
+  results: VideosResult[];
+}
+export interface VideosResult {
+	iso_639_1:    string;
+	iso_3166_1:   string;
+	name:         string;
+	key:          string;
+	published_at: Date;
+	site:         string;
+	size:         number;
+	type:         string;
+	official:     boolean;
+	id:           string;
 }

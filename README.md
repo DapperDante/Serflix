@@ -32,5 +32,9 @@ Don't care to your password, in the server-side encryption that information.
 
 > in later version, there will manage other information about the user, profile or manage control of goals by account
 
+## Structure 
+
+Its structure is on two sides, when you access and manage your information and the other side is landing (where anyone access to first time), the landing page is on home folder and other side is on layout that has layout avalon by primeng.
+
 ## Aditional information
-That project has based the avalon's layout and many components of primeng on the version 17 with angular 18
+That project has based the avalon's layout and many components of primeng are on the version 17 with angular 18

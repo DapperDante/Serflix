@@ -21,14 +21,14 @@ import { ActivatedRoute, Router } from '@angular/router';
   `
 })
 export class HomeSeriesComponent {
-  private _series = inject(ItemSeriesService);
+  private readonly _series = inject(ItemSeriesService);
   //Variable to tabmenu
   items!: MenuItem[];
   activeItem!: MenuItem;
   series$!: Observable<Series>;
   //It's for control of what show to user about types of series
   indexSection: number = 1;
-  //Those variables is for get control through the paginator 
+  //Those variables is for get control through the paginator
   indexPage: number = 1;
   totalSeries!: number;
   //How many series will show for page
@@ -73,7 +73,7 @@ export class HomeSeriesComponent {
   //For give control of when update data of request
   private UpdateRequest(index: number, page: number = 1){
     switch(index){
-      case 1: 
+      case 1:
         this.series$ = this._series.getSeriesPopular(page)
         .pipe(map((series)=>{
           if(series.total_pages > 500)
@@ -103,7 +103,7 @@ export class HomeSeriesComponent {
           return series;
         }));
         break;
-      case 4: 
+      case 4:
         this.series$ = this._series.getSeriesTopRated(page)
         .pipe(map((series)=>{
           if(series.total_pages > 500)

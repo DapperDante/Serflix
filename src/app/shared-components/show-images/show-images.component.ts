@@ -14,7 +14,6 @@ export class ShowImagesComponent {
  	images$ = input.required<Observable<RickAndMortyCharacters>>();
 	getImage = output<string>();
 	onValueChange(newValue: boolean){
-		console.log(newValue);
 		this.isActiveChange.emit(newValue);
 	}
 }

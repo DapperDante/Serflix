@@ -25,12 +25,17 @@ import { MessageService } from 'primeng/api';
     ::ng-deep .stars-review .p-rating .p-rating-item.p-rating-item-active .p-rating-icon{
       color: yellow;
     }
+		.background{
+			filter: brightness(0.4);
+			mask-image: linear-gradient(black 80%, transparent);
+			z-index: -1;
+		}
   `,
 })
 export class SerieInfoComponent {
-	private _series = inject(ItemSeriesService);
-	private _reviews = inject(ScoreSeriesService);
-	private _favoriteSeries = inject(FavoriteSeriesService);
+	private readonly _series = inject(ItemSeriesService);
+	private readonly _reviews = inject(ScoreSeriesService);
+	private readonly _favoriteSeries = inject(FavoriteSeriesService);
 	ratingForm = new FormGroup({
 		rating: new FormControl(0, Validators.required),
 		review: new FormControl('', [Validators.required, Validators.minLength(15)]),
@@ -44,11 +49,9 @@ export class SerieInfoComponent {
 	//It's only variables for button's animate
 	loadingReview: boolean = false;
 	loadingFavorite: boolean = false;
-	idProfile!: number;
 	idSerie!: number;
 	constructor(private routerCurrent: ActivatedRoute, private router: Router, private message: MessageService) {}
 	ngOnInit() {
-		this.idProfile = Number(localStorage.getItem('idProfile'));
 		this.routerCurrent.paramMap.subscribe((routerCurrent) => {
 			this.idSerie = Number(routerCurrent.get('id'));
 			this.serie$ = this._series.getSerieById(this.idSerie).pipe(
@@ -60,7 +63,7 @@ export class SerieInfoComponent {
 						suscriber.next(serie.recommendations);
 					});
 					this.review$ = this._reviews.getReviewsOfMovie(serie.id);
-					this._favoriteSeries.isSerieFavorite(this.idProfile, this.idSerie).subscribe((value) => {
+					this._favoriteSeries.getSerieProfile(this.idSerie).subscribe((value) => {
 						if (value.id) {
 							this.idDoc = value.id;
 							this.isFavorite = true;
@@ -84,13 +87,12 @@ export class SerieInfoComponent {
 		}
 		this.loadingReview = true;
 		this._reviews
-			.addNewReview(
-				Number(localStorage.getItem('idProfile')),
-				this.idSerie,
-				this.ratingForm.value.rating!,
-				this.ratingForm.value.review!
-			)
+			.addNewReview(this.idSerie, this.ratingForm.value.rating!, this.ratingForm.value.review!)
 			.subscribe({
+				error: () => {
+					this.loadingReview = false;
+					this.message.add({ severity: 'error', detail: 'There was a problem' });
+				},
 				complete: () => {
 					this.loadingReview = false;
 					this.message.add({ severity: 'success', detail: 'Review added' });
@@ -100,7 +102,7 @@ export class SerieInfoComponent {
 	}
 	addFavoriteSerie() {
 		this.loadingFavorite = true;
-		this._favoriteSeries.AddSerieFavorite(this.idProfile, this.idSerie).subscribe({
+		this._favoriteSeries.addSerie(this.idSerie).subscribe({
 			next: (value) => {
 				this.idDoc = value.id;
 			},
@@ -109,7 +111,7 @@ export class SerieInfoComponent {
 				this.isFavorite = true;
 				this.message.add({
 					severity: 'success',
-					detail: 'Movie added to favorites',
+					detail: 'Serie added to favorites',
 				});
 			},
 			error: () => {
@@ -123,7 +125,7 @@ export class SerieInfoComponent {
 	}
 	deleteFavoriteSerie() {
 		this.loadingFavorite = true;
-		this._favoriteSeries.deleteFavoriteSerie(this.idDoc).subscribe({
+		this._favoriteSeries.deleteSerie(this.idDoc).subscribe({
 			complete: () => {
 				this.loadingFavorite = false;
 				this.isFavorite = false;

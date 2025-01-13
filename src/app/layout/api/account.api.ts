@@ -1,8 +1,23 @@
-export interface profile {
+export interface Profiles{
+	results: Profile[]
+}
+export interface Profile{
+	id: number,
+	name: string,
+	img: string
+}
+export interface ProfileInfo {
 	name: string,
 	img: string,
-	movies: number[],
-	series: number[]
+	results: ProfileItem[],
+	goals: number[],
+	token: string
+}
+export interface ProfileItem{
+	id: number,
+	title: string,
+	poster_path: string,
+	type: 'movie' | 'serie'
 }
 export interface RickAndMortyCharacters {
     info:    Info;

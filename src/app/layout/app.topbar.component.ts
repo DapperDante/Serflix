@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { LayoutService } from './service/app.layout.service';
 import { ActivatedRoute, Router } from '@angular/router';
 

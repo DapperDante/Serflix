@@ -8,7 +8,8 @@ import { SkeletonModule } from 'primeng/skeleton';
 import { CarouselModule } from 'primeng/carousel';
 import { ShowImagesComponent } from './show-images/show-images.component';
 import { DialogModule } from 'primeng/dialog';
-
+import { TabMenuModule } from 'primeng/tabmenu';
+import { PaginatorModule } from 'primeng/paginator';
 
 
 @NgModule({
@@ -20,7 +21,9 @@ import { DialogModule } from 'primeng/dialog';
 		SkeletonModule,
 		CarouselModule,
 		NgOptimizedImage,
-		DialogModule
+		DialogModule,
+		TabMenuModule,
+		PaginatorModule
 	],
 	exports: [
 		PanelItemsComponent,

@@ -31,7 +31,6 @@ describe('ProfileService', () => {
   });
 
   xdescribe('manage db', () => {
-    console.log(authService);
     signInWithEmailAndPassword(authService, dataTesting?.user?.email, dataTesting?.user?.password)
     .then(() => {
       it('add new profile', (done: DoneFn) => {

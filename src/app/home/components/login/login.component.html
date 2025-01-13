@@ -1,17 +1,18 @@
 <div class="w-full h-screen p-8">
-    <p-toast/>
+	<div>
+	</div>
     <form [formGroup]="loginForm">
         <div class="m-auto w-25rem h-30rem bg-red-600 m-auto flex flex-column justify-content-between align-items-center p-4 border-round shadow-3">
             <h1>Login</h1>
             <p-floatLabel>
                 <input pInputText id="username" class="w-15rem" formControlName="username"/>
-                <label for="username">username</label><br>
+                <label for="username">Username</label><br>
             </p-floatLabel>
             <p-floatLabel>
                 <p-password
                 [toggleMask]="true"
                 id="password"
-                    formControlName="passwordUser"
+                    formControlName="password"
                     placeholder="Password">
                     <ng-template pTemplate="header">
                         <h6>Pick a password</h6>
@@ -29,7 +30,7 @@
                 </p-password>
                 <label for="password">Password</label><br>
             </p-floatLabel>
-            <p-button label="Login" icon="pi pi-sign-in" class="my-2" (onClick)="Login()"></p-button>
+            <p-button label="Login" icon="pi pi-sign-in" class="my-2" (onClick)="Login()" [loading]="loading"></p-button>
             <small>If you don't have account, <a routerLink="/register">Register</a></small>
             <div class="my-3">
                 <p-button icon="pi pi-google" class="mr-2"/>

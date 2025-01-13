@@ -25,14 +25,19 @@ import { MegaMenuModule } from 'primeng/megamenu';
 import { ButtonModule } from 'primeng/button';
 import { MenuModule } from 'primeng/menu';
 import { StyleClassModule } from 'primeng/styleclass';
-import { SelectprofileComponent } from './selectprofile.component';
+import { SelectprofileComponent } from './components/select-profile/select-profile.component';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { ProfileService } from './service/profile.service';
 import { DialogModule } from 'primeng/dialog';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { SkeletonModule } from 'primeng/skeleton';
+import { HomeAccessComponent } from './components/home-access/home-access.component';
+import { SharedComponentsModule } from '../shared-components/shared-components.module';
+import { CarouselModule } from 'primeng/carousel';
+import { NgOptimizedImage } from '@angular/common';
+import { ItemMoviesService } from '../movies/service/item-movies.service';
+import { ItemSeriesService } from '../series/service/item-series.service';
 @NgModule({
 	declarations: [
 		AppLayoutComponent,
@@ -45,6 +50,7 @@ import { SkeletonModule } from 'primeng/skeleton';
 		AppMenuitemComponent,
 		AppFooterComponent,
 		SelectprofileComponent,
+		HomeAccessComponent
 	],
 	imports: [
 		BrowserModule,
@@ -67,14 +73,16 @@ import { SkeletonModule } from 'primeng/skeleton';
 		ProgressSpinnerModule,
 		DialogModule,
 		ConfirmDialogModule,
-		SkeletonModule
+		SkeletonModule,
+		SharedComponentsModule,
+		CarouselModule,
+		NgOptimizedImage
 	],
 	providers: [
-		ProfileService,
 		ConfirmationService,
-		MessageService,
-		InputTextModule,
 		provideHttpClient(withInterceptorsFromDi()),
+		ItemMoviesService,
+		ItemSeriesService
 	],
 })
 export class AppLayoutModule {}

@@ -29,11 +29,11 @@ export interface MovieInfo {
     video:                 boolean;
     vote_average:          number;
     vote_count:            number;
-    videos:                Videos;
-    images:                Images;
-    credits:               Credits;
-    similar:               Movies;
-    recommendations:       Movies;
+    videos?:                Videos;
+    images?:                Images;
+    credits?:               Credits;
+    similar?:               Movies;
+    recommendations?:       Movies;
 }
 
 export interface Credits {

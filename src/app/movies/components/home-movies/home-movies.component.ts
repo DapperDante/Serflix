@@ -2,47 +2,36 @@ import { Component, inject } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { ItemMoviesService } from '../../service/item-movies.service';
 import { Movies } from '../../api/movies.api';
-import { Observable, map, tap } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { PageEvent } from '../../../layout/api/api-config'
 import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-home-movies',
   templateUrl: './home-movies.component.html',
-  styles: `
-    ::ng-deep .card-custom .p-card-title{
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-    .select-item:hover{
-      transform: scale(1.05);
-    }
-  `,
 })
 export class HomeMoviesComponent {
-  private _movies = inject(ItemMoviesService);
+  private readonly _movies = inject(ItemMoviesService);
   //Variable to tabmenu
   items!: MenuItem[];
   activeItem!: MenuItem;
   movies$!: Observable<Movies>;
   //It's for control of what show to user about types of movies
   indexSection: number = 1;
-  //Those variables is for get control through the paginator 
+  //Those variables is for get control through the paginator
   indexPage: number = 1;
   totalMovies!: number;
   //How many movies will show for page
-  numberOfMoviesForShow!: number;
+  numberOfMoviesForShow: number = 20;
   controlStatePaginator: number = 0;
   constructor(private router: Router, private currentRouter: ActivatedRoute){}
   ngOnInit(){
     this.movies$ = this._movies.getMoviesPopular()
     .pipe(map((movies)=>{
-      //The api not allow request greater that 500 pages when do request, so put limit to 500 page for navigate
+      //The api not allow request greater that 500 pages when do request, so put limit 500 page for navigate
       if(movies.total_pages > 500)
         this.totalMovies = 500*20;
       else
         this.totalMovies = movies.total_results;
-      this.numberOfMoviesForShow = 20;
       return movies;
     }));
     this.items = [
@@ -69,10 +58,10 @@ export class HomeMoviesComponent {
   SelectedMovie(idMovie: number){
     this.router.navigate([idMovie], {relativeTo: this.currentRouter});
   }
-  //For give control of when update data of request
+  //For give control when update data of movies
   private UpdateRequest(index: number, page: number = 1){
     switch(index){
-      case 1: 
+      case 1:
         this.movies$ = this._movies.getMoviesPopular(page)
         .pipe(map((movies)=>{
           if(movies.total_pages > 500)
@@ -102,7 +91,7 @@ export class HomeMoviesComponent {
           return movies;
         }));
         break;
-      case 4: 
+      case 4:
         this.movies$ = this._movies.getMoviesUpcoming(page)
         .pipe(map((movies)=>{
           if(movies.total_pages > 500)

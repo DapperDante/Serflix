@@ -1,0 +1,8 @@
+<app-panel-items
+	[title]="categoryCurrent!.name"
+	[items]="items$"
+	[showPaginator]="true"
+	[totalItemsToPaginator]="totalItemsToPaginator"
+	[itemsForShowToPaginator]="itemsForShowToPaginator"
+	[controlStatePaginator]="controlStatePaginator"
+	(getIndexPaginator)="ChangePage($event)"/>

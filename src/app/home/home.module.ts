@@ -17,18 +17,15 @@ import { DockModule } from 'primeng/dock';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { FloatLabelModule } from 'primeng/floatlabel';
-import { AuthService } from './service/auth.service';
-import { HomeAccessComponent } from './components/home-access/home-access.component';
 import { CarouselModule } from 'primeng/carousel';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { SkeletonModule } from 'primeng/skeleton';
 import { SharedComponentsModule } from '../shared-components/shared-components.module';
 @NgModule({
   declarations: [
-    LandingComponent, 
-    LoginComponent, 
-    RegisterComponent, 
-    HomeAccessComponent
+    LandingComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     CommonModule,
@@ -43,7 +40,6 @@ import { SharedComponentsModule } from '../shared-components/shared-components.m
     DividerModule,
     DockModule,
     ReactiveFormsModule,
-    ToastModule,
     FloatLabelModule,
     CarouselModule,
     ProgressSpinnerModule,
@@ -51,9 +47,6 @@ import { SharedComponentsModule } from '../shared-components/shared-components.m
     NgOptimizedImage,
     SharedComponentsModule
   ],
-  providers: [
-    MessageService,
-    AuthService
-  ]
+  providers: []
 })
 export class HomeModule { }

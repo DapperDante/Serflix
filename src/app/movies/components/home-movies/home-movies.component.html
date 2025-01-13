@@ -1,8 +1,12 @@
-<p-tabMenu [model]="items" [activeItem]="activeItem"/>
-<app-panel-items [items]="movies$" title="movies" (getId)="SelectedMovie($event)"></app-panel-items>
-<p-paginator
-  (onPageChange)="ChangePage($event)"
-  [totalRecords]="totalMovies"
-  [first]="controlStatePaginator"
-  [rows]="numberOfMoviesForShow"
-  [alwaysShow]="false"/>
+<app-panel-items
+	[items]="movies$"
+	title="movies"
+	(getId)="SelectedMovie($event)"
+	[menuItems]="items"
+	[activeItem]="activeItem"
+	[showPaginator]="true"
+	[totalItemsToPaginator]="totalMovies"
+	[controlStatePaginator]="controlStatePaginator"
+	[itemsForShowToPaginator]="numberOfMoviesForShow"
+	(getIndexPaginator)="ChangePage($event)"
+	/>

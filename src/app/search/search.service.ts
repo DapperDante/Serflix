@@ -5,7 +5,9 @@ import { ErrorHandlingService } from 'src/app/error/error-handling.service';
 import { Service } from 'src/app/interface/service.interface';
 import { Movies } from 'src/app/movies/api/movies.api';
 import { environment } from 'src/environments/environment.development';
+
 const PATH = environment.ApiDbSearch;
+
 @Injectable({
 	providedIn: 'platform',
 })

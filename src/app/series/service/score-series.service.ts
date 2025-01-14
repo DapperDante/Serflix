@@ -17,9 +17,9 @@ export class ScoreSeriesService implements Service {
 	constructor(){
 		console.log(`Service ${this.constructor.name} is ready`);
 	}
-	addNewReview(movie_id: number, score: number, review: string): Observable<any> {
+	addNewReview(idSerie: number, score: number, review: string): Observable<any> {
 		const resp = {
-			movie_id,
+			idSerie,
 			score,
 			review,
 		};
@@ -27,7 +27,7 @@ export class ScoreSeriesService implements Service {
 			.post<any>(`${PATH}/add`, resp)
 			.pipe(catchError(this.ErrorHandler), tap({ error: (error)=>this.ShowError(error) }));
 	}
-	getReviewsOfMovie(idSerie: string | number): Observable<ScoreSerie[]> {
+	getReviewsOfSerie(idSerie: string | number): Observable<ScoreSerie[]> {
 		return this._http
 			.get<ScoreSerie[]>(`${PATH}/get/${idSerie}`)
 			.pipe(catchError(this.ErrorHandler), tap({ error: (error)=>this.ShowError(error) }));

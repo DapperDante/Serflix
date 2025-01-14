@@ -7,7 +7,8 @@ import { map, Observable } from 'rxjs';
 import { SerieInfo } from '../../api/serie-info.api';
 import { Series } from '../../api/series';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
+import { ErrorHandlingService } from 'src/app/error/error-handling.service';
+import { SuccessHandlingService } from 'src/app/service/success-handling.service';
 
 @Component({
 	selector: 'app-serie-info',
@@ -26,8 +27,10 @@ import { MessageService } from 'primeng/api';
       color: yellow;
     }
 		.background{
-			filter: brightness(0.4);
 			mask-image: linear-gradient(black 80%, transparent);
+		}
+		.background > img{
+			filter: brightness(0.4);
 			z-index: -1;
 		}
   `,
@@ -36,6 +39,8 @@ export class SerieInfoComponent {
 	private readonly _series = inject(ItemSeriesService);
 	private readonly _reviews = inject(ScoreSeriesService);
 	private readonly _favoriteSeries = inject(FavoriteSeriesService);
+	private readonly _success = inject(SuccessHandlingService);
+	private readonly _error = inject(ErrorHandlingService);
 	ratingForm = new FormGroup({
 		rating: new FormControl(0, Validators.required),
 		review: new FormControl('', [Validators.required, Validators.minLength(15)]),
@@ -50,7 +55,7 @@ export class SerieInfoComponent {
 	loadingReview: boolean = false;
 	loadingFavorite: boolean = false;
 	idSerie!: number;
-	constructor(private routerCurrent: ActivatedRoute, private router: Router, private message: MessageService) {}
+	constructor(private routerCurrent: ActivatedRoute, private router: Router) {}
 	ngOnInit() {
 		this.routerCurrent.paramMap.subscribe((routerCurrent) => {
 			this.idSerie = Number(routerCurrent.get('id'));
@@ -62,11 +67,12 @@ export class SerieInfoComponent {
 					this.recommendation$ = new Observable((suscriber) => {
 						suscriber.next(serie.recommendations);
 					});
-					this.review$ = this._reviews.getReviewsOfMovie(serie.id);
-					this._favoriteSeries.getSerieProfile(this.idSerie).subscribe((value) => {
-						if (value.id) {
+					this.review$ = this._reviews.getReviewsOfSerie(serie.id);
+					this._favoriteSeries.getSerieProfile(this.idSerie)
+					.subscribe((value) => {
+						if(Object.keys(value).length === 0){
 							this.idDoc = value.id;
-							this.isFavorite = true;
+							this.isFavorite = false;
 						}
 					});
 					return serie;
@@ -82,21 +88,21 @@ export class SerieInfoComponent {
 	}
 	SendReview() {
 		if (this.ratingForm.invalid) {
-			this.message.add({ severity: 'warn', detail: 'Add some words' });
+			this._error.ShowError('Invalid form');
 			return;
 		}
 		this.loadingReview = true;
+		console.log(this.ratingForm.value);
 		this._reviews
 			.addNewReview(this.idSerie, this.ratingForm.value.rating!, this.ratingForm.value.review!)
 			.subscribe({
 				error: () => {
-					this.loadingReview = false;
-					this.message.add({ severity: 'error', detail: 'There was a problem' });
+					this.loadingReview = false
 				},
 				complete: () => {
 					this.loadingReview = false;
-					this.message.add({ severity: 'success', detail: 'Review added' });
-					this.review$ = this._reviews.getReviewsOfMovie(this.idSerie);
+					this._success.showSuccessMessage('Review added');
+					this.review$ = this._reviews.getReviewsOfSerie(this.idSerie);
 				},
 			});
 	}
@@ -109,17 +115,10 @@ export class SerieInfoComponent {
 			complete: () => {
 				this.loadingFavorite = false;
 				this.isFavorite = true;
-				this.message.add({
-					severity: 'success',
-					detail: 'Serie added to favorites',
-				});
+				this._success.showSuccessMessage('Serie added to favorites');
 			},
 			error: () => {
 				this.loadingFavorite = false;
-				this.message.add({
-					severity: 'error',
-					detail: 'Has an ocurred problem',
-				});
 			},
 		});
 	}
@@ -129,17 +128,10 @@ export class SerieInfoComponent {
 			complete: () => {
 				this.loadingFavorite = false;
 				this.isFavorite = false;
-				this.message.add({
-					severity: 'success',
-					detail: 'movie delete to favorites',
-				});
+				this._success.showSuccessMessage('Serie delete to favorites');
 			},
 			error: () => {
 				this.loadingFavorite = false;
-				this.message.add({
-					severity: 'error',
-					detail: 'Has an ocurred problem',
-				});
 			},
 		});
 	}

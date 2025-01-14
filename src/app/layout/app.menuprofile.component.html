@@ -8,7 +8,7 @@
             <i class="layout-menu-profile-toggler pi pi-fw" [ngClass]="{'pi-angle-down': menuProfilePosition === 'start' || isHorizontal, 'pi-angle-up': menuProfilePosition === 'end' && !isHorizontal}"></i>
         </button>
     }@else{
-				<p-skeleton width="2rem" height="2rem"/>
+				<p-skeleton width="4rem" height="4rem"/>
     }
     <ul *ngIf="menuProfileActive" [@menu]="isHorizontal ? 'overlay' : 'inline'">
         <li pTooltip="Settings" [tooltipDisabled]="isTooltipDisabled">

@@ -6,8 +6,9 @@ import { MovieInfo } from '../../api/movie-info.api';
 import { Movies } from '../../api/movies.api';
 import { ScoreMoviesService } from '../../service/score-movies.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MessageService } from 'primeng/api';
 import { FavoriteMoviesService } from '../../service/favorite-movies.service';
+import { SuccessHandlingService } from 'src/app/service/success-handling.service';
+import { ErrorHandlingService } from 'src/app/error/error-handling.service';
 
 @Component({
 	selector: 'app-movie-info',
@@ -38,6 +39,8 @@ export class MovieInfoComponent {
 	private readonly _movies = inject(ItemMoviesService);
 	private readonly _reviews = inject(ScoreMoviesService);
 	private readonly _favoriteMovies = inject(FavoriteMoviesService);
+	private readonly _success = inject(SuccessHandlingService);
+	private readonly _error = inject(ErrorHandlingService);
 	ratingForm = new FormGroup({
 		rating: new FormControl(0, Validators.required),
 		review: new FormControl('', [Validators.required, Validators.minLength(15)]),
@@ -52,7 +55,7 @@ export class MovieInfoComponent {
 	//It's only variables for button's animate when it's loading
 	loadingReview: boolean = false;
 	loadingFavorite: boolean = false;
-	constructor(private routerCurrent: ActivatedRoute, private router: Router, private message: MessageService) {}
+	constructor(private routerCurrent: ActivatedRoute, private router: Router) {}
 	ngOnInit() {
 		this.routerCurrent.paramMap.subscribe((routerCurrent) => {
 			this.idMovie = Number(routerCurrent.get('id'));
@@ -84,7 +87,7 @@ export class MovieInfoComponent {
 	}
 	SendReview() {
 		if (this.ratingForm.invalid) {
-			this.message.add({ severity: 'warn', detail: 'Add some words' });
+			this._error.ShowError('Invalid form');
 			return;
 		}
 		this.loadingReview = true;
@@ -93,11 +96,10 @@ export class MovieInfoComponent {
 			.subscribe({
 				error: () => {
 					this.loadingReview = false;
-					this.message.add({ severity: 'error', detail: 'There was a problem' });
 				},
 				complete: () => {
 					this.loadingReview = false;
-					this.message.add({ severity: 'success', detail: 'Review added' });
+					this._success.showSuccessMessage('Review added');
 					this.review$ = this._reviews.getReviewsOfMovie(this.idMovie);
 				},
 			});
@@ -111,11 +113,10 @@ export class MovieInfoComponent {
 			complete: () => {
 				this.loadingFavorite = false;
 				this.isFavorite = true;
-				this.message.add({ severity: 'success', detail: 'Movie added to favorites' });
+				this._success.showSuccessMessage('movie added to favorites');
 			},
 			error: () => {
 				this.loadingFavorite = false;
-				this.message.add({ severity: 'error', detail: 'Has an ocurred problem' });
 			},
 		});
 	}
@@ -125,11 +126,10 @@ export class MovieInfoComponent {
 			complete: () => {
 				this.loadingFavorite = false;
 				this.isFavorite = false;
-				this.message.add({ severity: 'success', detail: 'movie delete to favorites' });
+				this._success.showSuccessMessage('movie delete to favorites');
 			},
 			error: () => {
 				this.loadingFavorite = false;
-				this.message.add({ severity: 'error', detail: 'Has an ocurred problem' });
 			},
 		});
 	}

@@ -3,7 +3,7 @@
 		<p-carousel [value]="mains.results" [numVisible]="1" [numScroll]="1" [autoplayInterval]="4500"
 			[showNavigators]="false">
 			<ng-template let-main pTemplate="item" class="h-full">
-				<div class="grid grid-nogutter h-20rem">
+				<div class="grid grid-nogutter h-20rem cursor-pointer">
 					<div class="relative col-6 h-full" (click)="SelectedMovie(main.id)">
 						<img title="movie" class="main-image border-round-left-md" [ngSrc]="main.backdrop_path" fill priority
 							[style]="{objectFit: 'cover'}" />

@@ -1,7 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../../service/auth.service';
+import { AuthService } from '../../../service/auth.service';
 import { Router } from '@angular/router';
+import { SuccessHandlingService } from 'src/app/service/success-handling.service';
 
 @Component({
 	selector: 'app-register',
@@ -9,6 +10,7 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent {
 	private readonly _auth = inject(AuthService);
+	private readonly _success = inject(SuccessHandlingService);
 	loading = false;
 	constructor(private router: Router) {}
 	registerForm = new FormGroup({
@@ -25,6 +27,7 @@ export class RegisterComponent {
 		this.loading = true;
 		this._auth.Register(name!, email!, password!).subscribe({
 			next: () => {
+				this._success.showSuccessMessage('User registered successfully');
 				this.router.navigate(['/profile']);
 			},
 			error: () => {

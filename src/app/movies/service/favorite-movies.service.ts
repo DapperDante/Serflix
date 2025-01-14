@@ -9,7 +9,7 @@ import { ErrorHandlingService } from 'src/app/error/error-handling.service';
 const PATH = environment.ApiDbMovies;
 
 @Injectable({
-	providedIn: 'any'
+	providedIn: 'platform'
 })
 export class FavoriteMoviesService implements Service{
 	private readonly _http = inject(HttpClient);

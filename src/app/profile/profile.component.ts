@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
-import { ProfileService } from '../layout/service/profile.service';
+import { ProfileService } from '../service/profile.service';
 import { ProfileInfo, ProfileItem, RickAndMortyCharacters } from '../layout/api/account.api';
 import { Observable, tap } from 'rxjs';
-import { MessageService } from 'primeng/api';
 import { FormControl, FormGroup} from '@angular/forms';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { SuccessHandlingService } from '../service/success-handling.service';
 
 @Component({
 	selector: 'app-profile',
@@ -31,6 +31,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 })
 export class ProfileComponent {
 	private readonly _profile = inject(ProfileService);
+	private readonly _success = inject(SuccessHandlingService);
 	profile$!: Observable<ProfileInfo | undefined>;
 	photos$!: Observable<RickAndMortyCharacters>;
 	loading: boolean = false;
@@ -41,13 +42,14 @@ export class ProfileComponent {
 	formUpdate = new FormGroup({
 		newName: new FormControl('')
 	});
-	constructor(private message: MessageService) {}
+	constructor() {}
 	ngOnInit() {
-			this.profile$ = this._profile.getProfile$().asObservable()
+		this._profile.refreshProfile();
+			this.profile$ = this._profile.getProfile().asObservable()
 			.pipe(
 				tap(profile=>{
 					if(!profile) return;
-					//This lines of code is temporary
+					//This code line is temporary
 					profile.goals.forEach(value=>{
 						switch(value) {
 							case 1:
@@ -105,33 +107,27 @@ export class ProfileComponent {
 	}
 	UpdateImg(newImage: string){
 		if(!newImage){
-			this.message.add({severity:'error', summary:'Error', detail:'The image is required'});
+			this._profile.ShowError(new Error('You must select a photo'));
 			return;
 		}
 		this.selectPhotoProfile = false;
 		this._profile.updateProfile('', newImage).subscribe({
 			next: ()=> {
 				this._profile.refreshProfile();
-				this.message.add({severity:'success', summary:'Success', detail:'The image was updated successfully'});
-			},
-			error: (error)=> {
-				this.message.add({severity:'error', summary:'Error', detail:error.message});
+				this
 			}
 		});
 	}
 	UpdateName(){
 		const {newName} = this.formUpdate.value;
 		if(!newName){
-			this.message.add({severity:'error', summary:'Error', detail:'The name is required'});
+			this._profile.ShowError(new Error('You must write a name'));
 			return;
 		}
 		this._profile.updateProfile(newName).subscribe({
 			next: ()=>{
 				this._profile.refreshProfile();
-				this.message.add({severity:'success', summary:'Success', detail:'The name was updated successfully'});
-			},
-			error: (error)=>{
-				this.message.add({severity:'error', summary:'Error', detail:error.message});
+				this._success.showSuccessMessage('Name updated successfully');
 			}
 		});
 	}

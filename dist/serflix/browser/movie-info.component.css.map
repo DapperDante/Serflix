@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["movie-info.component.ts"],
+  "sourcesContent": ["\n    ::ng-deep .stars-review .p-rating .p-rating-item .p-rating-icon.p-icon{\n      height: 3rem !important;\n      width: 3rem !important;\n    }\n    ::ng-deep .stars-main .p-rating .p-rating-item .p-rating-icon.p-icon{\n      height: 5rem !important;\n      width: 5rem !important;\n      color: yellow;\n    }\n    ::ng-deep .stars-review .p-rating .p-rating-item.p-rating-item-active .p-rating-icon{\n      color: yellow;\n    }\n\t\t.background{\n\t\t\tmask-image: linear-gradient(black 80%, transparent);\n\t\t}\n\t\t.background > img{\n\t\t\tfilter: brightness(0.4);\n\t\t\tz-index: -1;\n\t\t}\n  "],
+  "mappings": ";AACI,UAAA,CAAA,aAAA,CAAA,SAAA,CAAA,cAAA,CAAA,aAAA,CAAA;AACE,UAAA;AACA,SAAA;;AAEF,UAAA,CAAA,WAAA,CAJA,SAIA,CAJA,cAIA,CAJA,aAIA,CAJA;AAKE,UAAA;AACA,SAAA;AACA,SAAA;;AAEF,UAAA,CATA,aASA,CATA,SASA,CATA,aASA,CAAA,qBAAA,CATA;AAUE,SAAA;;AAEJ,CAAA;AACC,cAAA,gBAAA,MAAA,GAAA,EAAA;;AAED,CAHA,WAGA,EAAA;AACC,UAAA,WAAA;AACA,WAAA;;",
+  "names": []
+}

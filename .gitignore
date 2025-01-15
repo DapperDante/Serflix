@@ -11,7 +11,7 @@ src/assets/sass/theme/designer
 src/assets/sass/theme/_vendor_extensions
 
 # compiled output
-/dist
+# /dist
 /tmp
 /out-tsc
 

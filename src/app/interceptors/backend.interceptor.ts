@@ -17,11 +17,11 @@ export const backendInterceptor: HttpInterceptorFn = (req, next) => {
 	});
 	return next(reqWithToken).pipe(
 		catchError((err) => {
-			if (err.status === 401) {
-				_auth.Logout();
-				_profile.setSelectedProfile(false);
-				new Router().navigate(['']);
-			}
+			// if (err.status === 401) {
+			// 	_auth.Logout();
+			// 	_profile.setSelectedProfile(false);
+			// 	new Router().navigate(['']);
+			// }
 			throw err;
 		})
 	);

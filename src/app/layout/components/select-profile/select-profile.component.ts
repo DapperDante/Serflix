@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { ConfirmationService } from 'primeng/api';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from 'src/app/service/auth.service';
 
 @Component({
 	selector: 'app-select-profile',
@@ -19,6 +20,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class SelectprofileComponent {
 	private readonly _profile = inject(ProfileService);
+	private readonly _auth = inject(AuthService);
 	profiles$!: Observable<any>;
 	photos$!: Observable<RickAndMortyCharacters>;
 	//Control view panel of edit
@@ -29,7 +31,6 @@ export class SelectprofileComponent {
 	formProfileSelected = new FormGroup({
 		nameProfile: new FormControl('', [Validators.required, Validators.minLength(2)])
 	})
-	nameProfileSelected!: string;
 	constructor(private _router: Router, private _confirmationService: ConfirmationService) {}
 	ngOnInit() {
 		this.profiles$ = this._profile.getProfiles();
@@ -52,6 +53,10 @@ export class SelectprofileComponent {
 		this.selectPhotoProfile = false;
 	}
 	CreateProfile() {
+		if(this.formProfileSelected.invalid) {
+			this._profile.ShowError(new Error('You must write a name'));
+			return;
+		};
 		this._confirmationService.confirm({
 			message: 'Are you sure that you want to created?',
 			header: 'Confirmation',
@@ -66,13 +71,16 @@ export class SelectprofileComponent {
 	}
 	//It's when send info to backend
 	private CreatingProfile() {
-		if (!this.urlProfileSelected || !this.nameProfileSelected) {
+		const {nameProfile} = this.formProfileSelected.value;
+		if (!(this.urlProfileSelected && nameProfile)) {
 			this._profile.ShowError(new Error('You must select a photo and write a name'));
 			return;
 		}
-		this._profile.addProfile(this.urlProfileSelected, this.nameProfileSelected).subscribe({
+		this._profile.addProfile(this.urlProfileSelected, nameProfile).subscribe({
 			next: (value) => {
-				this.SelectProfile(value.id + '');
+				this._auth.setToken(value.token);
+				this._profile.setSelectedProfile(true);
+				this._router.navigate(['/home']);
 			},
 		});
 	}

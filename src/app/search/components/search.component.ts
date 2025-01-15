@@ -16,7 +16,7 @@ export class SearchComponent {
 		this.currentRoute.queryParams.subscribe((params) => {
 			const { query } = params;
 			if (!query) this.router.navigate(['../'], { relativeTo: this.currentRoute });
-			this.movies$ = this._search.getItemsByQuery(query, 4, 5);
+			this.movies$ = this._search.getItemsByQuery(query, 1, 1);
 		});
 	}
 	Selected(obj: { id: number; type: string }) {

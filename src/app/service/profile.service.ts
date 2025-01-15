@@ -23,14 +23,15 @@ export class ProfileService implements Service {
 		console.log(`Service ${this.constructor.name} is ready`);
 		this.profile$ = new BehaviorSubject<ProfileInfo | undefined>(undefined);
 	}
-	addProfile(img: string, name: string): Observable<{ msg: string; id: number }> {
+	addProfile(img: string, name: string): Observable<{ msg: string; token: string }> {
 		const profile = { name, img };
 		return this._http
-			.post<{ msg: string; id: number }>(`${PATH}/add`, profile)
+			.post<{ msg: string; token: string }>(`${PATH}/add`, profile)
 			.pipe(catchError(this.ErrorHandler), tap({ error: (error) => this.ShowError(error) }));
 	}
 	//First, you must use accessProfile when you want to access a profile, after that you can use getProfile$ to get the profile
 	LogInProfile(idProfile: number | string): Observable<{ msg: string; token: string }> {
+		console.log(idProfile);
 		return this._http
 			.post<{ msg: string; token: string }>(`${PATH}/log-in`, { idProfile })
 			.pipe(

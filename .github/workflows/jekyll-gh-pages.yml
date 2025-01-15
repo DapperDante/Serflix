@@ -48,7 +48,7 @@ jobs:
     steps:
       - name: deploy to production
         run: | 
-          npm install
+          npm install --force
           npm build
       - name: Deploy to GitHub Pages
         id: deployment

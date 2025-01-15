@@ -1,11 +1,11 @@
 import { Component, ElementRef, inject } from '@angular/core';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { LayoutService } from './service/app.layout.service';
-import { ProfileService } from './service/profile.service';
+import { ProfileService } from '../service/profile.service';
 import { Router } from '@angular/router';
 import { ProfileInfo } from './api/account.api';
-import { AuthService } from '../home/service/auth.service';
-import { BehaviorSubject } from 'rxjs';
+import { AuthService } from '../service/auth.service';
+import { Observable } from 'rxjs';
 
 @Component({
 	selector: 'app-menu-profile',
@@ -30,10 +30,10 @@ import { BehaviorSubject } from 'rxjs';
 export class AppMenuProfileComponent {
 	private readonly _profile = inject(ProfileService);
 	private readonly _auth = inject(AuthService);
-	profile$?: BehaviorSubject<ProfileInfo | undefined>;
+	profile$?: Observable<ProfileInfo | undefined>;
 	constructor(public layoutService: LayoutService, public el: ElementRef, private router: Router) {}
 	ngOnInit() {
-		this.profile$ = this._profile.getProfile$();
+		this.profile$ = this._profile.getProfile().asObservable();
 	}
 	LogOut() {
 		this._profile.setSelectedProfile(false);

@@ -1,11 +1,11 @@
 import { inject, Injectable } from '@angular/core';
-import { ProfileInfo, Profiles, RickAndMortyCharacters } from '../api/account.api';
+import { ProfileInfo, Profiles, RickAndMortyCharacters } from '../layout/api/account.api';
 import { BehaviorSubject, catchError, map, Observable, tap, throwError } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from 'src/environments/environment.development';
 import { Service } from 'src/app/interface/service.interface';
 import { ErrorHandlingService } from 'src/app/error/error-handling.service';
-import { AuthService } from 'src/app/home/service/auth.service';
+import { AuthService } from 'src/app/service/auth.service';
 
 const PATH = environment.ApiDbProfiles;
 const PATH_IMG = environment.ApiPhotos;
@@ -23,14 +23,15 @@ export class ProfileService implements Service {
 		console.log(`Service ${this.constructor.name} is ready`);
 		this.profile$ = new BehaviorSubject<ProfileInfo | undefined>(undefined);
 	}
-	addProfile(img: string, name: string): Observable<{ msg: string; id: number }> {
+	addProfile(img: string, name: string): Observable<{ msg: string; token: string }> {
 		const profile = { name, img };
 		return this._http
-			.post<{ msg: string; id: number }>(`${PATH}/add`, profile)
+			.post<{ msg: string; token: string }>(`${PATH}/add`, profile)
 			.pipe(catchError(this.ErrorHandler), tap({ error: (error) => this.ShowError(error) }));
 	}
 	//First, you must use accessProfile when you want to access a profile, after that you can use getProfile$ to get the profile
 	LogInProfile(idProfile: number | string): Observable<{ msg: string; token: string }> {
+		console.log(idProfile);
 		return this._http
 			.post<{ msg: string; token: string }>(`${PATH}/log-in`, { idProfile })
 			.pipe(
@@ -73,7 +74,7 @@ export class ProfileService implements Service {
 			)
 			.subscribe((profile) => this.profile$?.next(profile));
 	}
-	getProfile$(): BehaviorSubject<ProfileInfo | undefined> {
+	getProfile(): BehaviorSubject<ProfileInfo | undefined> {
 		return this.profile$!;
 	}
 	getPhotos(): Observable<RickAndMortyCharacters> {
@@ -85,7 +86,7 @@ export class ProfileService implements Service {
 		const profile = { name, img };
 		return this._http
 			.put<void>(`${PATH}/put`, profile)
-			.pipe(catchError(this.ErrorHandler), tap({ error: this.ShowError }));
+			.pipe(catchError(this.ErrorHandler), tap({ error: (error)=>this.ShowError(error) }));
 	}
 	isSelectedProfile(): boolean {
 		return sessionStorage.getItem('isSelectedProfile') ? true : false;

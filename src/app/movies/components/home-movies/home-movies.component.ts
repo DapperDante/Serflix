@@ -12,8 +12,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class HomeMoviesComponent {
   private readonly _movies = inject(ItemMoviesService);
   //Variable to tabmenu
-  items!: MenuItem[];
-  activeItem!: MenuItem;
+  items: MenuItem[] = [
+		{label: 'Popular', command: ()=>this.ChangeSection(1)},
+		{label: 'Now playing', command: ()=>this.ChangeSection(2)},
+		{label: 'Top reated', command: ()=>this.ChangeSection(3)},
+		{label: 'Upcoming', command: ()=>this.ChangeSection(4)},
+	];
+  activeItem: MenuItem = this.items[0];
   movies$!: Observable<Movies>;
   //It's for control of what show to user about types of movies
   indexSection: number = 1;
@@ -34,14 +39,6 @@ export class HomeMoviesComponent {
         this.totalMovies = movies.total_results;
       return movies;
     }));
-    this.items = [
-      {label: 'Popular', command: ()=>this.ChangeSection(1)},
-      {label: 'Now playing', command: ()=>this.ChangeSection(2)},
-      {label: 'Top reated', command: ()=>this.ChangeSection(3)},
-      {label: 'Upcoming', command: ()=>this.ChangeSection(4)},
-    ]
-    //It'll show first in the section
-    this.activeItem = this.items[0];
   }
   ChangeSection(index: number){
     if(this.indexSection == index)

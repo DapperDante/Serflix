@@ -17,13 +17,33 @@ import { GlobalErrorService } from './error/global-error.service';
 import { ToastModule } from 'primeng/toast';
 import { ErrorPageComponent } from './error/error-page/error-page.component';
 import { errorHandlingInterceptor } from './error/error-handling.interceptor';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { SelectprofileComponent } from './layout/components/select-profile/select-profile.component';
+import { DialogModule } from 'primeng/dialog';
+import { SharedComponentsModule } from './shared-components/shared-components.module';
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-	declarations: [AppComponent, ErrorPageComponent],
-	imports: [AppRoutingModule, AppLayoutModule, BrowserModule, BrowserAnimationsModule, ToastModule],
+	declarations: [AppComponent, ErrorPageComponent, SelectprofileComponent],
+	imports: [
+		AppRoutingModule,
+		AppLayoutModule,
+		BrowserModule,
+		BrowserAnimationsModule,
+		ToastModule,
+		DialogModule,
+		SharedComponentsModule,
+		InputTextModule,
+		ButtonModule,
+		DialogModule,
+		ConfirmDialogModule,
+		ReactiveFormsModule
+	],
 	providers: [
-		{ provide: ErrorHandler, useClass: GlobalErrorService},
+		{ provide: ErrorHandler, useClass: GlobalErrorService },
 		{ provide: LocationStrategy, useClass: HashLocationStrategy },
 		provideHttpClient(
 			withInterceptors([
@@ -34,10 +54,11 @@ import { MessageService } from 'primeng/api';
 				FavoriteMoviesInterceptor,
 				FavoriteSeriesInterceptor,
 				SearchMoviesInterceptor,
-				errorHandlingInterceptor
+				errorHandlingInterceptor,
 			])
 		),
-		MessageService
+		MessageService,
+		ConfirmationService,
 	],
 	bootstrap: [AppComponent],
 })

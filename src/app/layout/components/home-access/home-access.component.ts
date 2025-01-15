@@ -5,7 +5,7 @@ import { Movies } from 'src/app/movies/api/movies.api';
 import { Series } from 'src/app/series/api/series';
 import { ItemSeriesService } from 'src/app/series/service/item-series.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProfileService } from 'src/app/layout/service/profile.service';
+import { ProfileService } from 'src/app/service/profile.service';
 @Component({
 	selector: 'app-home-access',
 	templateUrl: './home-access.component.html',
@@ -39,7 +39,7 @@ export class HomeAccessComponent {
 				return data;
 			})
 		);
-		this.profile$ = this._profile.getProfile$();
+		this.profile$ = this._profile.getProfile();
 	}
 	SelectedMovie(idMovie: number) {
 		this.router.navigate(['movie', idMovie], { relativeTo: this.routerCurrent });

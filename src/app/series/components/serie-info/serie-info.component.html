@@ -1,9 +1,8 @@
 <div class="grid nested-grid min-h-screen">
-	<p-toast />
 	@if(serie$ | async; as serie){
 		<div class="col-12">
-			<div class="grid relative overflow-hidden border-round-top" style="height: 60vh;">
-				<img [src]="serie.backdrop_path" alt="background" class="absolute h-full w-full opacity-7 background">
+			<div class="grid relative overflow-hidden border-round-top background" style="height: 60vh;">
+				<img [src]="serie.backdrop_path" alt="background" class="absolute w-full opacity-7">
 				<div class="col-3 relative my-auto mx-6" [style]="{boxShadow: '0 0 30px black', height: '92%'}">
 					<img [ngSrc]="serie.poster_path" alt="poster" fill priority [style]="{'object-fit': 'contain'}">
 				</div>

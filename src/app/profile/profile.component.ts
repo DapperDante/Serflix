@@ -2,13 +2,11 @@ import { Component, inject } from '@angular/core';
 import { ProfileService } from '../service/profile.service';
 import { ProfileInfo, ProfileItem, RickAndMortyCharacters } from '../layout/api/account.api';
 import { Observable, tap } from 'rxjs';
-import { FormControl, FormGroup} from '@angular/forms';
 import { animate, style, transition, trigger } from '@angular/animations';
-import { SuccessHandlingService } from '../service/success-handling.service';
-
 @Component({
 	selector: 'app-profile',
 	templateUrl: './profile.component.html',
+	standalone: false,
 	styles: `
 		.icon-image, .icon-image + img{
 			transition: 0.3s;
@@ -31,17 +29,13 @@ import { SuccessHandlingService } from '../service/success-handling.service';
 })
 export class ProfileComponent {
 	private readonly _profile = inject(ProfileService);
-	private readonly _success = inject(SuccessHandlingService);
 	profile$!: Observable<ProfileInfo | undefined>;
 	photos$!: Observable<RickAndMortyCharacters>;
 	loading: boolean = false;
-	controlGoals: boolean[] = [false, false, false, false, false];
 	dataChartFavorite: any;
 	dataChartOptions: any;
+	newName = '';
 	selectPhotoProfile: boolean = false;
-	formUpdate = new FormGroup({
-		newName: new FormControl('')
-	});
 	constructor() {}
 	ngOnInit() {
 		this._profile.refreshProfile();
@@ -49,23 +43,6 @@ export class ProfileComponent {
 			.pipe(
 				tap(profile=>{
 					if(!profile) return;
-					//This code line is temporary
-					profile.goals.forEach(value=>{
-						switch(value) {
-							case 1:
-								this.controlGoals[1] = true;
-							break;
-							case 2:
-								this.controlGoals[2] = true;
-								break;
-							case 3:
-								this.controlGoals[3] = true;
-							break;
-							case 4:
-								this.controlGoals[0] = true;
-							break;
-						}
-					});
 					if(profile.results.length){
 						let countItemMovies = profile.results.filter((item: ProfileItem)=> item.type === 'movie').length;
 						let countItemSeries = profile.results.filter((item: ProfileItem)=> item.type === 'serie').length;
@@ -119,15 +96,13 @@ export class ProfileComponent {
 		});
 	}
 	UpdateName(){
-		const {newName} = this.formUpdate.value;
-		if(!newName){
+		if(!this.newName){
 			this._profile.ShowError(new Error('You must write a name'));
 			return;
 		}
-		this._profile.updateProfile(newName).subscribe({
+		this._profile.updateProfile(this.newName).subscribe({
 			next: ()=>{
 				this._profile.refreshProfile();
-				this._success.showSuccessMessage('Name updated successfully');
 			}
 		});
 	}

@@ -6,7 +6,7 @@ import { ScoreSerie } from '../api/score-serie.api';
 import { Service } from 'src/app/interface/service.interface';
 import { ErrorHandlingService } from 'src/app/error/error-handling.service';
 
-const PATH: string = `${environment.ApiDbScore}/serie`;
+const PATH: string = `${environment.API_BACKEND_SCORE}/serie`;
 
 @Injectable({
 	providedIn: 'platform',

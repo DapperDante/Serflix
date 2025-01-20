@@ -6,9 +6,10 @@ import { environment } from 'src/environments/environment.development';
 import { MovieInfo, VideosResult } from '../api/movie-info.api';
 import { Service } from 'src/app/interface/service.interface';
 import { ErrorHandlingService } from 'src/app/error/error-handling.service';
+import { Network } from 'src/app/series/api/serie-info.api';
 
-const PATH: string = `${environment.ApiTmdb}/movie`;
-const PATH_DISCOVER: string = `${environment.ApiTmdb}/discover/movie`;
+const PATH: string = `${environment.API_TMDB}/movie`;
+const PATH_DISCOVER: string = `${environment.API_TMDB}/discover/movie`;
 
 @Injectable({
 	providedIn: 'platform'
@@ -54,8 +55,10 @@ export class ItemMoviesService implements Service {
 			)
 			.pipe(
 				map((data) => {
-					if(data.videos)
-						data.videos.results = [data.videos.results.find((video: VideosResult) => (video.type = 'Trailer'))!];
+					if(data.videos){
+						const trailer = data.videos.results.find((video: VideosResult) => (video.type = 'Trailer'))!;
+						data.videos.results = trailer ? [trailer] : [];
+					}
 					return data;
 				}),
 				catchError(this.ErrorHandler),
@@ -73,10 +76,11 @@ export class ItemMoviesService implements Service {
 		this._error.ShowError(error.message);
 	}
 	ErrorHandler(error: HttpErrorResponse): Observable<never> {
+		console.log(error);
 		let message = '';
 		switch (error.status) {
 			default:
-				message = 'Server disconnected';
+				message = 'Error';
 				break;
 		};
 		return throwError(() => new Error(message));
@@ -84,36 +88,44 @@ export class ItemMoviesService implements Service {
 }
 export function ItemMoviesInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
 	if (!(req.url.includes(PATH) || req.url.includes(PATH_DISCOVER))) return next(req);
-	const BASE_IMG = environment.ApiTmdbImage;
+	const BASE_IMG = environment.API_TMDB_IMAGE;
 	const newReq = req.clone();
 	return next(newReq).pipe(
 		map((data: any) => {
 			const { body } = data;
 			if (body) {
 				if ('results' in body && Array.isArray(body.results)) {
-					body.results = body.results
-						.filter((item: any) => item.poster_path)
-						.map((item: any) => {
-							item.poster_path = `${BASE_IMG}${item.poster_path}`;
-							item.backdrop_path = `${BASE_IMG}${item.backdrop_path}`;
+					body.results
+						.map((item: MovieInfo) => {
+							if(item.poster_path)
+								item.poster_path = `${BASE_IMG}${item.poster_path}`;
+							if(item.backdrop_path)
+								item.backdrop_path = `${BASE_IMG}${item.backdrop_path}`;
 							return item;
 						});
 				} else {
-					body.poster_path = `${BASE_IMG}${body.poster_path}`;
-					body.backdrop_path = `${BASE_IMG}${body.backdrop_path}`;
+					if(body.poster_path)
+						body.poster_path = `${BASE_IMG}${body.poster_path}`;
+					if(body.backdrop_path)
+						body.backdrop_path = `${BASE_IMG}${body.backdrop_path}`;
+					body.production_companies.map((company: Network) => {
+						if(company.logo_path)
+							company.logo_path = `${BASE_IMG}${company.logo_path}`;
+						return company;
+					});
 					if ('similar' in body && Array.isArray(body.similar.results)) {
-						body.similar.results = body.similar.results
-							.filter((item: any) => item.poster_path)
+						body.similar.results
 							.map((item: any) => {
-								item.poster_path = `${BASE_IMG}${item.poster_path}`
+								if(item.poster_path)
+									item.poster_path = `${BASE_IMG}${item.poster_path}`
 								return item;
 							});
 					}
 					if ('recommendations' in body && Array.isArray(body.recommendations.results)) {
-						body.recommendations.results = body.recommendations.results
-							.filter((item: any) => item.poster_path)
+						body.recommendations.results
 							.map((item: any) => {
-								item.poster_path = `${BASE_IMG}${item.poster_path}`
+								if(item.poster_path)
+									item.poster_path = `${BASE_IMG}${item.poster_path}`
 								return item;
 							});
 					}

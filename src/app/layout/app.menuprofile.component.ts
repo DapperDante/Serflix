@@ -25,7 +25,7 @@ import { Observable } from 'rxjs';
 			]),
 			transition('overlay => void', [animate('.1s linear', style({ opacity: 0 }))]),
 		]),
-	]
+	],
 })
 export class AppMenuProfileComponent {
 	private readonly _profile = inject(ProfileService);
@@ -38,16 +38,13 @@ export class AppMenuProfileComponent {
 	LogOut() {
 		this._profile.setSelectedProfile(false);
 		this._auth.Logout();
-		this.router.navigate(['']);
 	}
 	toggleMenu() {
 		this.layoutService.onMenuProfileToggle();
 	}
 	ChangeProfile() {
-		this._profile.LogOutProfile().subscribe(() => {
-			this._profile.setSelectedProfile(false);
-			this.router.navigate(['profile']);
-		});
+		this._profile.setSelectedProfile(false);
+		this.router.navigate(['profile']);
 	}
 	get isHorizontal() {
 		return this.layoutService.isHorizontal() && this.layoutService.isDesktop();

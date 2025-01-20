@@ -10,9 +10,9 @@ import { RatingModule } from 'primeng/rating';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { DataViewModule } from 'primeng/dataview';
 import { ButtonModule } from 'primeng/button';
-import { ReactiveFormsModule } from '@angular/forms';
 import { ScoreMoviesService } from './service/score-movies.service';
 import { FavoriteMoviesService } from './service/favorite-movies.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 @NgModule({
 	declarations: [HomeMoviesComponent, MovieInfoComponent],
 	imports: [
@@ -27,6 +27,7 @@ import { FavoriteMoviesService } from './service/favorite-movies.service';
 		ButtonModule,
 		DataViewModule,
 		ReactiveFormsModule,
+		FormsModule
 	],
 	providers: [FavoriteMoviesService, ScoreMoviesService],
 })

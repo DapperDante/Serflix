@@ -10,6 +10,7 @@ import { ProfileService } from '../service/profile.service';
 @Component({
 	selector: 'app-layout',
 	templateUrl: './app.layout.component.html',
+	standalone: false
 })
 export class AppLayoutComponent implements OnDestroy {
 	private readonly _profile = inject(ProfileService);

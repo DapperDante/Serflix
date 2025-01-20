@@ -10,9 +10,14 @@ import { Series } from 'src/app/series/api/series';
 @Component({
 	selector: 'app-list-items',
 	templateUrl: './list-items.component.html',
+	standalone: false,
 	styles: `
 		:host ::ng-deep .p-carousel-items-content .p-carousel-item {
 			flex: 0 0 12.5% !important;
+		}
+		.item:hover{
+			filter: brightness(0.4);
+			transition-duration: 200ms;
 		}
 	`,
 	animations: [

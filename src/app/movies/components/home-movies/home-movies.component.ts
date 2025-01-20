@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-home-movies',
   templateUrl: './home-movies.component.html',
+	standalone: false
 })
 export class HomeMoviesComponent {
   private readonly _movies = inject(ItemMoviesService);

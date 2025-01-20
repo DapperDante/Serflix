@@ -8,7 +8,7 @@
             <i class="layout-menu-profile-toggler pi pi-fw" [ngClass]="{'pi-angle-down': menuProfilePosition === 'start' || isHorizontal, 'pi-angle-up': menuProfilePosition === 'end' && !isHorizontal}"></i>
         </button>
     }@else{
-				<p-skeleton width="100%" height="4rem"/>
+				<p-skeleton width="100%" height="35px"/>
     }
     <ul *ngIf="menuProfileActive" [@menu]="isHorizontal ? 'overlay' : 'inline'">
         <li pTooltip="Settings" [tooltipDisabled]="isTooltipDisabled">
@@ -19,19 +19,19 @@
         </li>
         <li pTooltip="Profile" [tooltipDisabled]="isTooltipDisabled">
             <button class="p-link" routerLink="profile">
-                <i class="pi pi-file-o pi-fw"></i>
+                <i class="pi pi-user pi-fw"></i>
                 <span>Profile</span>
             </button>
         </li>
         <li pTooltip="Support" [tooltipDisabled]="isTooltipDisabled">
             <button class="p-link" (click)="ChangeProfile()">
-                <i class="pi pi-compass pi-fw"></i>
+                <i class="pi pi-sync pi-fw"></i>
                 <span>Change profile</span>
             </button>
         </li>
         <li pTooltip="Logout" [tooltipDisabled]="isTooltipDisabled">
             <button class="p-link" (click)="LogOut()">
-                <i class="pi pi-power-off pi-fw"></i>
+                <i class="pi pi-sign-out pi-fw"></i>
                 <span>Logout</span>
             </button>
         </li>

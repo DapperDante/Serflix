@@ -10,7 +10,7 @@ export interface ProfileInfo {
 	name: string,
 	img: string,
 	results: ProfileItem[],
-	goals: number[],
+	goals: goals[],
 	token: string
 }
 export interface ProfileItem{
@@ -18,6 +18,12 @@ export interface ProfileItem{
 	title: string,
 	poster_path: string,
 	type: 'movie' | 'serie'
+}
+export interface goals{
+	id: number,
+	name: string,
+	detail: string,
+	url: string
 }
 export interface RickAndMortyCharacters {
     info:    Info;

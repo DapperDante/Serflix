@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["home-access.component.ts"],
+  "sourcesContent": ["\n\t\t.main-image{\n\t\t\tmask-image: linear-gradient(to right, black 80%, transparent)\n\t\t}\n\t\t.categories:hover{\n\t\t\topacity: 0.5;\n\t\t\ttransition-duration: 400ms;\n\t\t\tcursor: pointer;\n\t\t}\n\t"],
+  "mappings": ";AACE,CAAA;AACC;IAAA;MAAA,GAAA,KAAA;MAAA,MAAA,GAAA;MAAA;;AAED,CAAA,UAAA;AACC,WAAA;AACA,uBAAA;AACA,UAAA;;",
+  "names": []
+}

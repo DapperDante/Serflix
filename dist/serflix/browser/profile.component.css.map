@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["profile.component.ts"],
+  "sourcesContent": ["\n\t\t.icon-image, .icon-image + img{\n\t\t\ttransition: 0.3s;\n\t\t}\n\t\t.icon-image:hover{\n\t\t\topacity: 1 !important;\n\t\t}\n\t\t.icon-image:hover + img{\n\t\t\tfilter: brightness(0.4);\n\t\t}\n\t"],
+  "mappings": ";AACE,CAAA;AAAA,CAAA,WAAA,EAAA;AACC,cAAA;;AAED,CAHA,UAGA;AACC,WAAA;;AAED,CANA,UAMA,OAAA,EAAA;AACC,UAAA,WAAA;;",
+  "names": []
+}

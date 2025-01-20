@@ -10,6 +10,7 @@ import { AuthService } from 'src/app/service/auth.service';
 @Component({
 	selector: 'app-select-profile',
 	templateUrl: './select-profile.component.html',
+	standalone: false,
 	styles: `
     .select-profile:hover{
       transition-duration: 200ms;

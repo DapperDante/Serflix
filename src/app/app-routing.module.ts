@@ -6,6 +6,7 @@ import { isLogged, isNotLogged, isNotSelectedProfile, isSelectedProfile } from '
 import { HomeAccessComponent } from './layout/components/home-access/home-access.component';
 import { ErrorPageComponent } from './error/error-page/error-page.component';
 import { error, notError } from './error/error.guard';
+import { NotFoundComponent } from './not-found/not-found.component';
 const routerOptions: ExtraOptions = {
 	anchorScrolling: 'enabled',
 	scrollPositionRestoration: 'enabled',
@@ -58,7 +59,10 @@ const routes: Routes = [
 		loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
 		canActivate: [isNotLogged, notError]
 	},
-	{ path: '**', redirectTo: '' },
+	{ path: '**',
+		component: NotFoundComponent,
+		title: 'Not Found'
+	}
 ];
 
 @NgModule({

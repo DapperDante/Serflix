@@ -5,7 +5,8 @@ import { RickAndMortyCharacters } from 'src/app/layout/api/account.api';
 @Component({
   selector: 'app-show-images',
   templateUrl: './show-images.component.html',
-  styles: ``
+  styles: ``,
+	standalone: false
 })
 export class ShowImagesComponent {
 	title = input.required<string>();

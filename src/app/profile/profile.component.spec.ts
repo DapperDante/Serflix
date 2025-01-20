@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProfileComponent } from './profile.component';
 import { MessageService } from 'primeng/api';
-import { ProfileService } from '../layout/service/profile.service';
+import { ProfileService } from '../service/profile.service';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from 'src/environments/environment';
 import { getAuth, provideAuth } from '@angular/fire/auth';
@@ -27,12 +27,12 @@ describe('ProfileComponent', () => {
         provideFirebaseApp(()=>initializeApp(environment._firebaseConfig)),
         provideAuth(()=>getAuth()),
         provideFirestore(()=>getFirestore()),
-        MessageService, 
+        MessageService,
         ProfileService
       ]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(ProfileComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

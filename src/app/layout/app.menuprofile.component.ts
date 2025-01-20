@@ -1,11 +1,11 @@
 import { Component, ElementRef, inject } from '@angular/core';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { LayoutService } from './service/app.layout.service';
-import { ProfileService } from './service/profile.service';
+import { ProfileService } from '../service/profile.service';
 import { Router } from '@angular/router';
 import { ProfileInfo } from './api/account.api';
-import { AuthService } from '../home/service/auth.service';
-import { BehaviorSubject } from 'rxjs';
+import { AuthService } from '../service/auth.service';
+import { Observable } from 'rxjs';
 
 @Component({
 	selector: 'app-menu-profile',
@@ -25,29 +25,26 @@ import { BehaviorSubject } from 'rxjs';
 			]),
 			transition('overlay => void', [animate('.1s linear', style({ opacity: 0 }))]),
 		]),
-	]
+	],
 })
 export class AppMenuProfileComponent {
 	private readonly _profile = inject(ProfileService);
 	private readonly _auth = inject(AuthService);
-	profile$?: BehaviorSubject<ProfileInfo | undefined>;
+	profile$?: Observable<ProfileInfo | undefined>;
 	constructor(public layoutService: LayoutService, public el: ElementRef, private router: Router) {}
 	ngOnInit() {
-		this.profile$ = this._profile.getProfile$();
+		this.profile$ = this._profile.getProfile().asObservable();
 	}
 	LogOut() {
 		this._profile.setSelectedProfile(false);
 		this._auth.Logout();
-		this.router.navigate(['']);
 	}
 	toggleMenu() {
 		this.layoutService.onMenuProfileToggle();
 	}
 	ChangeProfile() {
-		this._profile.LogOutProfile().subscribe(() => {
-			this._profile.setSelectedProfile(false);
-			this.router.navigate(['profile']);
-		});
+		this._profile.setSelectedProfile(false);
+		this.router.navigate(['profile']);
 	}
 	get isHorizontal() {
 		return this.layoutService.isHorizontal() && this.layoutService.isDesktop();

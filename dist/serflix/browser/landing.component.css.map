@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["landing.component.ts"],
+  "sourcesContent": ["\n    .posters{\n      filter: brightness(40%);\n      transition-duration: 50ms;\n    }\n    .posters:hover{\n      filter: brightness(1);\n    }\n    .text-backdrop{\n      backdrop-filter: blur(1.5rem);\n      padding: 1rem;\n    }\n    .providers-image{\n      border-radius: 20px;\n    }\n\t\t.chairs{\n\t\t\tobject-fit: cover;\n\t\t\tobject-position: center 82%;\n\t\t\tmask-image: linear-gradient(black 95%, transparent);\n\t\t\tbackground-repeat: repeat-x\n\t\t}\n\t\t@media (max-width: 768px) {\n\t\t\t.chairs{\n\t\t\t\tobject-position: bottom;\n\t\t\t}\n\t\t}\n  "],
+  "mappings": ";AACI,CAAA;AACE,UAAA,WAAA;AACA,uBAAA;;AAEF,CAJA,OAIA;AACE,UAAA,WAAA;;AAEF,CAAA;AACE,2BAAA,KAAA;AAAA,mBAAA,KAAA;AACA,WAAA;;AAEF,CAAA;AACE,iBAAA;;AAEJ,CAAA;AACC,cAAA;AACA,mBAAA,OAAA;AACA,cAAA,gBAAA,MAAA,GAAA,EAAA;AACA,qBAAA;;AAED,OAAA,CAAA,SAAA,EAAA;AACC,GAPD;AAQE,qBAAA;;;",
+  "names": []
+}

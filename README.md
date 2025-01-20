@@ -30,8 +30,6 @@ ciertain values to functionaly, for example you create one user, you need add to
 
 Don't care to your password, in the server-side encryption that information.
 
-> in later version, there will manage other information about the user, profile or manage control of goals by account
-
 ## Structure 
 
 Its structure is on two sides, when you access and manage your information and the other side is landing (where anyone access to first time), the landing page is on home folder and other side is on layout that has layout avalon by primeng.

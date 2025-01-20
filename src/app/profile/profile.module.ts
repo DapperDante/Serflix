@@ -2,11 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { ProfileComponent } from './profile.component';
 import { ProfileRoutingModule } from './profile-routing.module';
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ChartModule } from 'primeng/chart';
 import { DialogModule } from 'primeng/dialog';
-import { ToastModule } from 'primeng/toast';
-import { MessageService } from 'primeng/api';
 import { SkeletonModule } from 'primeng/skeleton';
 import { InputTextModule } from 'primeng/inputtext';
 import { FloatLabelModule } from 'primeng/floatlabel';
@@ -14,20 +11,16 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { ButtonModule } from 'primeng/button';
 import { SharedComponentsModule } from '../shared-components/shared-components.module';
-import { ReactiveFormsModule } from '@angular/forms';
-import { ImageModule } from 'primeng/image';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 @NgModule({
 	declarations: [ProfileComponent],
 	imports: [
 		CommonModule,
 		ProfileRoutingModule,
-		ProgressSpinnerModule,
 		ChartModule,
 		DialogModule,
-		ToastModule,
 		SkeletonModule,
 		NgOptimizedImage,
-		ChartModule,
 		InputTextModule,
 		FloatLabelModule,
 		IconFieldModule,
@@ -35,8 +28,7 @@ import { ImageModule } from 'primeng/image';
 		ButtonModule,
 		SharedComponentsModule,
 		ReactiveFormsModule,
-		ImageModule
-	],
-	providers: [MessageService],
+		FormsModule
+	]
 })
 export class ProfileModule {}

@@ -1,11 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ItemMoviesService } from 'src/app/movies/service/item-movies.service';
 import { map, Observable } from 'rxjs';
 import { Movies } from 'src/app/movies/api/movies.api';
 import { Series } from 'src/app/series/api/series';
 import { ItemSeriesService } from 'src/app/series/service/item-series.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProfileService } from 'src/app/layout/service/profile.service';
+import { ProfileService } from 'src/app/service/profile.service';
 @Component({
 	selector: 'app-home-access',
 	templateUrl: './home-access.component.html',
@@ -18,7 +18,8 @@ import { ProfileService } from 'src/app/layout/service/profile.service';
 			transition-duration: 400ms;
 			cursor: pointer;
 		}
-	`
+	`,
+	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeAccessComponent {
 	private readonly _movies = inject(ItemMoviesService);
@@ -39,7 +40,10 @@ export class HomeAccessComponent {
 				return data;
 			})
 		);
-		this.profile$ = this._profile.getProfile$();
+		this.profile$ = this._profile.getProfile();
+	}
+	ngAfterViewInit(){
+		this._profile.refreshProfile();
 	}
 	SelectedMovie(idMovie: number) {
 		this.router.navigate(['movie', idMovie], { relativeTo: this.routerCurrent });

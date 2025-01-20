@@ -4,7 +4,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
     selector: 'app-topbar',
-    templateUrl: './app.topbar.component.html'
+    templateUrl: './app.topbar.component.html',
+		styles: `
+			.inputSearch:focus{
+				width: 20rem !important;
+				box-shadow: 0 0 0 0 !important;
+			}
+		`
 })
 export class AppTopbarComponent {
     searchText!: string;

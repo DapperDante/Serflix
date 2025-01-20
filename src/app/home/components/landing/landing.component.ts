@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener } from '@angular/core';
 
 @Component({
 	selector: 'app-landing',
@@ -30,6 +30,7 @@ import { Component, HostListener } from '@angular/core';
 			}
 		}
   `,
+	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LandingComponent {
 	dataScrollY: number = 0;

@@ -1,5 +1,4 @@
 <div class="flex justify-content-center flex-column align-items-center h-screen">
-	<p-toast />
 	@if(profiles$ | async; as profiles){
 		<h1 class="text-center my-5">Select your profile</h1>
 		<div class="flex">
@@ -17,7 +16,7 @@
 						(click)="addProfile = true">
 						<i class="pi pi-plus" [style]="{'font-size': '10vw'}"></i>
 				</div>
-				<!--That section is for created profile-->
+				<!--That section is to created profile-->
 				<p-dialog header="Add profile" [modal]="true" [(visible)]="addProfile"
 					[style]="{'width': '25rem', 'height': '30rem'}">
 					<div class="flex justify-content-center align-items-center pointer h-10rem w-10rem m-auto">
@@ -27,22 +26,22 @@
 							<i class="pi pi-user" [style]="{'font-size': '10vw'}" (click)="ViewPhotosForProfile()"></i>
 						}
 					</div>
-					<div class="flex justify-content-center flex-column">
+					<div class="flex justify-content-center flex-column" [formGroup]="formProfileSelected">
 						<label for="name">Name</label><br>
-						<input pInputText type="text" name="" id="name" title="name" [(ngModel)]="nameProfileSelected">
+						<input pInputText type="text" name="" id="name" title="name" formControlName="nameProfile"/>
 					</div>
 					<ng-template pTemplate="footer" class="flex">
 						<p-button label="Create" (onClick)="CreateProfile()" />
 					</ng-template>
 					<p-confirmDialog />
 				</p-dialog>
-				<!-- And this section is for selected a photo for profile -->
+				<!-- And this section is to selected a photo for profile -->
 				<app-show-images title="Select photo" [(isActive)]="selectPhotoProfile" [images$]="photos$"
 					(getImage)="ChangePhotoProfile($event)" />
 		}
 	</div>
 }
-@else {
-	<p-progressSpinner />
-}
+<!-- @else {
+	<<p-progressSpinner />>
+} -->
 </div>

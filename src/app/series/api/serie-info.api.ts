@@ -1,4 +1,4 @@
-import { Serie, Series } from "./series";
+import { Series } from "./series";
 
 export interface SeriesInfo{
 	results: SerieInfo[]

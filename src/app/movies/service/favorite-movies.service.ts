@@ -5,15 +5,16 @@ import { catchError, map, Observable, tap, throwError } from 'rxjs';
 import { MovieInfo, MoviesInfo } from '../api/movie-info.api';
 import { Service } from 'src/app/interface/service.interface';
 import { ErrorHandlingService } from 'src/app/error/error-handling.service';
+import { SuccessHandlingService } from 'src/app/service/success-handling.service';
 
-const PATH = environment.ApiDbMovies;
-
+const PATH = environment.API_BACKEND_MOVIE;
 @Injectable({
-	providedIn: 'any'
+	providedIn: 'platform'
 })
 export class FavoriteMoviesService implements Service{
 	private readonly _http = inject(HttpClient);
 	private readonly _error = inject(ErrorHandlingService);
+	private readonly _sucessful = inject(SuccessHandlingService);
 	constructor(){
 		console.log(`Service ${this.constructor.name} is ready`);
 	}
@@ -24,11 +25,18 @@ export class FavoriteMoviesService implements Service{
 			tap({error: (error)=>this.ShowError(error)})
 		);
 	}
-	addMovie(idMovie: number): Observable<{ msg: string; id: number }> {
+	addMovie(idMovie: number): Observable<{ msg: string; id: number, goal?: {id: number, name: string, detail: string, url: string} }> {
 		const movie = {idMovie};
-		return this._http.post<{ msg: string; id: number }>(`${PATH}/add`,movie).pipe(
+		return this._http.post<{ msg: string; id: number, goal?: {id: number, name: string, detail: string, url: string} }>(`${PATH}/add`,movie).pipe(
 			catchError(this.ErrorHandler),
-			tap({error: (error)=>this.ShowError(error)})
+			tap({
+				error: (error)=>this.ShowError(error),
+				next: (value)=>{
+					if(value.goal)
+						this._sucessful.showGoalMessage(value.goal);
+					this._sucessful.showAddItemMessage('Movie added to favorite');
+				}
+			})
 		)
 	}
 	getMovieProfile(idMovie: number | string): Observable<{id:number, results: MovieInfo}> {
@@ -42,7 +50,10 @@ export class FavoriteMoviesService implements Service{
 		return this._http.delete<void>(`${PATH}/delete/${idDoc}`)
 		.pipe(
 			catchError(this.ErrorHandler),
-			tap({error: (error)=>this.ShowError(error)})
+			tap({
+				error: (error)=>this.ShowError(error),
+				next: ()=>this._sucessful.showDeleteItemMessage('Movie deleted from favorite')
+			})
 		);
 	}
 	ShowError(error: Error): void {
@@ -68,7 +79,7 @@ export function FavoriteMoviesInterceptor(
 	next: HttpHandlerFn
 ): Observable<HttpEvent<unknown>> {
 	if (!req.url.includes(PATH)) return next(req);
-	const BASE_IMG = environment.ApiTmdbImage;
+	const BASE_IMG = environment.API_TMDB_IMAGE;
 	const newReq = req.clone();
 	return next(newReq).pipe(
 		map((data: any) => {

@@ -1,14 +1,12 @@
 import { Component, inject } from '@angular/core';
-import { ProfileService } from '../layout/service/profile.service';
+import { ProfileService } from '../service/profile.service';
 import { ProfileInfo, ProfileItem, RickAndMortyCharacters } from '../layout/api/account.api';
 import { Observable, tap } from 'rxjs';
-import { MessageService } from 'primeng/api';
-import { FormControl, FormGroup} from '@angular/forms';
 import { animate, style, transition, trigger } from '@angular/animations';
-
 @Component({
 	selector: 'app-profile',
 	templateUrl: './profile.component.html',
+	standalone: false,
 	styles: `
 		.icon-image, .icon-image + img{
 			transition: 0.3s;
@@ -34,36 +32,17 @@ export class ProfileComponent {
 	profile$!: Observable<ProfileInfo | undefined>;
 	photos$!: Observable<RickAndMortyCharacters>;
 	loading: boolean = false;
-	controlGoals: boolean[] = [false, false, false, false, false];
 	dataChartFavorite: any;
 	dataChartOptions: any;
+	newName = '';
 	selectPhotoProfile: boolean = false;
-	formUpdate = new FormGroup({
-		newName: new FormControl('')
-	});
-	constructor(private message: MessageService) {}
+	constructor() {}
 	ngOnInit() {
-			this.profile$ = this._profile.getProfile$().asObservable()
+		this._profile.refreshProfile();
+			this.profile$ = this._profile.getProfile().asObservable()
 			.pipe(
 				tap(profile=>{
 					if(!profile) return;
-					//This lines of code is temporary
-					profile.goals.forEach(value=>{
-						switch(value) {
-							case 1:
-								this.controlGoals[1] = true;
-							break;
-							case 2:
-								this.controlGoals[2] = true;
-								break;
-							case 3:
-								this.controlGoals[3] = true;
-							break;
-							case 4:
-								this.controlGoals[0] = true;
-							break;
-						}
-					});
 					if(profile.results.length){
 						let countItemMovies = profile.results.filter((item: ProfileItem)=> item.type === 'movie').length;
 						let countItemSeries = profile.results.filter((item: ProfileItem)=> item.type === 'serie').length;
@@ -105,33 +84,25 @@ export class ProfileComponent {
 	}
 	UpdateImg(newImage: string){
 		if(!newImage){
-			this.message.add({severity:'error', summary:'Error', detail:'The image is required'});
+			this._profile.ShowError(new Error('You must select a photo'));
 			return;
 		}
 		this.selectPhotoProfile = false;
 		this._profile.updateProfile('', newImage).subscribe({
 			next: ()=> {
 				this._profile.refreshProfile();
-				this.message.add({severity:'success', summary:'Success', detail:'The image was updated successfully'});
-			},
-			error: (error)=> {
-				this.message.add({severity:'error', summary:'Error', detail:error.message});
+				this
 			}
 		});
 	}
 	UpdateName(){
-		const {newName} = this.formUpdate.value;
-		if(!newName){
-			this.message.add({severity:'error', summary:'Error', detail:'The name is required'});
+		if(!this.newName){
+			this._profile.ShowError(new Error('You must write a name'));
 			return;
 		}
-		this._profile.updateProfile(newName).subscribe({
+		this._profile.updateProfile(this.newName).subscribe({
 			next: ()=>{
 				this._profile.refreshProfile();
-				this.message.add({severity:'success', summary:'Success', detail:'The name was updated successfully'});
-			},
-			error: (error)=>{
-				this.message.add({severity:'error', summary:'Error', detail:error.message});
 			}
 		});
 	}

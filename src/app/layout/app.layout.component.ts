@@ -5,11 +5,12 @@ import { MenuService } from './app.menu.service';
 import { AppSidebarComponent } from './app.sidebar.component';
 import { AppTopbarComponent } from './app.topbar.component';
 import { LayoutService } from './service/app.layout.service';
-import { ProfileService } from './service/profile.service';
+import { ProfileService } from '../service/profile.service';
 
 @Component({
 	selector: 'app-layout',
 	templateUrl: './app.layout.component.html',
+	standalone: false
 })
 export class AppLayoutComponent implements OnDestroy {
 	private readonly _profile = inject(ProfileService);

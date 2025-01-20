@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LoginComponent } from './login.component';
-import { AuthService } from '../../service/auth.service';
+import { AuthService } from '../../../service/auth.service';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from 'src/environments/environment';
 //Be careful when import, because it could problem when run test
@@ -13,7 +13,7 @@ describe('Login', () => {
     let fixture: ComponentFixture<LoginComponent>;
   beforeEach(() => {
     TestBed.configureTestingModule({
-        imports: [  
+        imports: [
           ToastModule
         ],
         providers: [

@@ -6,10 +6,17 @@
 					<h3>{{title()}}</h3>
 				</ng-template>
 				<ng-template let-item pTemplate="item">
-					<div class="relative h-20rem cursor-pointer custom mr-2" (click)="EmitId(item.id, item.type)"
+					<div class="relative h-20rem cursor-pointer custom mr-2 item" (click)="EmitId(item.id, item.type)"
 						[@fadeIn]>
-						<img [title]="item.original_title || item.original_name || item.title" [ngSrc]="item.poster_path" fill loading="lazy" alt="poster"
+						@if(item.poster_path){
+							<img [title]="item.original_title || item.original_name || item.title" [ngSrc]="item.poster_path" fill loading="lazy" alt="poster"
 							[style]="{objectFit: 'contain'}" />
+						}
+						@else {
+							<div class="h-full flex align-items-center justify-content-center surface-50 text-center">
+								<p>{{item.original_name || item.original_title || item.title}}</p>
+							</div>
+						}
 					</div>
 				</ng-template>
 			</p-carousel>

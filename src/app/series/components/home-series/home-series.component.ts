@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ItemSeriesService } from '../../service/item-series.service';
 import { MenuItem } from "primeng/api";
 import { Series } from '../../api/series';
@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-home-series',
   templateUrl: './home-series.component.html',
+	standalone: false,
   styles: `
     ::ng-deep .p-card-title{
       overflow: hidden;
@@ -18,13 +19,19 @@ import { ActivatedRoute, Router } from '@angular/router';
     .select-item:hover{
       transform: scale(1.05);
     }
-  `
+  `,
+	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeSeriesComponent {
   private readonly _series = inject(ItemSeriesService);
   //Variable to tabmenu
-  items!: MenuItem[];
-  activeItem!: MenuItem;
+  items: MenuItem[] = [
+		{label: 'Popular', command: ()=>this.ChangeSection(1)},
+		{label: 'Airing today', command: ()=>this.ChangeSection(2)},
+		{label: 'On the air', command: ()=>this.ChangeSection(3)},
+		{label: 'Top reated', command: ()=>this.ChangeSection(4)}
+	];
+  activeItem: MenuItem = this.items[0];
   series$!: Observable<Series>;
   //It's for control of what show to user about types of series
   indexSection: number = 1;
@@ -32,7 +39,7 @@ export class HomeSeriesComponent {
   indexPage: number = 1;
   totalSeries!: number;
   //How many series will show for page
-  numberOfSeriesForShow!: number;
+  numberOfSeriesForShow: number = 20;
   controlStatePaginator: number = 0;
   constructor(private router: Router, private currentRouter: ActivatedRoute){}
   ngOnInit(){
@@ -45,14 +52,6 @@ export class HomeSeriesComponent {
       this.numberOfSeriesForShow = 20;
       return series;
     }));
-    this.items = [
-      {label: 'Popular', command: ()=>this.ChangeSection(1)},
-      {label: 'Airing today', command: ()=>this.ChangeSection(2)},
-      {label: 'On the air', command: ()=>this.ChangeSection(3)},
-      {label: 'Top reated', command: ()=>this.ChangeSection(4)}
-    ]
-    //It'll show first in the section
-    this.activeItem = this.items[0];
   }
   ChangeSection(index:number){
     //Avoid repeat request if It's same page

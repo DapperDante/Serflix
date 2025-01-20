@@ -5,7 +5,9 @@ import { ErrorHandlingService } from 'src/app/error/error-handling.service';
 import { Service } from 'src/app/interface/service.interface';
 import { Movies } from 'src/app/movies/api/movies.api';
 import { environment } from 'src/environments/environment.development';
-const PATH = environment.ApiDbSearch;
+
+const PATH = environment.API_BACKEND_SEARCH;
+
 @Injectable({
 	providedIn: 'platform',
 })
@@ -42,7 +44,7 @@ export function SearchMoviesInterceptor(
 	next: HttpHandlerFn
 ): Observable<HttpEvent<unknown>> {
 	if (!req.url.includes(PATH)) return next(req);
-	const BASE_IMG = environment.ApiTmdbImage;
+	const BASE_IMG = environment.API_TMDB_IMAGE;
 	const newReq = req.clone();
 	return next(newReq).pipe(
 		map((data: any) => {

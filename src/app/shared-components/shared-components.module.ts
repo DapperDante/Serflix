@@ -11,10 +11,9 @@ import { DialogModule } from 'primeng/dialog';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { PaginatorModule } from 'primeng/paginator';
 
-
 @NgModule({
-  declarations: [PanelItemsComponent, ListItemsComponent, ShowImagesComponent],
-  imports: [
+	declarations: [PanelItemsComponent, ListItemsComponent, ShowImagesComponent],
+	imports: [
 		CommonModule,
 		CardModule,
 		ButtonModule,
@@ -23,12 +22,8 @@ import { PaginatorModule } from 'primeng/paginator';
 		NgOptimizedImage,
 		DialogModule,
 		TabMenuModule,
-		PaginatorModule
+		PaginatorModule,
 	],
-	exports: [
-		PanelItemsComponent,
-		ListItemsComponent,
-		ShowImagesComponent
-	]
+	exports: [PanelItemsComponent, ListItemsComponent, ShowImagesComponent],
 })
-export class SharedComponentsModule { }
+export class SharedComponentsModule {}

@@ -1,18 +1,27 @@
 import { Component, inject } from '@angular/core';
 import { ItemMoviesService } from '../../service/item-movies.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { map, Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { MovieInfo } from '../../api/movie-info.api';
 import { Movies } from '../../api/movies.api';
 import { ScoreMoviesService } from '../../service/score-movies.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MessageService } from 'primeng/api';
 import { FavoriteMoviesService } from '../../service/favorite-movies.service';
+import { ErrorHandlingService } from 'src/app/error/error-handling.service';
 
 @Component({
 	selector: 'app-movie-info',
 	templateUrl: './movie-info.component.html',
+	standalone: false,
 	styles: `
+		:host ::ng-deep .p-dataview-content{
+			border-radius: 0.3rem;
+			min-height: 10vh;
+		}
+		:host ::ng-deep .p-dataview-emptymessage{
+			text-align: center;
+			font-size: 2rem;
+		}
     ::ng-deep .stars-review .p-rating .p-rating-item .p-rating-icon.p-icon{
       height: 3rem !important;
       width: 3rem !important;
@@ -32,12 +41,13 @@ import { FavoriteMoviesService } from '../../service/favorite-movies.service';
 			filter: brightness(0.4);
 			z-index: -1;
 		}
-  `,
+  `
 })
 export class MovieInfoComponent {
 	private readonly _movies = inject(ItemMoviesService);
 	private readonly _reviews = inject(ScoreMoviesService);
 	private readonly _favoriteMovies = inject(FavoriteMoviesService);
+	private readonly _error = inject(ErrorHandlingService);
 	ratingForm = new FormGroup({
 		rating: new FormControl(0, Validators.required),
 		review: new FormControl('', [Validators.required, Validators.minLength(15)]),
@@ -52,12 +62,12 @@ export class MovieInfoComponent {
 	//It's only variables for button's animate when it's loading
 	loadingReview: boolean = false;
 	loadingFavorite: boolean = false;
-	constructor(private routerCurrent: ActivatedRoute, private router: Router, private message: MessageService) {}
+	constructor(private routerCurrent: ActivatedRoute, private router: Router) {}
 	ngOnInit() {
 		this.routerCurrent.paramMap.subscribe((routerCurrent) => {
 			this.idMovie = Number(routerCurrent.get('id'));
 			this.movie$ = this._movies.getMovieById(this.idMovie).pipe(
-				map((movie) => {
+				tap((movie) => {
 					this.similar$ = new Observable((suscriber) => {
 						suscriber.next(movie.similar);
 					});
@@ -65,42 +75,41 @@ export class MovieInfoComponent {
 						suscriber.next(movie.recommendations);
 					});
 					this.review$ = this._reviews.getReviewsOfMovie(movie.id);
-					this._favoriteMovies.getMovieProfile(this.idMovie)
-					.subscribe({
+					this._favoriteMovies.getMovieProfile(this.idMovie).subscribe({
 						next: (value) => {
-							if(Object.keys(value.results).length){
+							if (Object.keys(value.results).length) {
 								this.idDoc = value.id;
 								this.isFavorite = true;
 							}
-						}
-					})
-					return movie;
+						},
+					});
 				})
 			);
 		});
 	}
 	ChangeMovie(idMovie: number) {
-		this.router.navigate(['../', idMovie], { relativeTo: this.routerCurrent, replaceUrl: true });
+		this.router.navigate(['../', idMovie], {
+			relativeTo: this.routerCurrent,
+			replaceUrl: true
+		});
 	}
 	SendReview() {
 		if (this.ratingForm.invalid) {
-			this.message.add({ severity: 'warn', detail: 'Add some words' });
+			this._error.ShowError('Invalid form');
 			return;
 		}
 		this.loadingReview = true;
 		this._reviews
-			.addNewReview(this.idMovie, this.ratingForm.value.rating!, this.ratingForm.value.review!)
-			.subscribe({
-				error: () => {
-					this.loadingReview = false;
-					this.message.add({ severity: 'error', detail: 'There was a problem' });
-				},
-				complete: () => {
-					this.loadingReview = false;
-					this.message.add({ severity: 'success', detail: 'Review added' });
-					this.review$ = this._reviews.getReviewsOfMovie(this.idMovie);
-				},
-			});
+		.addNewReview(this.idMovie, this.ratingForm.value.rating!, this.ratingForm.value.review!)
+		.subscribe({
+			error: () => {
+				this.loadingReview = false;
+			},
+			complete: () => {
+				this.loadingReview = false;
+				this.review$ = this._reviews.getReviewsOfMovie(this.idMovie);
+			},
+		});
 	}
 	addFavoriteMovie() {
 		this.loadingFavorite = true;
@@ -111,11 +120,9 @@ export class MovieInfoComponent {
 			complete: () => {
 				this.loadingFavorite = false;
 				this.isFavorite = true;
-				this.message.add({ severity: 'success', detail: 'Movie added to favorites' });
 			},
 			error: () => {
 				this.loadingFavorite = false;
-				this.message.add({ severity: 'error', detail: 'Has an ocurred problem' });
 			},
 		});
 	}
@@ -125,11 +132,9 @@ export class MovieInfoComponent {
 			complete: () => {
 				this.loadingFavorite = false;
 				this.isFavorite = false;
-				this.message.add({ severity: 'success', detail: 'movie delete to favorites' });
 			},
 			error: () => {
 				this.loadingFavorite = false;
-				this.message.add({ severity: 'error', detail: 'Has an ocurred problem' });
 			},
 		});
 	}

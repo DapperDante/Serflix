@@ -1,13 +1,16 @@
 import { Component, inject } from '@angular/core';
-import { ProfileService } from '../../service/profile.service';
+import { ProfileService } from '../../../service/profile.service';
 import { RickAndMortyCharacters } from '../../api/account.api';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService } from 'primeng/api';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from 'src/app/service/auth.service';
 
 @Component({
 	selector: 'app-select-profile',
 	templateUrl: './select-profile.component.html',
+	standalone: false,
 	styles: `
     .select-profile:hover{
       transition-duration: 200ms;
@@ -18,6 +21,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 })
 export class SelectprofileComponent {
 	private readonly _profile = inject(ProfileService);
+	private readonly _auth = inject(AuthService);
 	profiles$!: Observable<any>;
 	photos$!: Observable<RickAndMortyCharacters>;
 	//Control view panel of edit
@@ -25,19 +29,17 @@ export class SelectprofileComponent {
 	selectPhotoProfile: boolean = false;
 	//Variables for new profile
 	urlProfileSelected!: string;
-	nameProfileSelected!: string;
-	constructor(
-		private router: Router,
-		private confirmationService: ConfirmationService,
-		private message: MessageService
-	) {}
+	formProfileSelected = new FormGroup({
+		nameProfile: new FormControl('', [Validators.required, Validators.minLength(2)])
+	})
+	constructor(private _router: Router, private _confirmationService: ConfirmationService) {}
 	ngOnInit() {
 		this.profiles$ = this._profile.getProfiles();
 	}
 	SelectProfile(id: string) {
-		this._profile.LogInProfile(id).subscribe(()=>{
+		this._profile.LogInProfile(id).subscribe(() => {
 			this._profile.setSelectedProfile(true);
-			this.router.navigate(['home']);
+			this._router.navigate(['home']);
 		});
 	}
 	ViewPhotosForProfile() {
@@ -52,7 +54,11 @@ export class SelectprofileComponent {
 		this.selectPhotoProfile = false;
 	}
 	CreateProfile() {
-		this.confirmationService.confirm({
+		if(this.formProfileSelected.invalid) {
+			this._profile.ShowError(new Error('You must write a name'));
+			return;
+		};
+		this._confirmationService.confirm({
 			message: 'Are you sure that you want to created?',
 			header: 'Confirmation',
 			icon: 'pi pi-info-circle',
@@ -66,19 +72,17 @@ export class SelectprofileComponent {
 	}
 	//It's when send info to backend
 	private CreatingProfile() {
-		if (!this.urlProfileSelected || !this.nameProfileSelected) {
-			this.message.add({ severity: 'warn', detail: 'Select one image to your profile' });
+		const {nameProfile} = this.formProfileSelected.value;
+		if (!(this.urlProfileSelected && nameProfile)) {
+			this._profile.ShowError(new Error('You must select a photo and write a name'));
 			return;
 		}
-		this._profile.addProfile(this.urlProfileSelected, this.nameProfileSelected)
-		.subscribe({
-			next: (value) =>{
-				this.SelectProfile(value.id+"");
+		this._profile.addProfile(this.urlProfileSelected, nameProfile).subscribe({
+			next: (value) => {
+				this._auth.setToken(value.token);
+				this._profile.setSelectedProfile(true);
+				this._router.navigate(['/home']);
 			},
-			error: ()=>{
-				this.message.add({ severity: 'error', detail: 'There was a problem' });
-			}
-
-		})
+		});
 	}
 }

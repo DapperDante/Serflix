@@ -11,12 +11,14 @@ import { Movies } from 'src/app/movies/api/movies.api';
 export class SearchComponent {
 	private readonly _search = inject(SearchService);
 	movies$!: Observable<Movies>;
+	times = 1;
+	manyItemsRelation = 1;
 	constructor(private currentRoute: ActivatedRoute, private router: Router) {}
 	ngOnInit() {
 		this.currentRoute.queryParams.subscribe((params) => {
 			const { query } = params;
 			if (!query) this.router.navigate(['../'], { relativeTo: this.currentRoute });
-			this.movies$ = this._search.getItemsByQuery(query, 4, 5);
+			this.movies$ = this._search.getItemsByQuery(query, this.times, this.manyItemsRelation);
 		});
 	}
 	Selected(obj: { id: number; type: string }) {

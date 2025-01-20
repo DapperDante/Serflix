@@ -1,10 +1,12 @@
-<p-tabMenu
-  [model]="items"
-  [activeItem]="activeItem"/>
-<app-panel-items [items]="series$" title="series" (getId)="SelectedSerie($event)"></app-panel-items>
-<p-paginator
-  (onPageChange)="ChangePage($event)"
-  [totalRecords]="totalSeries"
-  [first]="controlStatePaginator"
-  [rows]="numberOfSeriesForShow"
-  [alwaysShow]="false"/>
+<app-panel-items
+	[items]="series$"
+	title="Series"
+	(getId)="SelectedSerie($event)"
+	[menuItems]="items"
+	[activeItem]="activeItem"
+	[showPaginator]="true"
+	[totalItemsToPaginator]="totalSeries"
+	[controlStatePaginator]="controlStatePaginator"
+	[itemsForShowToPaginator]="numberOfSeriesForShow"
+	(getIndexPaginator)="ChangePage($event)"
+	/>

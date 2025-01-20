@@ -25,9 +25,10 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
-	declarations: [AppComponent, ErrorPageComponent, SelectprofileComponent],
+	declarations: [AppComponent, ErrorPageComponent, SelectprofileComponent, NotFoundComponent],
 	imports: [
 		AppRoutingModule,
 		AppLayoutModule,

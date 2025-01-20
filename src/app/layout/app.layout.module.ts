@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { InputTextModule } from 'primeng/inputtext';
 import { SidebarModule } from 'primeng/sidebar';
@@ -30,6 +29,7 @@ import { CarouselModule } from 'primeng/carousel';
 import { NgOptimizedImage } from '@angular/common';
 import { ItemMoviesService } from '../movies/service/item-movies.service';
 import { ItemSeriesService } from '../series/service/item-series.service';
+import { FormsModule } from '@angular/forms';
 @NgModule({
 	declarations: [
 		AppLayoutComponent,

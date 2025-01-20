@@ -1,6 +1,7 @@
 <app-panel-items
 	[title]="categoryCurrent!.name"
 	[items]="items$"
+	(getIdAndType)="SelectedItem($event)"
 	[showPaginator]="true"
 	[totalItemsToPaginator]="totalItemsToPaginator"
 	[itemsForShowToPaginator]="itemsForShowToPaginator"

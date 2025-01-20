@@ -6,9 +6,11 @@ import { environment } from 'src/environments/environment.development';
 import { Service } from 'src/app/interface/service.interface';
 import { ErrorHandlingService } from 'src/app/error/error-handling.service';
 import { AuthService } from 'src/app/service/auth.service';
+import { Router } from '@angular/router';
+import { SuccessHandlingService } from './success-handling.service';
 
-const PATH = environment.ApiDbProfiles;
-const PATH_IMG = environment.ApiPhotos;
+const PATH = environment.API_BACKEND_PROFILE;
+const PATH_IMG_PROFILE = environment.API_IMAGES_PROFILE;
 
 @Injectable({
 	providedIn: 'root',
@@ -17,9 +19,10 @@ export class ProfileService implements Service {
 	private readonly _http = inject(HttpClient);
 	private readonly _auth = inject(AuthService);
 	private readonly _error = inject(ErrorHandlingService);
+	private readonly _sucessful = inject(SuccessHandlingService);
 	// this is more useful when you want to get the profile without making other or repeat requests
 	private profile$: BehaviorSubject<ProfileInfo | undefined>;
-	constructor() {
+	constructor(private _router: Router) {
 		console.log(`Service ${this.constructor.name} is ready`);
 		this.profile$ = new BehaviorSubject<ProfileInfo | undefined>(undefined);
 	}
@@ -31,22 +34,12 @@ export class ProfileService implements Service {
 	}
 	//First, you must use accessProfile when you want to access a profile, after that you can use getProfile$ to get the profile
 	LogInProfile(idProfile: number | string): Observable<{ msg: string; token: string }> {
-		console.log(idProfile);
 		return this._http
 			.post<{ msg: string; token: string }>(`${PATH}/log-in`, { idProfile })
 			.pipe(
 				catchError(this.ErrorHandler),
 				tap({ next: (access) => this._auth.setToken(access.token), error: (error) => this.ShowError(error) })
 			);
-	}
-	LogOutProfile(): Observable<{ msg: string; token: string }> {
-		return this._http.get<{ msg: string; token: string }>(`${PATH}/log-out`).pipe(
-			catchError(this.ErrorHandler),
-			tap({
-				next: (access) => this._auth.setToken(access.token),
-				error: (error) => this.ShowError(error),
-			})
-		);
 	}
 	getProfiles(): Observable<Profiles> {
 		return this._http.get<Profiles>(`${PATH}/get-all`).pipe(
@@ -62,7 +55,7 @@ export class ProfileService implements Service {
 			.get<ProfileInfo>(`${PATH}/get`)
 			.pipe(
 				map((profile: ProfileInfo) => {
-					const BASE_IMG = environment.ApiTmdbImage;
+					const BASE_IMG = environment.API_TMDB_IMAGE;
 					profile.results.map((result) => {
 						result.poster_path = `${BASE_IMG}${result.poster_path}`;
 						return result;
@@ -79,22 +72,27 @@ export class ProfileService implements Service {
 	}
 	getPhotos(): Observable<RickAndMortyCharacters> {
 		return this._http
-			.get<RickAndMortyCharacters>(`${PATH_IMG}/character`)
+			.get<RickAndMortyCharacters>(`${PATH_IMG_PROFILE}/character`)
 			.pipe(catchError(this.ErrorHandler), tap({ error: (error) => this.ShowError(error) }));
 	}
 	updateProfile(name?: string, img?: string): Observable<void> {
 		const profile = { name, img };
 		return this._http
 			.put<void>(`${PATH}/put`, profile)
-			.pipe(catchError(this.ErrorHandler), tap({ error: (error)=>this.ShowError(error) }));
+			.pipe(
+				catchError(this.ErrorHandler),
+				tap({
+					error: (error)=>this.ShowError(error),
+					next: ()=>this._sucessful.showSuccessMessage('Profile updated successfully')
+				}));
 	}
 	isSelectedProfile(): boolean {
 		return sessionStorage.getItem('isSelectedProfile') ? true : false;
 	}
 	setSelectedProfile(value: boolean): void {
 		if (!value) {
-			console.log('remove');
 			sessionStorage.removeItem('isSelectedProfile');
+			this._router.navigate(['profile']);
 			return;
 		}
 		sessionStorage.setItem('isSelectedProfile', 'true');

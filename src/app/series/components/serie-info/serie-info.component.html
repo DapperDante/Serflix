@@ -7,17 +7,19 @@
 					<img [ngSrc]="serie.poster_path" alt="poster" fill priority [style]="{'object-fit': 'contain'}">
 				</div>
 				<div class="col-8">
+					<div class="flex justify-content-center h-full align-items-center">
 					@if(serie.videos?.results?.length){
-						<div class="flex justify-content-center">
 							<youtube-player [videoId]="serie.videos!.results[0].key" />
-						</div>
-					}@else {
-						<p>There isn't trailer</p>
-					}
+						}@else {
+							<div>
+								<p>There isn't trailer</p>
+							</div>
+						}
+					</div>
 				</div>
 			</div>
 		</div>
-		<div class="col-6 text-justify">
+		<div class="col-6 text-justify overflow-y-scroll" style="height: 30vh;">
 			<p [style]="{fontSize: '1.8rem'}">{{serie.overview}}</p>
 			@if(isFavorite){
 				<p-button icon="pi pi-heart-fill" [rounded]="true" size="large" (onClick)="deleteFavoriteSerie()"
@@ -27,20 +29,27 @@
 					[loading]="loadingFavorite" />
 			}
 		</div>
-		<div class="col-6 flex justify-content-center align-items-center">
-			<p-rating [readonly]="true" [cancel]="false" class="stars-main" />
-		</div>
-		<div class="col-12">
-			<form [formGroup]="ratingForm" class="flex justify-content-center flex-column align-items-center">
-				<p-rating class="stars-review" formControlName="rating" />
-				<textarea rows="3" cols="30" pInputTextarea [autoResize]='true' title="review" class="my-4"
-					placeholder="Write your review about it" formControlName="review"></textarea>
-				<p-button label="submit" icon="pi pi-send" [loading]="loadingReview" (onClick)="SendReview()" />
-			</form>
-		</div>
-		<div class="col-12">
-			@if(review$ | async; as reviews){
-			<p-dataView #dv [value]="reviews">
+		@if(review$ | async; as reviews){
+			<div class="col-6 flex justify-content-center align-items-center">
+				<p-rating [readonly]="true" [cancel]="false" class="stars-main" [(ngModel)]="reviews.avg_score"/>
+			</div>
+			<div class="col-12">
+				@if(reviews.id){
+					<div class="h-10rem bg-red-500 flex justify-content-center align-items-center border-round">
+						<p [style]="{fontSize: '2rem'}">Thanks for your review</p>
+					</div>
+				}
+				@else{
+					<form [formGroup]="ratingForm" class="flex justify-content-center flex-column align-items-center">
+						<p-rating class="stars-review" formControlName="rating" />
+						<textarea rows="3" cols="30" pInputTextarea [autoResize]='true' title="review" class="my-4"
+							placeholder="Write your review about it" formControlName="review"></textarea>
+						<p-button label="submit" icon="pi pi-send" [loading]="loadingReview" (onClick)="SendReview()" />
+					</form>
+				}
+			</div>
+			<div class="col-12">
+			<p-dataView #dv [value]="reviews.results" emptyMessage="There arent't reviews">
 				<ng-template pTemplate="list" let-reviews>
 					<div class="grid grid-nogutter">
 						<div class="col-12" *ngFor="let item of reviews; let first = first" class="col-12">
@@ -68,22 +77,41 @@
 					</div>
 				</ng-template>
 			</p-dataView>
-			}@else {
-			<p-skeleton class="h-full" />
+		</div>
+		}@else {
+			<p-skeleton class="col-6" height="100%"/>
+			<p-skeleton class="col-12" height="10rem"/>
+			<p-skeleton class="col-12" height="10rem"/>
+		}
+		<div class="col-12">
+			<div class="grid h-6rem bg-red-500">
+				@for(companie of serie.production_companies; track $index){
+					<div class="col relative">
+						@if(companie.logo_path){
+							<img [ngSrc]="companie.logo_path" alt="companie" [title]="companie.name" fill [priority]="false"
+							[style]="{'object-fit': 'contain'}">
+						}
+						@else {
+							<div class="flex justify-content-center align-items-center">
+								<p>{{companie.name}}</p>
+							</div>
+						}
+					</div>
+				}
+			</div>
+		</div>
+		<div class="col-12">
+			@defer (on viewport) {
+				<app-list-items [items]="similar$" title="Similar" (getId)="ChangeSerie($event)" />
+			}@placeholder {
+				<p>similar series</p>
 			}
 		</div>
 		<div class="col-12">
 			@defer (on viewport) {
-			<app-list-items [items]="similar$" title="Similar" (getId)="ChangeSerie($event)" />
+				<app-list-items [items]="recommendation$" title="Recommendation" (getId)="ChangeSerie($event)" />
 			}@placeholder {
-			<p>similar series</p>
-			}
-		</div>
-		<div class="col-12">
-			@defer (on viewport) {
-			<app-list-items [items]="recommendation$" title="Recommendation" (getId)="ChangeSerie($event)" />
-			}@placeholder {
-			<p>recommendation series</p>
+				<p>recommendation series</p>
 			}
 		</div>
 	}@else{

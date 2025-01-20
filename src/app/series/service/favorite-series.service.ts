@@ -5,8 +5,9 @@ import { environment } from 'src/environments/environment.development';
 import { SerieInfo, SeriesInfo } from '../api/serie-info.api';
 import { Service } from 'src/app/interface/service.interface';
 import { ErrorHandlingService } from 'src/app/error/error-handling.service';
+import { SuccessHandlingService } from 'src/app/service/success-handling.service';
 
-const PATH: string = environment.ApiDbSeries;
+const PATH: string = environment.API_BACKEND_SERIE;
 
 @Injectable({
 	providedIn: 'platform'
@@ -14,6 +15,7 @@ const PATH: string = environment.ApiDbSeries;
 export class FavoriteSeriesService implements Service{
 	private readonly _http = inject(HttpClient);
 	private readonly _error = inject(ErrorHandlingService);
+	private readonly _succesful = inject(SuccessHandlingService);
 	constructor(){
 		console.log(`Service ${this.constructor.name} is ready`);
 	}
@@ -24,16 +26,23 @@ export class FavoriteSeriesService implements Service{
 			tap({error: (error)=>this.ShowError(error)})
 		);
 	}
-	addSerie(idSerie: number): Observable<{ msg: string; id: number }> {
+	addSerie(idSerie: number): Observable<{ msg: string; id: number, goal?: {id: number, name: string, detail: string, url: string} }> {
 		const serie = {idSerie};
-		return this._http.post<{ msg: string; id: number }>(`${PATH}/add`, serie)
+		return this._http.post<{ msg: string; id: number, goal: {id: number, name: string, detail: string, url: string} }>(`${PATH}/add`, serie)
 		.pipe(
 			catchError(this.ErrorHandler),
-			tap({error: (error)=>this.ShowError(error)})
+			tap({
+				error: (error)=>this.ShowError(error),
+				next: (value)=>{
+					if(value.goal)
+						this._succesful.showGoalMessage(value.goal);
+					this._succesful.showAddItemMessage('Serie added to favorite');
+				}
+			})
 		);
 	}
-	getSerieProfile(idSerie: number | string): Observable<SerieInfo> {
-		return this._http.get<SerieInfo>(`${PATH}/get/${idSerie}`)
+	getSerieProfile(idSerie: number | string): Observable<{id: number, results: SerieInfo}> {
+		return this._http.get<{id: number, results: SerieInfo}>(`${PATH}/get/${idSerie}`)
 		.pipe(
 			catchError(this.ErrorHandler),
 			tap({error: (error)=>this.ShowError(error)})
@@ -43,7 +52,10 @@ export class FavoriteSeriesService implements Service{
 		return this._http.delete<void>(`${PATH}/delete/${idDoc}`)
 		.pipe(
 			catchError(this.ErrorHandler),
-			tap({error: (error)=>this.ShowError(error)})
+			tap({
+				error: (error)=>this.ShowError(error),
+				next: ()=> this._succesful.showDeleteItemMessage('Serie deleted from favorite')
+			})
 		);
 	}
 	ShowError(error: Error): void {
@@ -70,7 +82,7 @@ export function FavoriteSeriesInterceptor(
 	next: HttpHandlerFn
 ): Observable<HttpEvent<unknown>> {
 	if (!req.url.includes(PATH)) return next(req);
-		const BASE_IMG = environment.ApiTmdbImage;
+		const BASE_IMG = environment.API_TMDB_IMAGE;
 		const newReq = req.clone();
 		return next(newReq).pipe(
 			map((data: any) => {

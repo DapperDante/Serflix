@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ItemSeriesService } from '../../service/item-series.service';
 import { MenuItem } from "primeng/api";
 import { Series } from '../../api/series';
@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-home-series',
   templateUrl: './home-series.component.html',
+	standalone: false,
   styles: `
     ::ng-deep .p-card-title{
       overflow: hidden;
@@ -18,7 +19,8 @@ import { ActivatedRoute, Router } from '@angular/router';
     .select-item:hover{
       transform: scale(1.05);
     }
-  `
+  `,
+	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeSeriesComponent {
   private readonly _series = inject(ItemSeriesService);

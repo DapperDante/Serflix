@@ -2,14 +2,12 @@ import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../service/auth.service';
 import { Router } from '@angular/router';
-import { SuccessHandlingService } from 'src/app/service/success-handling.service';
 @Component({
 	selector: 'app-login',
 	templateUrl: './login.component.html',
 })
 export class LoginComponent {
 	private readonly _auth = inject(AuthService);
-	private readonly _success = inject(SuccessHandlingService);
 	constructor(private router: Router) {}
 	loginForm = new FormGroup({
 		username: new FormControl('', [Validators.required]),
@@ -25,7 +23,6 @@ export class LoginComponent {
 		this.loading = true;
 		this._auth.Login(username!, password!).subscribe({
 			next: () => {
-				this._success.showSuccessMessage('Login successful');
 				this.router.navigate(['/profile']);
 			},
 			error: () => {

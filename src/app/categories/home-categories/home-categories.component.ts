@@ -59,6 +59,12 @@ export class HomeCategoriesComponent {
 			this.UpdateRequest(1);
 		});
 	}
+	SelectedItem(item: {id: number, type: string}){
+		if(item.type == 'movie')
+			this._router.navigate(['home','movie', item.id]);
+		else
+			this._router.navigate(['home','serie', item.id]);
+	}
 	ChangePage(event: any) {
 		this.indexPage = event.page! + 1;
 		this.controlStatePaginator = event.first!;
@@ -70,6 +76,12 @@ export class HomeCategoriesComponent {
 			this._series.getSeriesByGenre(this.categoryCurrent?.idSeries + '', page),
 		]).pipe(
 			map(([movies, series]) => {
+				movies.results.map((movie: any) => {
+					movie.type = 'movie';
+				});
+				series.results.map((serie: any) => {
+					serie.type = 'serie';
+				});
 				return {
 					results: [...movies.results, ...series.results],
 					total_pages: Math.max(movies.total_pages, series.total_pages),

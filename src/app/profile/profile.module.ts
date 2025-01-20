@@ -11,7 +11,7 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { ButtonModule } from 'primeng/button';
 import { SharedComponentsModule } from '../shared-components/shared-components.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 @NgModule({
 	declarations: [ProfileComponent],
 	imports: [
@@ -27,7 +27,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 		InputIconModule,
 		ButtonModule,
 		SharedComponentsModule,
-		ReactiveFormsModule
+		ReactiveFormsModule,
+		FormsModule
 	]
 })
 export class ProfileModule {}

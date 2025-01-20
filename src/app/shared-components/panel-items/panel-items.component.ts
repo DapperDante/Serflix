@@ -9,6 +9,7 @@ import { Series } from 'src/app/series/api/series';
 @Component({
 	selector: 'app-panel-items',
 	templateUrl: './panel-items.component.html',
+	standalone: false,
 	styles: `
     ::ng-deep .card-custom .p-card-title{
       overflow: hidden;

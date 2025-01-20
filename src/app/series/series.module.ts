@@ -10,7 +10,7 @@ import { DataViewModule } from 'primeng/dataview';
 import { ScoreSeriesService } from './service/score-series.service';
 import { SkeletonModule } from 'primeng/skeleton';
 import { RatingModule } from 'primeng/rating';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { YouTubePlayerModule } from '@angular/youtube-player';
 @NgModule({
@@ -27,6 +27,7 @@ import { YouTubePlayerModule } from '@angular/youtube-player';
 		NgOptimizedImage,
 		ButtonModule,
 		DataViewModule,
+		FormsModule
 	],
 	providers: [FavoriteSeriesService, ScoreSeriesService],
 })

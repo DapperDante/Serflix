@@ -6,31 +6,34 @@ import { ProfileService } from '../service/profile.service';
 export const isLogged: CanActivateFn = (route, state) => {
 	const _auth = inject(AuthService);
 	if (!_auth.getToken()) {
-		new Router().navigate(['']);
+		_auth.Logout();
 		return false;
 	}
 	return true;
 };
 export const isNotLogged: CanActivateFn = (route, state) => {
 	const _auth = inject(AuthService);
+	const _router = inject(Router);
 	if (_auth.getToken()) {
-		new Router().navigate(['profile']);
+		_router.navigate(['profile']);
 		return false;
 	}
 	return true;
 }
 export const isSelectedProfile: CanActivateFn = (route, state) => {
 	const _profile = inject(ProfileService);
+	const _router = inject(Router);
 	if (!_profile.isSelectedProfile()) {
-		new Router().navigate(['profile']);
+		_router.navigate(['profile']);
 		return false;
 	}
 	return true;
 }
 export const isNotSelectedProfile: CanActivateFn = (route, state) => {
 	const _profile = inject(ProfileService);
+	const _router = inject(Router);
 	if (_profile.isSelectedProfile()) {
-		new Router().navigate(['home']);
+		_router.navigate(['home']);
 		return false;
 	}
 	return true;

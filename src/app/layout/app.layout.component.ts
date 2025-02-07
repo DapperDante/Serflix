@@ -14,9 +14,6 @@ import { ProfileService } from '../service/profile.service';
 })
 export class AppLayoutComponent implements OnDestroy {
 	private readonly _profile = inject(ProfileService);
-	ngOnInit() {
-		this._profile.refreshProfile();
-	}
 	overlayMenuOpenSubscription: Subscription;
 
 	topbarMenuOpenSubscription: Subscription;
@@ -42,6 +39,7 @@ export class AppLayoutComponent implements OnDestroy {
 		public router: Router,
 		private cd: ChangeDetectorRef
 	) {
+		this._profile.refreshProfile();
 		this.hideMenuProfile();
 
 		this.overlayMenuOpenSubscription = this.layoutService.overlayOpen$.subscribe(() => {

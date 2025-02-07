@@ -1,0 +1,41 @@
+<div class="grid grid-nested">
+		@if(profile$ | async; as profile){
+			<div class="col-12 grid grid-nogutter front-main align-items-center" [@fadeIn]>
+				<div class="col-12 lg:col lg:h-full h-15rem relative cursor-pointer flex justify-content-center align-items-center">
+					<div class="absolute w-full h-full flex justify-content-center align-items-center icon-image opacity-0" (click)="ChangePhotoProfile()">
+						<i class="pi pi-user-edit absolute"></i>
+					</div>
+					<img [ngSrc]="profile.img" alt="image's profile" fill priority [style]="{objectFit: 'contain', zIndex: -1}" class="image-profile h-full w-auto m-auto">
+					<app-show-images title="Select an image" [images$]="photos$" [(isActive)]="selectPhotoProfile" (getImage)="UpdateImg($event)"/>
+				</div>
+				<div class="col-12 lg:col">
+					@if(dataChartFavorite){
+						<p-chart type="doughnut" [data]="dataChartFavorite" [options]="dataChartOptions" height="100%"/>
+					}@else {
+						<div class="flex justify-content-center align-items-center h-full">
+							<p class="text-center">Don't have movies or series favorites</p>
+						</div>
+					}
+				</div>
+				<div class="col-12 lg:col surface-overlay border-round px-5 py-7">
+					<p-floatLabel>
+						<input type="text" pInputText title="change name" id="change-name" class="w-full" [style]="{fontSize: '1.2rem'}" [(ngModel)]="newName"/>
+						<label for="change-name">Change name</label>
+					</p-floatLabel>
+					<p-button label="Change" icon="pi pi-pencil" [style]="{marginTop: '2rem'}" (onClick)="UpdateName()" [loading]="loading"/>
+				</div>
+			</div>
+			<h2 class="col-12 text-center">GOALS</h2>
+			<div class="col-12 grid grid-nogutter bg-red-500 border-round h-auto" [@fadeIn]>
+				@for(goals of profile.goals; track $index){
+					<div class="col-12 lg:col-2 h-10rem relative">
+						<img [ngSrc]="goals.url" alt="goal" fill priority="false" [style]="{objectFit: 'contain'}" [title]="goals.name" class="w-full">
+					</div>
+				}@empty {
+					<div class="col-12 h-8rem">
+						<p class="text-center pt-5">Don't have goals</p>
+					</div>
+				}
+			</div>
+		}
+</div>

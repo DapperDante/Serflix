@@ -12,7 +12,7 @@
     }
     <ul *ngIf="menuProfileActive" [@menu]="isHorizontal ? 'overlay' : 'inline'">
         <li pTooltip="Settings" [tooltipDisabled]="isTooltipDisabled">
-            <button class="p-link">
+            <button class="p-link" routerLink="setting">
                 <i class="pi pi-cog pi-fw"></i>
                 <span>Settings</span>
             </button>

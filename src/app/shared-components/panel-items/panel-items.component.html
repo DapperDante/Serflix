@@ -2,16 +2,16 @@
 	<p-tabMenu [model]="menuItems()" [activeItem]="activeItem()" />
 }
 <h2>{{title()}}</h2>
-<div class="grid my-3">
+<div class="grid my-3 justify-content-center">
 	@if(items() | async; as items){
 		@for(item of items.results; track $index){
-			<div class="select-item col-1 w-14rem cursor-pointer hover:shadow-7 transition-duration-200 m-1"
+			<div class="select-item col-1 w-13rem lg:w-14rem cursor-pointer hover:shadow-7 transition-duration-200"
 				(click)="EmitId(item.id, item.type)" [@fadeIn]>
 				<p-card [header]="item.original_title || item.original_name" class="card-custom">
 					<ng-template pTemplate="header">
-						<div class="relative h-16rem w-12rem">
+						<div class="relative h-19rem w-11rem lg:w-12rem overflow-hidden">
 							@if(item.poster_path){
-								<img [ngSrc]="item.poster_path" alt="Not found" [style]="{objectFit: 'cover'}" fill priority>
+								<img [ngSrc]="item.poster_path" alt="Not found" [style]="{objectFit: 'cover'}" fill priority class="h-full w-auto">
 							}@else {
 								<div><p>{{item.original_title || item.original_name}}</div>
 							}
@@ -21,20 +21,20 @@
 			</div>
 		}
 	}@else {
-			<p-skeleton height="16rem" width="12rem" class="col" />
-			<p-skeleton height="16rem" width="12rem" class="col" />
-			<p-skeleton height="16rem" width="12rem" class="col" />
-			<p-skeleton height="16rem" width="12rem" class="col" />
-			<p-skeleton height="16rem" width="12rem" class="col" />
-			<p-skeleton height="16rem" width="12rem" class="col" />
-			<p-skeleton height="16rem" width="12rem" class="col" />
-			<p-skeleton height="16rem" width="12rem" class="col" />
-			<p-skeleton height="16rem" width="12rem" class="col" />
-			<p-skeleton height="16rem" width="12rem" class="col" />
-			<p-skeleton height="16rem" width="12rem" class="col" />
-			<p-skeleton height="16rem" width="12rem" class="col" />
-			<p-skeleton height="16rem" width="12rem" class="col" />
-			<p-skeleton height="16rem" width="12rem" class="col" />
+			<p-skeleton height="16rem" width="11rem" class="col " />
+			<p-skeleton height="16rem" width="11rem" class="col" />
+			<p-skeleton height="16rem" width="11rem" class="col" />
+			<p-skeleton height="16rem" width="11rem" class="col" />
+			<p-skeleton height="16rem" width="11rem" class="col" />
+			<p-skeleton height="16rem" width="11rem" class="col" />
+			<p-skeleton height="16rem" width="11rem" class="col" />
+			<p-skeleton height="16rem" width="11rem" class="col" />
+			<p-skeleton height="16rem" width="11rem" class="col" />
+			<p-skeleton height="16rem" width="11rem" class="col" />
+			<p-skeleton height="16rem" width="11rem" class="col" />
+			<p-skeleton height="16rem" width="11rem" class="col" />
+			<p-skeleton height="16rem" width="11rem" class="col" />
+			<p-skeleton height="16rem" width="11rem" class="col" />
 	}
 </div>
 @if(showPaginator()){

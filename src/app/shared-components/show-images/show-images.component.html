@@ -1,11 +1,17 @@
-<p-dialog header="Select photo" [visible]="isActive" (visibleChange)="isActiveChange.emit($event)" [style]="{'width': '100%', 'height': '100%'}">
-	@if(images$() | async; as photos){
+<p-dialog
+	header="Select photo"
+	[visible]="isActive"
+	(visibleChange)="isActiveChange.emit($event)"
+	[style]="{'width': '100%', 'min-height': '100%'}">
+	<div class="grid justify-content-center">
+		@if(images$() | async; as photos){
 			@for (photo of photos.results; track $index) {
-					<div class="h-10rem inline-block m-3 cursor-pointer hover:shadow-8">
-							<img [src]="photo.image" alt="Not found" class="h-full border-round select-profile" (click)="getImage.emit(photo.image)">
-					</div>
+				<div class="col-4 h-15rem cursor-pointer hover:shadow-8 w-auto transition-duration-400">
+					<img [src]="photo.image" alt="Not found" class="h-full border-round select-profile" (click)="getImage.emit(photo.image)">
+				</div>
 			}
-	}@else {
-
-	}
+		}@else {
+			<p-skeleton />
+		}
+	</div>
 </p-dialog>

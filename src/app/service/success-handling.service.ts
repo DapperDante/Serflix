@@ -5,10 +5,7 @@ import { MessageService } from 'primeng/api';
   providedIn: 'root'
 })
 export class SuccessHandlingService {
-
-  constructor(private _message: MessageService) {
-		console.log(`Service ${this.constructor.name} is working`);
-	}
+  constructor(private _message: MessageService){}
 	showSuccessMessage(message: string){
 		this._message.add({severity:'success', summary:'Success', detail:message, closable: false});
 	}

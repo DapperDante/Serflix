@@ -1,0 +1,97 @@
+<div class="grid nested-grid justify-content-around" style="min-height: 80vh">
+	<div class="col-10 lg:col-6 h-8rem border-3 border-gray-400 mb-5">
+		<h1>Free</h1>
+		<p>0$/month</p>
+	</div>
+	<div class="col-12 lg:h-22rem">
+		<div class="grid nested-grid h-full justify-content-around">
+			<div class="col-12 lg:col-4 bg-red-500 border-round mb-8 lg:mb-0">
+				<div class="grid justify-content-center h-full align-items-center">
+					<div class="col-12">
+						<h2 class="text-center">Change password</h2>
+					</div>
+					<form [formGroup]="ChangePasswordForm">
+						<div class="field mb-5">
+							<p-floatLabel>
+								<p-password
+									id="old-password"
+									formControlName="currentPassword"
+									[feedback]="false"
+									[toggleMask]="true"/>
+								<label for="old-password">Password</label><br>
+							</p-floatLabel>
+						</div>
+						<div class="field mb-5">
+							<p-floatLabel>
+								<p-password
+									[toggleMask]="true"
+									id="new-password"
+									formControlName="newPassword">
+									<ng-template pTemplate="header">
+										<h6>Enter a new password</h6>
+									</ng-template>
+									<ng-template pTemplate="footer">
+										<p-divider />
+										<p class="mt-2">Suggestions</p>
+										<ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
+											<li>At least one lowercase</li>
+											<li>At least one uppercase</li>
+											<li>At least one numeric</li>
+											<li>Minimum 8 characters</li>
+										</ul>
+									</ng-template>
+								</p-password>
+								<label for="new-password">New password</label><br>
+							</p-floatLabel>
+						</div>
+						<p-button
+							label="Change password"
+							icon="pi pi-pencil"
+							class="my-2"
+							(onClick)="ChangePassword()"
+							[loading]="loadingChangePassword"></p-button>
+					</form>
+				</div>
+			</div>
+			<div class="col-12 lg:col-4 bg-red-500 border-round">
+				<div class="grid justify-content-center h-full align-items-center">
+					<div class="col-12 text-center">
+						<h2 class="text-center">Change username</h2>
+					</div>
+					<form [formGroup]="ChangeUsernameForm">
+						<div class="field mb-5">
+							<p-floatLabel>
+								<input
+									pInputText
+									id="new-username"
+									class="w-15rem"
+									formControlName="newUsername"
+									[maxlength]="40"
+									title="New username"/>
+								<label for="new-username">New username</label><br>
+							</p-floatLabel>
+						</div>
+						<div class="field mb-5">
+							<p-floatLabel>
+								<input
+									pInputText
+									id="repeat-username"
+									class="w-15rem"
+									formControlName="newUsername"
+									[maxlength]="40"
+									title="New username"/>
+								<label for="repeat-username">Repeat userename</label><br>
+							</p-floatLabel>
+						</div>
+						<p-button
+							label="Change username"
+							icon="pi pi-pencil"
+							class="my-2"
+							(onClick)="ChangeUsername()"
+							[loading]="loadingChangeUsername"></p-button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

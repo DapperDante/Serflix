@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, input, Output, output, signal } from '@angular/core';
 import { Observable } from 'rxjs';
-import { RickAndMortyCharacters } from 'src/app/layout/api/account.api';
+import { RickAndMortyCharacters } from 'src/app/interface/account.interface';
 
 @Component({
   selector: 'app-show-images',

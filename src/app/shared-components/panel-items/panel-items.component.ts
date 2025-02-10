@@ -2,9 +2,9 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, input, output } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { Observable } from 'rxjs';
+import { ManyMovies } from 'src/app/interface/movies.interface';
+import { ManySeries } from 'src/app/interface/series.interface';
 import { PageEvent } from 'src/app/layout/api/api-config';
-import { Movies } from 'src/app/movies/api/movies.api';
-import { Series } from 'src/app/series/api/series';
 
 @Component({
 	selector: 'app-panel-items',
@@ -16,6 +16,9 @@ import { Series } from 'src/app/series/api/series';
       text-overflow: ellipsis;
       white-space: nowrap;
     }
+		::ng-deep .p-skeleton{
+			margin: auto;
+		}
     .select-item:hover{
       transform: scale(1.05);
     }
@@ -34,7 +37,7 @@ export class PanelItemsComponent {
 	menuItems = input<MenuItem[]>();
 	activeItem = input<MenuItem>();
 	//Variable to control the items
-	items = input.required<Observable<Movies | Series | any>>();
+	items = input.required<Observable<ManyMovies | ManySeries | any>>();
 	title = input.required<String>();
 	getId = output<number>();
 	getIdAndType = output<{ id: number; type: string }>();

@@ -1,23 +1,16 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, input, output } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ProfileInfo } from 'src/app/layout/api/account.api';
-import { MoviesInfo } from 'src/app/movies/api/movie-info.api';
-import { Movies } from 'src/app/movies/api/movies.api';
-import { SeriesInfo } from 'src/app/series/api/serie-info.api';
-import { Series } from 'src/app/series/api/series';
+import { MovieInfo } from 'src/app/interface/movies.interface';
+import { SerieInfo } from 'src/app/interface/series.interface';
 
 @Component({
 	selector: 'app-list-items',
 	templateUrl: './list-items.component.html',
 	standalone: false,
 	styles: `
-		:host ::ng-deep .p-carousel-items-content .p-carousel-item {
-			flex: 0 0 12.5% !important;
-		}
 		.item:hover{
 			filter: brightness(0.4);
-			transition-duration: 200ms;
 		}
 	`,
 	animations: [
@@ -30,14 +23,29 @@ import { Series } from 'src/app/series/api/series';
 	],
 })
 export class ListItemsComponent {
-	items = input.required<Observable<Movies | Series | MoviesInfo | SeriesInfo | ProfileInfo>>();
-	title = input.required<String>();
-	getId = output<number>();
+	items = input.required<Observable<MovieInfo[] | SerieInfo[]>>();
+	title = input<String>();
 	getIdAndType = output<{ id: number; type: string }>();
-	EmitId(id: number, type?: string) {
-		if (type) {
-			return this.getIdAndType.emit({ id, type });
+	responsiveOptions?: any[];
+	console = console
+	ngOnInit(){
+		this.responsiveOptions = [
+			{
+				breakpoint: '1024px',
+				numVisible: 4,
+				numScroll: 1
+			},
+			{
+				breakpoint: '576px',
+				numVisible: 1,
+				numScroll: 1
+			}
+		]
+	}
+	EmitId(item: MovieInfo | SerieInfo) {
+		if ('original_title' in item) {
+			return this.getIdAndType.emit({ id: item.id, type: 'Movie'});
 		}
-		this.getId.emit(id);
+		this.getIdAndType.emit({ id: item.id, type: 'Serie'});
 	}
 }

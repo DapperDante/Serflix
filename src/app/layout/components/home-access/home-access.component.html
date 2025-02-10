@@ -1,25 +1,30 @@
 <div class="w-full h-21rem mb-4">
-	@if(mainEntertaiment$ | async; as mains){
-		<p-carousel [value]="mains.results" [numVisible]="1" [numScroll]="1" [autoplayInterval]="4500"
+	@if(mainItems$ | async; as main){
+		<p-carousel
+			[value]="main.results"
+			[numVisible]="1"
+			[numScroll]="1"
+			[autoplayInterval]="4500"
 			[showNavigators]="false">
-			<ng-template let-main pTemplate="item" class="h-full">
-				<div class="grid grid-nogutter h-20rem cursor-pointer">
-					<div class="relative col-6 h-full" (click)="SelectedMovie(main.id)">
-						<img title="movie" class="main-image border-round-left-md" [ngSrc]="main.backdrop_path" fill priority
-							[style]="{objectFit: 'cover'}" />
+			<ng-template let-main pTemplate="item">
+				<div class="grid grid-nogutter h-20rem cursor-pointer" (click)="SelectedMain(main)">
+					<div class="relative md:block col-12 md:col-6 h-full">
+						<img title="movie" class="main-image border-round-left-md"
+							[ngSrc]="main.backdrop_path" fill priority
+							[style]="{objectFit: 'cover'}"/>
 					</div>
-					<div class="relative col-6 h-full px-3">
-						<h3>{{main.original_title}}</h3>
-						<p>{{main.overview}}</p>
+					<div class="absolute md:relative col-6 h-full md:px-3">
+						<h3 class="text-backdrop">{{main.original_title || main.original_name}}</h3>
+						<p class="hidden md:block">{{main.overview}}</p>
 					</div>
 				</div>
 			</ng-template>
 		</p-carousel>
 	}@else {
-		<p-skeleton height="100%" />
+		<p-skeleton height="100%"/>
 	}
 </div>
-<div class="w-full h-5rem grid grid-nogutter">
+<div class="w-full h-5rem grid-nogutter lg:flex hidden">
 	<div class="col bg-green-500 mx-2 border-round categories" (click)="SelectedCategory(1)">
 		<h3 class="text-center pt-3">Adventure</h3>
 	</div>
@@ -33,6 +38,10 @@
 		<h3 class="text-center pt-3">Animation</h3>
 	</div>
 </div>
-<app-list-items [items]="profile$" title="Favorites" (getIdAndType)="SelectedFavorite($event)" />
-<app-list-items [items]="moviesData$" title="Popular movies" (getId)="SelectedMovie($event)" />
-<app-list-items [items]="serieData$" title="Popular series" (getId)="SelectedSerie($event)" />
+<app-list-items [items]="favorites$" title="Favorites" (getIdAndType)="SelectedItem($event)"/>
+<app-list-items [items]="recLastView$" [title]="nameOfLastViewedItem" (getIdAndType)="SelectedItem($event)" />
+<app-list-items [items]="recA$" (getIdAndType)="SelectedItem($event)"/>
+<app-list-items [items]="recB$" (getIdAndType)="SelectedItem($event)"/>
+<app-list-items [items]="recC$" (getIdAndType)="SelectedItem($event)"/>
+<app-list-items [items]="recD$" (getIdAndType)="SelectedItem($event)"/>
+<app-list-items [items]="recE$" (getIdAndType)="SelectedItem($event)"/>

@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { ProfileInfo, Profiles, RickAndMortyCharacters } from '../layout/api/account.api';
+import { Profile, ProfileInfo, RickAndMortyCharacters } from '../interface/account.interface';
 import { BehaviorSubject, catchError, map, Observable, tap, throwError } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from 'src/environments/environment.development';
@@ -20,10 +20,9 @@ export class ProfileService implements Service {
 	private readonly _auth = inject(AuthService);
 	private readonly _error = inject(ErrorHandlingService);
 	private readonly _sucessful = inject(SuccessHandlingService);
-	// this is more useful when you want to get the profile without making other or repeat requests
+	// In this way to get info about profile is more useful without repeat requests
 	private profile$: BehaviorSubject<ProfileInfo | undefined>;
 	constructor(private _router: Router) {
-		console.log(`Service ${this.constructor.name} is ready`);
 		this.profile$ = new BehaviorSubject<ProfileInfo | undefined>(undefined);
 	}
 	addProfile(img: string, name: string): Observable<{ msg: string; token: string }> {
@@ -41,8 +40,8 @@ export class ProfileService implements Service {
 				tap({ next: (access) => this._auth.setToken(access.token), error: (error) => this.ShowError(error) })
 			);
 	}
-	getProfiles(): Observable<Profiles> {
-		return this._http.get<Profiles>(`${PATH}/get-all`).pipe(
+	getProfiles(): Observable<{results: Profile[]}> {
+		return this._http.get<{results: Profile[]}>(`${PATH}/get-all`).pipe(
 			catchError(this.ErrorHandler),
 			tap({
 				error: (error) => this.ShowError(error),

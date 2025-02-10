@@ -6,9 +6,7 @@ import { MessageService } from 'primeng/api';
 })
 export class ErrorHandlingService {
 	private isError = false;
-	constructor(private _message: MessageService) {
-		console.log(`Service ${this.constructor.name} is ready`);
-	}
+	constructor(private _message: MessageService){}
 	public ShowError(message: string){
 		this._message.add({severity:'error', summary:'Error', detail:message});
 	}

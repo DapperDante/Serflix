@@ -3,37 +3,42 @@ import { LayoutService } from './service/app.layout.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-    selector: 'app-topbar',
-    templateUrl: './app.topbar.component.html',
-		styles: `
+	selector: 'app-topbar',
+	templateUrl: './app.topbar.component.html',
+	styles: `
 			.inputSearch:focus{
 				width: 20rem !important;
 				box-shadow: 0 0 0 0 !important;
 			}
-		`
+		`,
 })
 export class AppTopbarComponent {
-    searchText!: string;
-    @ViewChild('menuButton') menuButton!: ElementRef;
+	searchText!: string;
+	@ViewChild('menuButton') menuButton!: ElementRef;
 
-    @ViewChild('mobileMenuButton') mobileMenuButton!: ElementRef;
-    constructor(public layoutService: LayoutService, public el: ElementRef, private router: Router, private currentRouter: ActivatedRoute) {}
+	@ViewChild('mobileMenuButton') mobileMenuButton!: ElementRef;
+	constructor(
+		public layoutService: LayoutService,
+		public el: ElementRef,
+		private router: Router,
+		private currentRouter: ActivatedRoute
+	) {}
 
-    activeItem!: number;
+	activeItem!: number;
 
-    get mobileTopbarActive(): boolean {
-        return this.layoutService.state.topbarMenuActive;
-    }
+	get mobileTopbarActive(): boolean {
+		return this.layoutService.state.topbarMenuActive;
+	}
 
-    onMenuButtonClick() {
-        this.layoutService.onMenuToggle();
-    }
+	onMenuButtonClick() {
+		this.layoutService.onMenuToggle();
+	}
 
-    sendSearch(){
-        this.router.navigate(['search'], {relativeTo: this.currentRouter, queryParams: {query: this.searchText}})
-    }
-    onMobileTopbarMenuButtonClick() {
-        this.layoutService.onTopbarMenuToggle();
-    }
-
+	sendSearch() {
+		this.router.navigate(['search'], { relativeTo: this.currentRouter, queryParams: { query: this.searchText } });
+		this.searchText = '';
+	}
+	onMobileTopbarMenuButtonClick() {
+		this.layoutService.onTopbarMenuToggle();
+	}
 }

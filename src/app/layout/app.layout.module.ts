@@ -27,9 +27,9 @@ import { HomeAccessComponent } from './components/home-access/home-access.compon
 import { SharedComponentsModule } from '../shared-components/shared-components.module';
 import { CarouselModule } from 'primeng/carousel';
 import { NgOptimizedImage } from '@angular/common';
-import { ItemMoviesService } from '../movies/service/item-movies.service';
-import { ItemSeriesService } from '../series/service/item-series.service';
 import { FormsModule } from '@angular/forms';
+import { ItemMoviesService } from './components/movies/service/item-movies.service';
+import { ItemSeriesService } from './components/series/service/item-series.service';
 @NgModule({
 	declarations: [
 		AppLayoutComponent,

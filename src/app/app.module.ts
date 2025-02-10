@@ -1,31 +1,33 @@
 import { ErrorHandler, NgModule } from '@angular/core';
-import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { HashLocationStrategy, LocationStrategy, NgOptimizedImage } from '@angular/common';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AppLayoutModule } from './layout/app.layout.module';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { tmdbInterceptor } from './interceptors/tmdb.interceptor';
-import { ItemMoviesInterceptor } from './movies/service/item-movies.service';
-import { ItemSeriesInterceptor } from './series/service/item-series.service';
-import { FavoriteMoviesInterceptor } from './movies/service/favorite-movies.service';
-import { SearchMoviesInterceptor } from './search/search.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FavoriteSeriesInterceptor } from './series/service/favorite-series.service';
 import { backendInterceptor } from './interceptors/backend.interceptor';
 import { GlobalErrorService } from './error/global-error.service';
 import { ToastModule } from 'primeng/toast';
 import { ErrorPageComponent } from './error/error-page/error-page.component';
 import { errorHandlingInterceptor } from './error/error-handling.interceptor';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { SelectprofileComponent } from './layout/components/select-profile/select-profile.component';
+import { SelectprofileComponent } from './select-profile/select-profile.component';
 import { DialogModule } from 'primeng/dialog';
 import { SharedComponentsModule } from './shared-components/shared-components.module';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { SkeletonModule } from 'primeng/skeleton';
+import { RecommendationInterceptor } from './layout/service/recommendation.service';
+import { ItemMoviesInterceptor } from './layout/components/movies/service/item-movies.service';
+import { ItemSeriesInterceptor } from './layout/components/series/service/item-series.service';
+import { FavoriteMoviesInterceptor } from './layout/components/movies/service/favorite-movies.service';
+import { FavoriteSeriesInterceptor } from './layout/components/series/service/favorite-series.service';
+import { SearchMoviesInterceptor } from './layout/components/search/search.service';
 
 @NgModule({
 	declarations: [AppComponent, ErrorPageComponent, SelectprofileComponent, NotFoundComponent],
@@ -41,7 +43,10 @@ import { NotFoundComponent } from './not-found/not-found.component';
 		ButtonModule,
 		DialogModule,
 		ConfirmDialogModule,
-		ReactiveFormsModule
+		ReactiveFormsModule,
+		SkeletonModule,
+		FormsModule,
+		NgOptimizedImage
 	],
 	providers: [
 		{ provide: ErrorHandler, useClass: GlobalErrorService },
@@ -56,6 +61,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 				FavoriteSeriesInterceptor,
 				SearchMoviesInterceptor,
 				errorHandlingInterceptor,
+				RecommendationInterceptor
 			])
 		),
 		MessageService,

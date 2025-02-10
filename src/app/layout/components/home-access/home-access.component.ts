@@ -1,63 +1,100 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { ItemMoviesService } from 'src/app/movies/service/item-movies.service';
-import { map, Observable } from 'rxjs';
-import { Movies } from 'src/app/movies/api/movies.api';
-import { Series } from 'src/app/series/api/series';
-import { ItemSeriesService } from 'src/app/series/service/item-series.service';
+import { map, Observable, of } from 'rxjs';
+import { MovieBasic, MovieInfo } from 'src/app/interface/movies.interface';
+import { SerieBasic, SerieInfo } from 'src/app/interface/series.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProfileService } from 'src/app/service/profile.service';
+import { RecommendationService } from '../../service/recommendation.service';
+import { RecGlobal } from 'src/app/interface/recommendation.interface';
 @Component({
 	selector: 'app-home-access',
 	templateUrl: './home-access.component.html',
 	styles: `
 		.main-image{
-			mask-image: linear-gradient(to right, black 80%, transparent)
+			mask-image: linear-gradient(to right, black 70%, transparent)
 		}
 		.categories:hover{
 			opacity: 0.5;
 			transition-duration: 400ms;
 			cursor: pointer;
 		}
+		@media (max-width: 576px) {
+			.text-backdrop{
+				padding: 1.5rem;
+				background: linear-gradient(135deg, rgba(0,0,0,1) 38%, transparent 100%);
+				mask-image: linear-gradient(to right, black 90%, transparent),
+										linear-gradient(to bottom, black 90%, transparent);
+				mask-composite: intersect;
+        -webkit-mask-composite: source-in;
+			}
+		}
 	`,
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeAccessComponent {
-	private readonly _movies = inject(ItemMoviesService);
-	private readonly _series = inject(ItemSeriesService);
+	private readonly _recommendation = inject(RecommendationService);
 	private readonly _profile = inject(ProfileService);
-	mainEntertaiment$!: Observable<Movies>;
-	moviesData$!: Observable<Movies>;
-	profile$!: Observable<any>;
-	serieData$!: Observable<Series>;
+	mainItems$!: Observable<RecGlobal>;
+	favorites$!: Observable<any>;
+	recLastView$!: Observable<MovieBasic[] | SerieBasic[]>;
+	recA$!: Observable<MovieBasic[] | SerieBasic[]>;
+	recB$!: Observable<MovieBasic[] | SerieBasic[]>;
+	recC$!: Observable<MovieBasic[] | SerieBasic[]>;
+	recD$!: Observable<MovieBasic[] | SerieBasic[]>;
+	recE$!: Observable<MovieBasic[] | SerieBasic[]>;
+	nameOfLastViewedItem?: string;
 	itemsToShowMain = 4;
-	constructor(private router: Router, private routerCurrent: ActivatedRoute) {}
+	constructor(private _router: Router, private _routerCurrent: ActivatedRoute) {}
 	ngOnInit() {
-		this.moviesData$ = this._movies.getMoviesPopular();
-		this.serieData$ = this._series.getSeriesPopular();
-		this.mainEntertaiment$ = this._movies.getMoviesTopReated().pipe(
-			map((data) => {
-				data.results = data.results.slice(0, this.itemsToShowMain);
-				return data;
-			})
+		this.mainItems$ = this._recommendation.getRecommendations()
+		.pipe(
+			map(
+				data => {
+					data.results = data.results.slice(0, this.itemsToShowMain);
+					return data;
+				}
+			)
 		);
-		this.profile$ = this._profile.getProfile();
+		this._recommendation.getRecommendationsByProfile()
+			.subscribe(data => {
+				const {last_viewed} = data;
+				if(last_viewed)
+					this.nameOfLastViewedItem = `Because you watched ${last_viewed.original_name || last_viewed.original_title}`;
+				const {recommendations} = data;
+				this.recLastView$ = of(last_viewed?.recommendations?.results ? last_viewed?.recommendations?.results : []);
+				this.recA$ = of(recommendations[0]?.results ? recommendations[0]?.results : []);
+				this.recB$ = of(recommendations[1]?.results ? recommendations[1]?.results : []);
+				this.recC$ = of(recommendations[2]?.results ? recommendations[2]?.results : []);
+				this.recD$ = of(recommendations[3]?.results ? recommendations[3]?.results : []);
+				this.recE$ = of(recommendations[4]?.results ? recommendations[4]?.results : []);
+			})
+		this.favorites$ = this._profile.getProfile().asObservable()
+			.pipe(map(profile => profile?.results));
 	}
 	ngAfterViewInit(){
 		this._profile.refreshProfile();
 	}
-	SelectedMovie(idMovie: number) {
-		this.router.navigate(['movie', idMovie], { relativeTo: this.routerCurrent });
-	}
-	SelectedSerie(idSerie: number) {
-		this.router.navigate(['serie', idSerie], { relativeTo: this.routerCurrent });
-	}
-	SelectedFavorite(data: {id: number, type: string}) {
-		if(data.type === 'movie'){
-			return this.SelectedMovie(data.id);
+	SelectedMain(item: MovieInfo | SerieInfo){
+		if('original_name' in item){
+			this.NavigateToSerie(item.id);
+			return;
 		}
-		this.SelectedSerie(data.id)
+		this.NavigateToMovie(item.id);
+	}
+	SelectedItem(item: {id: number, type: string}){
+		if(item.type === 'Serie'){
+			this.NavigateToSerie(item.id);
+			return;
+		}
+		this.NavigateToMovie(item.id);
+	}
+	NavigateToMovie(idMovie: number) {
+		this._router.navigate(['movie', idMovie], { relativeTo: this._routerCurrent });
+	}
+	NavigateToSerie(idSerie: number) {
+		this._router.navigate(['serie', idSerie], { relativeTo: this._routerCurrent });
 	}
 	SelectedCategory(idCategory: number | string) {
-		this.router.navigate(['categories', idCategory], { relativeTo: this.routerCurrent });
+		this._router.navigate(['categories', idCategory], { relativeTo: this._routerCurrent });
 	}
 }

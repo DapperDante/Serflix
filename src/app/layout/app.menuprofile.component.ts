@@ -3,7 +3,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
 import { LayoutService } from './service/app.layout.service';
 import { ProfileService } from '../service/profile.service';
 import { Router } from '@angular/router';
-import { ProfileInfo } from './api/account.api';
+import { ProfileInfo } from '../interface/account.interface';
 import { AuthService } from '../service/auth.service';
 import { Observable } from 'rxjs';
 

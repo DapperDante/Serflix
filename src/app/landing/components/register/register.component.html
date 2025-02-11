@@ -6,19 +6,32 @@
 			<h1>Register</h1>
 			<div class="field">
 				<p-floatLabel>
-					<input pInputText id="new-user" class="w-15rem" formControlName="name" [maxlength]="40" />
+					<input
+						pInputText
+						id="new-user"
+						class="w-15rem"
+						formControlName="username"
+						[maxlength]="40"/>
 					<label for="new-user">Username</label><br>
 				</p-floatLabel>
 			</div>
 			<div class="field">
 				<p-floatLabel>
-					<input pInputText id="new-email" class="w-15rem" formControlName="email" />
+					<input
+						pInputText
+						id="new-email"
+						class="w-15rem"
+						formControlName="email"/>
 					<label for="new-email">Email</label><br>
 				</p-floatLabel>
 			</div>
 			<div class="field">
 				<p-floatLabel>
-					<p-password [toggleMask]="true" class="w-15rem" id="password" formControlName="password">
+					<p-password
+						[toggleMask]="true"
+						class="w-15rem"
+						id="password"
+						formControlName="password">
 						<ng-template pTemplate="header">
 							<h6>Pick a password</h6>
 						</ng-template>

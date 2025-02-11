@@ -10,27 +10,35 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent {
 	private readonly _auth = inject(AuthService);
-	loading = false;
 	constructor(private router: Router) {}
 	registerForm = new FormGroup({
-		name: new FormControl('', [Validators.required, Validators.minLength(10)]),
+		username: new FormControl('', [Validators.required, Validators.minLength(this._auth.minLengthUsername)]),
 		email: new FormControl('', [Validators.required, Validators.email]),
 		password: new FormControl('',
 			[
 				Validators.required,
-				Validators.minLength(9),
-				Validators.pattern(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{8,}$/)
+				Validators.minLength(this._auth.minLengthPassword),
+				Validators.pattern(this._auth.regexToPassword)
 			]
 		),
 	});
+	loading = false;
 	Register(): boolean {
-		if (this.registerForm.invalid) {
-			this._auth.ShowError(new Error('Invalid form'));
+		if(this.registerForm.get('username')?.invalid){
+			this._auth.ShowError(new Error('Invalid username'));
 			return false;
 		}
-		const { name, email, password } = this.registerForm.value;
+		if(this.registerForm.get('email')?.invalid){
+			this._auth.ShowError(new Error('Invalid email'));
+			return false;
+		}
+		if(this.registerForm.get('password')?.invalid){
+			this._auth.ShowError(new Error('Invalid password'));
+			return false;
+		}
+		const { username, email, password } = this.registerForm.value;
 		this.loading = true;
-		this._auth.Register(name!, email!, password!).subscribe({
+		this._auth.Register(username!, email!, password!).subscribe({
 			next: () => {
 				this.router.navigate(['/profile']);
 			},

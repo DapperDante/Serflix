@@ -11,13 +11,22 @@ export class LoginComponent {
 	private readonly _auth = inject(AuthService);
 	constructor(private router: Router) {}
 	loginForm = new FormGroup({
-		username: new FormControl('', [Validators.required]),
-		password: new FormControl('', [Validators.required, Validators.minLength(9)]),
+		username: new FormControl('', [Validators.required, Validators.minLength(this._auth.minLengthUsername)]),
+		password: new FormControl('',
+			[
+				Validators.required,
+				Validators.minLength(this._auth.minLengthPassword),
+				Validators.pattern(this._auth.regexToPassword)
+			]),
 	});
 	loading = false;
 	Login(): boolean {
-		if (this.loginForm.invalid) {
-			this._auth.ShowError(new Error('Invalid form'));
+		if(this.loginForm.get('username')?.invalid){
+			this._auth.ShowError(new Error('Invalid username'));
+			return false;
+		}
+		if(this.loginForm.get('password')?.invalid){
+			this._auth.ShowError(new Error('Invalid password'));
 			return false;
 		}
 		const { username, password } = this.loginForm.value;

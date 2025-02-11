@@ -18,6 +18,10 @@ export class AuthService implements Service {
 	private readonly _error = inject(ErrorHandlingService);
 	private readonly _cookieService = inject(CookieService);
 	private readonly _success = inject(SuccessHandlingService);
+	//It's central to validation of login and register
+	readonly minLengthPassword = 9;
+	readonly minLengthUsername = 10;
+	readonly regexToPassword = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
 	constructor(private _router: Router) {}
 	Register(username: string, email: string, password: string): Observable<{ msg: string; token: string }> {
 		const newUser = { username, email, password };

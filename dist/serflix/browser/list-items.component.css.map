@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["list-items.component.ts"],
-  "sourcesContent": ["\n\t\t:host ::ng-deep .p-carousel-items-content .p-carousel-item {\n\t\t\tflex: 0 0 12.5% !important;\n\t\t}\n\t"],
-  "mappings": ";AACE,MAAA,UAAA,CAAA,yBAAA,CAAA;AACC,QAAA,EAAA,EAAA;;",
-  "names": []
-}

@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["panel-items.component.ts"],
-  "sourcesContent": ["\n    ::ng-deep .card-custom .p-card-title{\n      overflow: hidden;\n      text-overflow: ellipsis;\n      white-space: nowrap;\n    }\n    .select-item:hover{\n      transform: scale(1.05);\n    }\n  "],
-  "mappings": ";AACI,UAAA,CAAA,YAAA,CAAA;AACE,YAAA;AACA,iBAAA;AACA,eAAA;;AAEF,CAAA,WAAA;AACE,aAAA,MAAA;;",
-  "names": []
-}

@@ -17,7 +17,7 @@ export class AppComponent {
             inputStyle: 'outlined',
             menuMode: 'overlay',
             colorScheme: 'dark',
-            componentTheme: 'blue',
+            componentTheme: 'dark',
             scale: 14,
             menuTheme: 'dark',
             topbarTheme: 'red',

@@ -5,6 +5,7 @@
 		"start": "ng serve",
 		"build": "ng build --configuration production",
 		"watch": "ng build --watch --configuration development",
+		"build-css": "sass src/assets --no-source-map --style compressed",
 		"test": "ng test",
 		"lint": "ng lint"
 	},
@@ -21,7 +22,6 @@
 		"@angular/platform-browser-dynamic": "^18.2.7",
 		"@angular/router": "^18.2.7",
 		"@angular/youtube-player": "^17.0.0",
-		"@types/node": "^22.7.5",
 		"chart.js": "^3.3.2",
 		"ngx-cookie-service": "^18.0.0",
 		"node": "^20.18.0",
@@ -38,6 +38,7 @@
 		"@angular/cli": "^18.2.7",
 		"@angular/compiler-cli": "^18.2.7",
 		"@types/jasmine": "^5.1.4",
+		"@types/node": "^22.13.5",
 		"jasmine-core": "^5.3.0",
 		"karma": "~6.4.2",
 		"karma-chrome-launcher": "~3.2.0",
@@ -45,6 +46,7 @@
 		"karma-jasmine": "~5.1.0",
 		"karma-jasmine-html-reporter": "~2.1.0",
 		"ng-mocks": "^14.13.1",
+		"sass": "^1.85.0",
 		"typescript": "~5.5.4"
 	}
 }

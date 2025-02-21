@@ -47,11 +47,12 @@ jobs:
     needs: build
     steps:
       - name: deploy to production
-        run: | 
-          npm install --force
+        run: |
+          npm install
           npm build
+					npm build-css
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-        with: 
+        with:
           publish_dir: ./dist/serflix/browser

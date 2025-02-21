@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["app.topbar.component.ts"],
-  "sourcesContent": ["\n\t\t\t.inputSearch:focus{\n\t\t\t\twidth: 20rem !important;\n\t\t\t\tbox-shadow: 0 0 0 0 !important;\n\t\t\t}\n\t\t"],
-  "mappings": ";AACG,CAAA,WAAA;AACC,SAAA;AACA,cAAA,EAAA,EAAA,EAAA;;",
-  "names": []
-}

@@ -37,8 +37,3 @@ testem.log
 
 # System Files
 .DS_Store
-
-# Compiled files
-theme.css
-layout.css
-src/assets/layout/styles/layout/preloading.css

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { AppLayoutComponent } from './layout/app.layout.component';
-import { SelectprofileComponent } from './select-profile/select-profile.component';
+import { SelectProfileComponent } from './select-profile/select-profile.component';
 import { isLogged, isNotLogged, isNotSelectedProfile, isSelectedProfile } from './guards/log.guard';
 import { HomeAccessComponent } from './layout/components/home-access/home-access.component';
 import { ErrorPageComponent } from './error/error-page/error-page.component';
@@ -11,7 +11,6 @@ const routerOptions: ExtraOptions = {
 	anchorScrolling: 'enabled',
 	scrollPositionRestoration: 'enabled',
 };
-
 const routes: Routes = [
 	{
 		path: 'home',
@@ -48,8 +47,8 @@ const routes: Routes = [
 	},
 	{
 		path: 'profile',
-		component: SelectprofileComponent,
-		title: 'Profiles',
+		component: SelectProfileComponent,
+		title: 'Profiles | Serflix',
 		canActivate: [isLogged, isNotSelectedProfile, notError]
 	},
 	{

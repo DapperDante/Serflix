@@ -17,29 +17,29 @@ export class ItemSeriesService implements Service{
 	getSeriesAiringToday(page: number | string = 1): Observable<ManySeries> {
 		return this._http.get<ManySeries>(`${PATH}/airing_today?language=US&page=${page}`)
 		.pipe(
-			catchError(this.ErrorHandler),
-			tap({error: (error)=>this.ShowError(error)})
+			catchError(this.errorHandler),
+			tap({error: (error)=>this.showError(error)})
 		)
 	}
 	getSeriesOnTheAir(page: number | string = 1): Observable<ManySeries> {
 		return this._http.get<ManySeries>(`${PATH}/on_the_air?language=US&page=${page}`)
 		.pipe(
-			catchError(this.ErrorHandler),
-			tap({error: (error)=>this.ShowError(error)})
+			catchError(this.errorHandler),
+			tap({error: (error)=>this.showError(error)})
 		);
 	}
 	getSeriesPopular(page: number | string = 1): Observable<ManySeries> {
 		return this._http.get<ManySeries>(`${PATH}/popular?language=US&page=${page}`)
 		.pipe(
-			catchError(this.ErrorHandler),
-			tap({error: (error)=>this.ShowError(error)})
+			catchError(this.errorHandler),
+			tap({error: (error)=>this.showError(error)})
 		);
 	}
 	getSeriesTopRated(page: number | string = 1): Observable<ManySeries> {
 		return this._http.get<ManySeries>(`${PATH}/top_rated?language=US&page=${page}`)
 		.pipe(
-			catchError(this.ErrorHandler),
-			tap({error: (error)=>this.ShowError(error)})
+			catchError(this.errorHandler),
+			tap({error: (error)=>this.showError(error)})
 		);
 	}
 	getSerieById(id: number): Observable<SerieInfo> {
@@ -55,23 +55,23 @@ export class ItemSeriesService implements Service{
 					}
 					return data;
 				}),
-				catchError(this.ErrorHandler),
+				catchError(this.errorHandler),
 				tap({
-					error: (error)=>this.ShowError(error)
+					error: (error)=>this.showError(error)
 				})
 			);
 	}
 	getSeriesByGenre(idGenre: number | string, page: number | string = 1): Observable<ManySeries> {
 		return this._http.get<ManySeries>(`${PATH_DISCOVER}?with_genres=${idGenre}&page=${page}`)
 		.pipe(
-			catchError(this.ErrorHandler),
-			tap({error: (error)=>this.ShowError(error)})
+			catchError(this.errorHandler),
+			tap({error: (error)=>this.showError(error)})
 		);
 	}
-	ShowError(error: Error): void {
+	showError(error: Error): void {
 		this._error.ShowError(error.message);
 	}
-	ErrorHandler(error: HttpErrorResponse): Observable<never> {
+	errorHandler(error: HttpErrorResponse): Observable<never> {
 		let message = '';
 		switch(error.status){
 			case 404:

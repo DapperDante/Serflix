@@ -20,9 +20,9 @@ export class FavoriteSeriesService implements Service {
 	addSerie(idSerie: number): Observable<{ msg: string; id: number; goal?: Goal }> {
 		const serie = { idSerie };
 		return this._http.post<{ msg: string; id: number; goal: Goal }>(`${PATH}/add`, serie).pipe(
-			catchError(this.ErrorHandler),
+			catchError(this.errorHandler),
 			tap({
-				error: (error) => this.ShowError(error),
+				error: (error) => this.showError(error),
 				next: (value) => {
 					if (value.goal) this._succesful.showGoalMessage(value.goal);
 					this._succesful.showAddItemMessage('Serie added to favorite');
@@ -33,21 +33,21 @@ export class FavoriteSeriesService implements Service {
 	getSerieByProfile(idSerie: number | string): Observable<SerieRequest> {
 		return this._http
 			.get<SerieRequest>(`${PATH}/get/${idSerie}`)
-			.pipe(catchError(this.ErrorHandler), tap({ error: (error) => this.ShowError(error) }));
+			.pipe(catchError(this.errorHandler), tap({ error: (error) => this.showError(error) }));
 	}
 	deleteSerie(idSerie: number | string): Observable<void> {
 		return this._http.delete<void>(`${PATH}/delete/${idSerie}`).pipe(
-			catchError(this.ErrorHandler),
+			catchError(this.errorHandler),
 			tap({
-				error: (error) => this.ShowError(error),
+				error: (error) => this.showError(error),
 				next: () => this._succesful.showDeleteItemMessage('Serie deleted from favorite'),
 			})
 		);
 	}
-	ShowError(error: Error): void {
+	showError(error: Error): void {
 		this._error.ShowError(error.message);
 	}
-	ErrorHandler(error: HttpErrorResponse): Observable<never> {
+	errorHandler(error: HttpErrorResponse): Observable<never> {
 		let message = '';
 		switch (error.status) {
 			case 404:

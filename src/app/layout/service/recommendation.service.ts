@@ -19,21 +19,21 @@ export class RecommendationService implements Service{
 	getRecommendationsByProfile(): Observable<RecByProfile> {
 		return this._http.get<RecByProfile>(`${PATH}/get-profile`)
 		.pipe(
-			catchError(this.ErrorHandler),
-			tap({error: (error)=>this.ShowError(error)})
+			catchError(this.errorHandler),
+			tap({error: (error)=>this.showError(error)})
 		)
 	}
 	getRecommendations(): Observable<RecGlobal>{
 		return this._http.get<RecGlobal>(`${PATH}/get`)
 		.pipe(
-			catchError(this.ErrorHandler),
-			tap({error: (error)=>this.ShowError(error)})
+			catchError(this.errorHandler),
+			tap({error: (error)=>this.showError(error)})
 		)
 	}
-	ShowError(error: Error): void {
+	showError(error: Error): void {
 		this._error.ShowError(error.message);
 	}
-	ErrorHandler(error: HttpErrorResponse): Observable<never> {
+	errorHandler(error: HttpErrorResponse): Observable<never> {
 		let message = '';
 		switch(error.status){
 			default:

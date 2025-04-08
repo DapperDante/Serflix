@@ -17,12 +17,17 @@ export class SearchService implements Service {
 	getItemsByQuery(query: string, times: number | string, manyItemsRelation: number | string): Observable<ManyMovies> {
 		return this._http
 			.get<ManyMovies>(`${PATH}?query=${query}&times=${times}&manyItemsRelation=${manyItemsRelation}`)
-			.pipe(catchError(this.ErrorHandler), tap({ error: (error)=>this.ShowError(error) }));
+			.pipe(
+				catchError(this.errorHandler),
+				tap({
+					error: (error)=>this.showError(error)
+				})
+			);
 	}
-	ShowError(error: Error): void {
+	showError(error: Error): void {
 		this._error.ShowError(error.message);
 	}
-	ErrorHandler(error: HttpErrorResponse): Observable<never> {
+	errorHandler(error: HttpErrorResponse): Observable<never> {
 		let message = '';
 		switch (error.status) {
 			case 404: {

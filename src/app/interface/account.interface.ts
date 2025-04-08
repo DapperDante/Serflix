@@ -3,12 +3,12 @@ export interface Profile{
 	name: string,
 	img: string
 }
-
 export interface ProfileInfo {
 	name: string,
 	img: string,
 	results: ProfileItem[],
-	goals: Goal[]
+	goals: Goal[],
+	plan: {id: number, name: string, price: string, styleClass: string};
 }
 
 export interface ProfileItem{

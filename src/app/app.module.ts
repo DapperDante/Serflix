@@ -13,7 +13,7 @@ import { ToastModule } from 'primeng/toast';
 import { ErrorPageComponent } from './error/error-page/error-page.component';
 import { errorHandlingInterceptor } from './error/error-handling.interceptor';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { SelectprofileComponent } from './select-profile/select-profile.component';
+import { SelectProfileComponent } from './select-profile/select-profile.component';
 import { DialogModule } from 'primeng/dialog';
 import { SharedComponentsModule } from './shared-components/shared-components.module';
 import { InputTextModule } from 'primeng/inputtext';
@@ -28,9 +28,16 @@ import { ItemSeriesInterceptor } from './layout/components/series/service/item-s
 import { FavoriteMoviesInterceptor } from './layout/components/movies/service/favorite-movies.service';
 import { FavoriteSeriesInterceptor } from './layout/components/series/service/favorite-series.service';
 import { SearchMoviesInterceptor } from './layout/components/search/search.service';
+import { WelcomeComponent } from './welcome/welcome.component';
 
 @NgModule({
-	declarations: [AppComponent, ErrorPageComponent, SelectprofileComponent, NotFoundComponent],
+	declarations: [
+		AppComponent,
+		ErrorPageComponent,
+		SelectProfileComponent,
+		NotFoundComponent,
+  	WelcomeComponent
+	],
 	imports: [
 		AppRoutingModule,
 		AppLayoutModule,
@@ -65,7 +72,7 @@ import { SearchMoviesInterceptor } from './layout/components/search/search.servi
 			])
 		),
 		MessageService,
-		ConfirmationService,
+		ConfirmationService
 	],
 	bootstrap: [AppComponent],
 })

@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { LandingComponent } from './components/landing/landing.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 const routes: Routes = [
   {
@@ -13,13 +15,23 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
-    title: 'Login'
+    title: 'Login | Serflix'
   },
   {
     path: 'register',
     component: RegisterComponent,
-    title: 'Register'
-  }
+    title: 'Register | Serflix'
+  },
+	{
+		path: 'reset-password',
+		component: ForgotPasswordComponent,
+		title: 'Forgot Password | Serflix'
+	},
+	{
+		path: 'reset-password/:token',
+		component: ResetPasswordComponent,
+		title: 'Reset Password | Serflix'
+	}
 ]
 
 @NgModule({
@@ -27,4 +39,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
 exports: [RouterModule]
 })
-export class HomeRoutingModule { }
+export class LandingRoutingModule { }

@@ -5,6 +5,7 @@ export const environment = {
 	API_TMDB: 'https://api.themoviedb.org/3',
 	API_BACKEND: 'https://server-serflix.onrender.com/api',
 	API_BACKEND_RECOMMENDATION: 'https://server-serflix.onrender.com/api/recommendation',
+	API_BACKEND_LAYOUT: "http://localhost:3000/api/layout",
 	API_BACKEND_MOVIE: 'https://server-serflix.onrender.com/api/movie',
 	API_BACKEND_SERIE: 'https://server-serflix.onrender.com/api/serie',
 	API_BACKEND_USER: 'https://server-serflix.onrender.com/api/user',

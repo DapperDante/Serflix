@@ -24,21 +24,22 @@ export class RegisterComponent {
 	});
 	loading = false;
 	Register(): boolean {
+		console.log(this.registerForm);
 		if(this.registerForm.get('username')?.invalid){
-			this._auth.ShowError(new Error('Invalid username'));
+			this._auth.showError(new Error('Invalid username'));
 			return false;
 		}
 		if(this.registerForm.get('email')?.invalid){
-			this._auth.ShowError(new Error('Invalid email'));
+			this._auth.showError(new Error('Invalid email'));
 			return false;
 		}
 		if(this.registerForm.get('password')?.invalid){
-			this._auth.ShowError(new Error('Invalid password'));
+			this._auth.showError(new Error('Invalid password'));
 			return false;
 		}
 		const { username, email, password } = this.registerForm.value;
 		this.loading = true;
-		this._auth.Register(username!, email!, password!).subscribe({
+		this._auth.register(username!, email!, password!).subscribe({
 			next: () => {
 				this.router.navigate(['/profile']);
 			},

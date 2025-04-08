@@ -1,45 +1,84 @@
-<div class="w-full h-screen p-8">
-	<div>
+<div class="relative w-full h-screen grid grid-nogutter nested-grid justify-content-center align-items-center overflow-hidden">
+	<div class="bg-red-700 shadow-8 border-round p-3 container-login" @container style="z-index: 3">
+		<form [formGroup]="loginForm" (keyup.enter)="Login()">
+			<div class="grid grid-nogutter w-30rem lg:w-25rem h-30rem bg-red-600 m-auto p-4 border-round shadow-3 align-content-between">
+				<h1 class="col-12 m-0">Login</h1>
+				<div class="col-12 mt-2">
+					<p-floatLabel>
+						<input
+							pInputText
+							id="username"
+							class="w-full py-3"
+							formControlName="username"/>
+						<label for="username">Username</label><br>
+					</p-floatLabel>
+				</div>
+				<div class="col-12 mt-2">
+					<p-floatLabel>
+						<p-password
+							[feedback]="false"
+							[toggleMask]="true"
+							id="password"
+							formControlName="password"
+							placeholder="Password"
+							styleClass="w-full"
+							inputStyleClass="w-full py-3">
+						</p-password>
+						<label for="password">Password</label><br>
+					</p-floatLabel>
+				</div>
+				<div class="col-12">
+					<a class="text-white underline" routerLink="/reset-password">Forgot password?</a>
+				</div>
+				<div class="col-12">
+					<p-button
+						label="Login"
+						icon="pi pi-sign-in"
+						(onClick)="Login()"
+						size="large"
+						styleClass="w-full"
+						[loading]="loading"></p-button>
+				</div>
+				<div class="col-12">
+					<p class="text-center">If you don't have account, <a routerLink="/register">Register</a></p>
+				</div>
+				<div class="my-3 col-12 h-3rem">
+					<div class="grid grid-nogutter justify-content-around">
+						<p-button
+							icon="pi pi-google"
+							styleClass="col-3 w-full shadow-3 cursor-pointer"/>
+						<p-button
+							icon="pi pi-facebook"
+							styleClass="w-full col-3 shadow-3 cursor-pointer"/>
+						<p-button
+							icon="pi pi-github"
+							styleClass="w-full col-3 shadow-3 cursor-pointer"/>
+						<p-button
+							icon="pi pi-microsoft"
+							styleClass="w-full col-3 shadow-3 cursor-pointer"/>
+					</div>
+				</div>
+			</div>
+		</form>
 	</div>
-	<form [formGroup]="loginForm" (keyup.enter)="Login()">
-		<div
-			class="m-auto lg:w-25rem h-30rem bg-red-600 m-auto flex flex-column justify-content-between align-items-center p-4 border-round shadow-3">
-			<h1>Login</h1>
-			<div class="field">
-				<p-floatLabel>
-					<input
-						pInputText
-						id="username"
-						class="w-15rem"
-						formControlName="username"/>
-					<label for="username">Username</label><br>
-				</p-floatLabel>
+	<!-- wave -->
+	<div class="absolute w-full z-1" style="bottom: -10px">
+		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+			<path fill="#dc3545" fill-opacity="1" d="M0,0L80,42.7C160,85,320,171,480,170.7C640,171,800,85,960,48C1120,11,1280,21,1360,26.7L1440,32L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"></path>
+		</svg>
+	</div>
+	<!-- background pictures-->
+	 <div class="absolute grid grid-nogutter w-screen z-0 top-0 background">
+		@for(url of urlPosters; track $index){
+			<div class="col-2 relative h-auto">
+				<img
+					[ngSrc]="url"
+					alt="poster"
+					style="max-width: 100%; height: auto;"
+					[priority]="true"
+					fill
+					(load)="loadImage()">
 			</div>
-			<div class="field">
-				<p-floatLabel>
-					<p-password
-						[feedback]="false"
-						[toggleMask]="true"
-						id="password"
-						formControlName="password"
-						placeholder="Password">
-					</p-password>
-					<label for="password">Password</label><br>
-				</p-floatLabel>
-			</div>
-			<p-button
-				label="Login"
-				icon="pi pi-sign-in"
-				class="my-2"
-				(onClick)="Login()"
-				[loading]="loading"></p-button>
-			<small>If you don't have account, <a routerLink="/register">Register</a></small>
-			<div class="my-3">
-				<p-button icon="pi pi-google" class="mr-2" />
-				<p-button icon="pi pi-facebook" class="mr-2" />
-				<p-button icon="pi pi-github" class="mr-2" />
-				<p-button icon="pi pi-microsoft" class="mr-2" />
-			</div>
-		</div>
-	</form>
+		}
+	 </div>
 </div>

@@ -1,11 +1,14 @@
+@if(isFirstTime){
+	<app-welcome></app-welcome>
+}
 <div class="flex justify-content-around flex-column align-items-center h-screen">
 	@if(profiles$ | async; as profiles){
 		<h1 class="text-center py-5">Select your profile</h1>
 		<div class="grid w-15rem lg:w-full align-items-center justify-content-around">
-			@if(profiles.results.length){
+			@if(profiles.results){
 				@for(profile of profiles.results; track $index){
 					<div class="col-12 lg:col-3 text-center">
-						<div class="relative h-15rem" (click)="SelectProfile(profile.id)">
+						<div class="relative h-15rem" (click)="selectProfile(profile.id)">
 							<img
 								[ngSrc]="profile.img"
 								alt="Image's profile"
@@ -17,7 +20,7 @@
 					</div>
 				}
 			}
-			@if(profiles.results.length < 5){
+			@if(!profiles.results || profiles.results.length < 5){
 				<div
 						class="col-12 lg:col-3 h-15rem flex justify-content-center align-items-center select-profile">
 						<div class="p-6 bg-red-500 border-round cursor-pointer" (click)="addProfile = true">
@@ -36,9 +39,9 @@
 	[style]="{'width': '25rem', 'height': '30rem'}">
 	<div class="flex justify-content-center align-items-center pointer h-10rem w-10rem m-auto">
 		@if(newPhotoProfile){
-			<img [src]="newPhotoProfile" alt="Not found" (click)="ViewPhotosForProfile()" class="h-full">
+			<img [src]="newPhotoProfile" alt="Not found" (click)="viewPhotosForProfile()" class="h-full">
 		}@else {
-			<i class="pi pi-user" [style]="{'font-size': '10rem'}" (click)="ViewPhotosForProfile()"></i>
+			<i class="pi pi-user" [style]="{'font-size': '10rem'}" (click)="viewPhotosForProfile()"></i>
 		}
 	</div>
 	<div class="flex justify-content-center flex-column">
@@ -46,10 +49,10 @@
 		<input pInputText type="text" name="" id="name" title="name" [(ngModel)]="newNameProfile"/>
 	</div>
 	<ng-template pTemplate="footer" class="flex">
-		<p-button label="Create" (onClick)="CreateProfile()" />
+		<p-button label="Create" (onClick)="createProfile()" />
 	</ng-template>
 	<p-confirmDialog />
 </p-dialog>
 <!-- this section is to selected a photo for profile -->
 <app-show-images title="Select photo" [(isActive)]="selectPhotoProfile" [images$]="photos$"
-	(getImage)="ChangePhotoProfile($event)" />
+	(getImage)="changePhotoProfile($event)" />

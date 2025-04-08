@@ -5,6 +5,7 @@ export const environment = {
 	API_TMDB: 'https://api.themoviedb.org/3',
 	API_BACKEND: 'http://localhost:3000',
 	API_BACKEND_RECOMMENDATION: 'http://localhost:3000/api/recommendation',
+	API_BACKEND_LAYOUT: "http://localhost:3000/api/layout",
 	API_BACKEND_MOVIE: 'http://localhost:3000/api/movie',
 	API_BACKEND_SERIE: 'http://localhost:3000/api/serie',
 	API_BACKEND_USER: 'http://localhost:3000/api/user',

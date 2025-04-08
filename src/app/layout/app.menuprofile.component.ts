@@ -33,17 +33,17 @@ export class AppMenuProfileComponent {
 	profile$?: Observable<ProfileInfo | undefined>;
 	constructor(public layoutService: LayoutService, public el: ElementRef, private router: Router) {}
 	ngOnInit() {
-		this.profile$ = this._profile.getProfile().asObservable();
+		this.profile$ = this._profile.getProfile$().asObservable();
 	}
 	LogOut() {
-		this._profile.setSelectedProfile(false);
-		this._auth.Logout();
+		this._profile.selectedProfile = false;
+		this._auth.logout();
 	}
 	toggleMenu() {
 		this.layoutService.onMenuProfileToggle();
 	}
 	ChangeProfile() {
-		this._profile.setSelectedProfile(false);
+		this._profile.selectedProfile = false;
 		this.router.navigate(['profile']);
 	}
 	get isHorizontal() {

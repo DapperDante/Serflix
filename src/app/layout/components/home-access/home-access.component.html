@@ -40,8 +40,11 @@
 </div>
 <app-list-items [items]="favorites$" title="Favorites" (getIdAndType)="SelectedItem($event)"/>
 <app-list-items [items]="recLastView$" [title]="nameOfLastViewedItem" (getIdAndType)="SelectedItem($event)" />
-<app-list-items [items]="recA$" (getIdAndType)="SelectedItem($event)"/>
+@for(rec of recs$; track $index){
+	<app-list-items [items]="rec" (getIdAndType)="SelectedItem($event)"/>
+}
+<!-- <app-list-items [items]="recA$" (getIdAndType)="SelectedItem($event)"/>
 <app-list-items [items]="recB$" (getIdAndType)="SelectedItem($event)"/>
 <app-list-items [items]="recC$" (getIdAndType)="SelectedItem($event)"/>
 <app-list-items [items]="recD$" (getIdAndType)="SelectedItem($event)"/>
-<app-list-items [items]="recE$" (getIdAndType)="SelectedItem($event)"/>
+<app-list-items [items]="recE$" (getIdAndType)="SelectedItem($event)"/> -->

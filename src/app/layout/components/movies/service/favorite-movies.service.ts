@@ -18,9 +18,9 @@ export class FavoriteMoviesService implements Service{
 	addMovie(idMovie: number): Observable<{ msg: string; id: number, goal?: {id: number, name: string, detail: string, url: string} }> {
 		const movie = {idMovie};
 		return this._http.post<{ msg: string; id: number, goal?: {id: number, name: string, detail: string, url: string} }>(`${PATH}/add`,movie).pipe(
-			catchError(this.ErrorHandler),
+			catchError(this.errorHandler),
 			tap({
-				error: (error)=>this.ShowError(error),
+				error: (error)=>this.showError(error),
 				next: (value)=>{
 					if(value.goal)
 						this._sucessful.showGoalMessage(value.goal);
@@ -32,24 +32,24 @@ export class FavoriteMoviesService implements Service{
 	getMovieByProfile(idMovie: number | string): Observable<MovieRequest> {
 		return this._http.get<MovieRequest>(`${PATH}/get/${idMovie}`)
 		.pipe(
-			catchError(this.ErrorHandler),
-			tap({error: (error)=>this.ShowError(error)})
+			catchError(this.errorHandler),
+			tap({error: (error)=>this.showError(error)})
 		);
 	}
 	deteleMovie(idMovie: number | string): Observable<void> {
 		return this._http.delete<void>(`${PATH}/delete/${idMovie}`)
 		.pipe(
-			catchError(this.ErrorHandler),
+			catchError(this.errorHandler),
 			tap({
-				error: (error)=>this.ShowError(error),
+				error: (error)=>this.showError(error),
 				next: ()=>this._sucessful.showDeleteItemMessage('Movie deleted from favorite')
 			})
 		);
 	}
-	ShowError(error: Error): void {
+	showError(error: Error): void {
 		this._error.ShowError(error.message);
 	}
-	ErrorHandler(error: HttpErrorResponse){
+	errorHandler(error: HttpErrorResponse){
 		let message = '';
 		switch (error.status) {
 			case 404:

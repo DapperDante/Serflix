@@ -43,10 +43,16 @@
 				<p-rating [readonly]="true" [cancel]="false" class="stars-main" [(ngModel)]="reviews.avg_score"/>
 			</div>
 			<div class="col-12">
-				@if(reviews.review.id){
-					<div class="h-10rem bg-red-500 flex justify-content-center align-items-center border-round">
+				@if(reviews.its_score){
+					<!-- <div class="h-10rem bg-red-500 flex justify-content-center align-items-center border-round border-orange-500 border-3">
 						<p [style]="{fontSize: '2rem'}">Thanks for your review</p>
-					</div>
+					</div> -->
+					<p-card [header]=reviews.its_score.name>
+						<div class="grid grid-nogutter">
+							<p>{{reviews.its_score.review}}</p>
+							<p>{{ reviews.its_score.created_at }}</p>
+						</div>
+					</p-card>
 				}
 				@else {
 					<form
@@ -70,7 +76,7 @@
 				}
 			</div>
 			<div class="col-12">
-				<p-dataView #dv [value]="reviews.results" emptyMessage="There aren't reviews">
+				<p-dataView #dv [value]="reviews.scores" emptyMessage="Not reviews">
 					<ng-template pTemplate="list" let-reviews>
 						<div class="grid grid-nogutter">
 							<div class="col-12" *ngFor="let item of reviews; let first = first" class="col-12">
@@ -90,6 +96,7 @@
 											</div>
 										</div>
 										<div class="flex flex-column md:align-items-end gap-5">
+											<span class="text-sm">{{ item.created_at }}</span>
 											<span class="text-xl font-semibold text-900">{{ item.name }}</span>
 										</div>
 									</div>

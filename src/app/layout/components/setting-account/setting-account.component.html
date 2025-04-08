@@ -1,8 +1,10 @@
 <div class="grid nested-grid justify-content-around" style="min-height: 80vh">
-	<div class="col-10 lg:col-6 h-8rem border-3 border-gray-400 mb-5">
-		<h1>Free</h1>
-		<p>0$/month</p>
-	</div>
+	@if(profile$ | async; as profile){
+		<div class="col-10 lg:col-6 h-8rem border-3 mb-5" [ngClass]=profile.plan.styleClass>
+			<h2>{{profile.plan.name}}</h2>
+			<p>{{profile.plan.price}}</p>
+		</div>
+	}
 	<div class="col-12 lg:h-22rem">
 		<div class="grid nested-grid h-full justify-content-around">
 			<div class="col-12 lg:col-4 bg-red-500 border-round mb-8 lg:mb-0">
@@ -48,7 +50,7 @@
 							label="Change password"
 							icon="pi pi-pencil"
 							class="my-2"
-							(onClick)="ChangePassword()"
+							(onClick)="changePassword()"
 							[loading]="loadingChangePassword"></p-button>
 					</form>
 				</div>
@@ -87,7 +89,7 @@
 							label="Change username"
 							icon="pi pi-pencil"
 							class="my-2"
-							(onClick)="ChangeUsername()"
+							(onClick)="changeUsername()"
 							[loading]="loadingChangeUsername"></p-button>
 					</form>
 				</div>

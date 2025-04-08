@@ -47,7 +47,7 @@ export class ProfileComponent {
 	constructor() {}
 	ngOnInit() {
 		this._profile.refreshProfile();
-			this.profile$ = this._profile.getProfile().asObservable()
+			this.profile$ = this._profile.getProfile$().asObservable()
 			.pipe(
 				tap(profile=>{
 					if(!profile) return;
@@ -92,7 +92,7 @@ export class ProfileComponent {
 	}
 	UpdateImg(newImage: string){
 		if(!newImage){
-			this._profile.ShowError(new Error('You must select a photo'));
+			this._profile.showError(new Error('You must select a photo'));
 			return;
 		}
 		this.selectPhotoProfile = false;
@@ -105,7 +105,7 @@ export class ProfileComponent {
 	}
 	UpdateName(){
 		if(!this.newName){
-			this._profile.ShowError(new Error('You must write a name'));
+			this._profile.showError(new Error('You must write a name'));
 			return;
 		}
 		this._profile.updateProfile(this.newName).subscribe({

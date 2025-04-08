@@ -13,6 +13,7 @@ import { ScoreMoviesService } from './service/score-movies.service';
 import { FavoriteMoviesService } from './service/favorite-movies.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedComponentsModule } from 'src/app/shared-components/shared-components.module';
+import { CardModule } from 'primeng/card';
 @NgModule({
 	declarations: [HomeMoviesComponent, MovieInfoComponent],
 	imports: [
@@ -27,7 +28,8 @@ import { SharedComponentsModule } from 'src/app/shared-components/shared-compone
 		ButtonModule,
 		DataViewModule,
 		ReactiveFormsModule,
-		FormsModule
+		FormsModule,
+		CardModule
 	],
 	providers: [FavoriteMoviesService, ScoreMoviesService],
 })

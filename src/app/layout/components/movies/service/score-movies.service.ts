@@ -22,25 +22,26 @@ export class ScoreMoviesService implements Service {
 			score,
 			review,
 		};
+		console.log(resp);
 		return this._http.post<{msg: string}>(`${PATH}/add`, resp).pipe(
-			catchError(this.ErrorHandler),
+			catchError(this.errorHandler),
 			tap({
-				error: (error)=>this.ShowError(error),
+				error: (error)=>this.showError(error),
 				next: ()=>this._sucessful.showAddItemMessage('Review added')
 			})
 		);
 	}
-	getReviewsOfMovie(idMovie: string | number): Observable<MovieScore[]> {
-		return this._http.get<MovieScore[]>(`${PATH}/get/${idMovie}`)
+	getReviewsOfMovie(idMovie: string | number): Observable<MovieScore> {
+		return this._http.get<MovieScore>(`${PATH}/get/${idMovie}`)
 		.pipe(
-			catchError(this.ErrorHandler),
-			tap({error: (error) => this.ShowError(error)})
+			catchError(this.errorHandler),
+			tap({error: (error) => this.showError(error)})
 		);
 	}
-	ShowError(error: Error): void {
+	showError(error: Error): void {
 		this._error.ShowError(error.message);
 	}
-	ErrorHandler(error: HttpErrorResponse): Observable<never> {
+	errorHandler(error: HttpErrorResponse): Observable<never> {
 		let message = '';
 		switch (error.status) {
 			default:

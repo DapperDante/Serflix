@@ -37,11 +37,7 @@ export class HomeAccessComponent {
 	mainItems$!: Observable<RecGlobal>;
 	favorites$!: Observable<any>;
 	recLastView$!: Observable<MovieBasic[] | SerieBasic[]>;
-	recA$!: Observable<MovieBasic[] | SerieBasic[]>;
-	recB$!: Observable<MovieBasic[] | SerieBasic[]>;
-	recC$!: Observable<MovieBasic[] | SerieBasic[]>;
-	recD$!: Observable<MovieBasic[] | SerieBasic[]>;
-	recE$!: Observable<MovieBasic[] | SerieBasic[]>;
+	recs$: Observable<MovieBasic[] | SerieBasic[]>[] = [];
 	nameOfLastViewedItem?: string;
 	itemsToShowMain = 4;
 	constructor(private _router: Router, private _routerCurrent: ActivatedRoute) {}
@@ -60,15 +56,12 @@ export class HomeAccessComponent {
 				const {last_viewed} = data;
 				if(last_viewed)
 					this.nameOfLastViewedItem = `Because you watched ${last_viewed.original_name || last_viewed.original_title}`;
-				const {recommendations} = data;
 				this.recLastView$ = of(last_viewed?.recommendations?.results ? last_viewed?.recommendations?.results : []);
-				this.recA$ = of(recommendations[0]?.results ? recommendations[0]?.results : []);
-				this.recB$ = of(recommendations[1]?.results ? recommendations[1]?.results : []);
-				this.recC$ = of(recommendations[2]?.results ? recommendations[2]?.results : []);
-				this.recD$ = of(recommendations[3]?.results ? recommendations[3]?.results : []);
-				this.recE$ = of(recommendations[4]?.results ? recommendations[4]?.results : []);
+				data.recommendations.forEach(rec =>{
+					this.recs$.push(of(rec.results));
+				});
 			})
-		this.favorites$ = this._profile.getProfile().asObservable()
+		this.favorites$ = this._profile.getProfile$().asObservable()
 			.pipe(map(profile => profile?.results));
 	}
 	ngAfterViewInit(){

@@ -1,8 +1,8 @@
 @use 'sass:math';
 
 $offset: 187;
-$duration: 0.8s;
-$bgColor:#000;
+$duration: 0.3s;
+$bgColor: --surface-ground;
 
 .layout-preloader-container {
     width: 100%;
@@ -20,49 +20,27 @@ $bgColor:#000;
     margin-top: -32px;
 }
 
-.layout-preloader {
-    animation: rotator $duration linear infinite;
+.layout-preloader-corns {
+    // stroke-dasharray: $offset;
+    // stroke-dashoffset: 0;
+    // transform-origin: center;
+		transform: translateY(-50%);
+    // animation:
+		// 		shake $duration ease-in-out infinite;
+    //     // dash $duration ease-in-out infinite;
+    //     // colors ($duration*4) ease-in-out infinite;
 }
-
-@keyframes rotator {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(270deg); }
+.layout-preloader-corns path:nth-child(even){
+	animation: down $duration ease-in-out infinite;
 }
-
-.layout-preloader-path {
-    stroke-dasharray: $offset;
-    stroke-dashoffset: 0;
-    transform-origin: center;
-    animation:
-				shake $duration ease-in-out infinite;
-        // dash $duration ease-in-out infinite;
-        // colors ($duration*4) ease-in-out infinite;
+.layout-preloader-corns path:nth-child(odd){
+	animation: down $duration ease-in infinite;
 }
-
-@keyframes colors {
-    0% { stroke: #9c0800; }
-    25% { stroke: #b40900; }
-    50% { stroke: #d10000; }
-    75% { stroke: #ee0000; }
-    100% { stroke: #ff0000; }
-}
-
-@keyframes dash {
-    0% { stroke-dashoffset: $offset; }
-    50% {
-        stroke-dashoffset: math.div($offset,2);
-        transform:rotate(135deg);
-    }
-    100% {
-        stroke-dashoffset: $offset;
-        transform:rotate(450deg);
-    }
-}
-
-@keyframes shake{
-	0% { transform: rotate(0deg); }
-	25% { transform: rotate(10deg); }
-	50% { transform: rotate(-10deg); }
-	75% { transform: rotate(10deg); }
-	100% { transform: rotate(0deg); }
+@keyframes down {
+	0% {
+		transform: translateY(0);
+	}
+	100%{
+		transform: translateY(50%)
+	}
 }

@@ -1,63 +1,53 @@
 import { Component, inject } from '@angular/core';
 import { Observable, tap } from 'rxjs';
-import { animate, style, transition, trigger } from '@angular/animations';
 import { ProfileService } from 'src/app/service/profile.service';
 import { ProfileInfo, ProfileItem, RickAndMortyCharacters } from 'src/app/interface/account.interface';
+import { expandHeight, slideInFwd, slideInFwdStagger } from 'src/app/animation/animation';
 @Component({
 	selector: 'app-profile',
 	templateUrl: './profile.component.html',
 	standalone: false,
+	animations: [
+		slideInFwdStagger('2s','0.7s'),
+		slideInFwd('0.7s'),
+		expandHeight('0.3s')
+	],
 	styles: `
-		.icon-image, .icon-image + img{
-			transition: 0.3s;
-		}
-		.icon-image:hover{
-			opacity: 1 !important;
-		}
-		.icon-image:hover + img{
+		.image-profile:hover{
+			transition-duration: 0.4s;
 			filter: brightness(0.4);
 		}
-		.front-main{
-			height: 40vh;
-		}
-		@media (max-width: 576px){
-			.front-main{
-				height: 90vh;
-			}
-		}
-	`,
-	animations: [
-		trigger('fadeIn', [
-			transition(':enter', [
-				style({ opacity: 0, transform: 'translateY(-20px)' }),
-				animate('1s', style({ opacity: 1, transform: 'translateY(0)' }))
-			])
-		])
-	]
+	`
 })
 export class ProfileComponent {
 	private readonly _profile = inject(ProfileService);
 	profile$!: Observable<ProfileInfo | undefined>;
 	photos$!: Observable<RickAndMortyCharacters>;
-	loading: boolean = false;
+	loadingUpdateName: boolean = false;
+	loadingNewPassword: boolean = false;
+	loadingDeletePassword: boolean = false;
+	loadingUpdatePassword: boolean = false;
 	dataChartFavorite: any;
 	dataChartOptions: any;
 	newName = '';
 	selectPhotoProfile: boolean = false;
+	showAddPassword: boolean = false;
+	isTherePassword?: boolean;
+	newPasswordModel = '';
+	updatePasswordModel = '';
 	constructor() {}
 	ngOnInit() {
-		this._profile.refreshProfile();
-			this.profile$ = this._profile.getProfile$().asObservable()
-			.pipe(
-				tap(profile=>{
-					if(!profile) return;
-					if(profile.results.length){
-						let countItemMovies = profile.results.filter((item: ProfileItem)=> item.type === 'movie').length;
-						let countItemSeries = profile.results.filter((item: ProfileItem)=> item.type === 'serie').length;
-						this.configGraphic(countItemMovies, countItemSeries);
-					}
-				})
-			);
+		this.profile$ = this._profile.getProfile$().asObservable()
+		.pipe(
+			tap(profile=>{
+				if(profile?.results.length){
+					let countItemMovies = profile.results.filter((item: ProfileItem)=> item.type === 'movie').length;
+					let countItemSeries = profile.results.filter((item: ProfileItem)=> item.type === 'serie').length;
+					this.configGraphic(countItemMovies, countItemSeries);
+				}
+				this.isTherePassword = profile?.password!;
+			})
+		);
 
 	}
 	private configGraphic(countItemMovies: number, countItemSeries: number) {
@@ -69,7 +59,7 @@ export class ProfileComponent {
 			}]
 		}
 		this.dataChartOptions = {
-			mantainAspectRatio: false,
+			maintainAspectRatio: true,
 			plugins: {
 				legend: {
 					display: false
@@ -80,17 +70,17 @@ export class ProfileComponent {
 					borderWidth: 0
 				}
 			},
-			aniamtions:{
+			animations:{
 				duration: 1500,
 				easing: 'linear'
 			}
 		}
 	}
-	ChangePhotoProfile() {
+	changePhotoProfile() {
 		this.selectPhotoProfile = true;
 		this.photos$ = this._profile.getPhotos();
 	}
-	UpdateImg(newImage: string){
+	updateImg(newImage: string){
 		if(!newImage){
 			this._profile.showError(new Error('You must select a photo'));
 			return;
@@ -103,7 +93,7 @@ export class ProfileComponent {
 			}
 		});
 	}
-	UpdateName(){
+	updateName(){
 		if(!this.newName){
 			this._profile.showError(new Error('You must write a name'));
 			return;
@@ -114,5 +104,54 @@ export class ProfileComponent {
 				this.newName = '';
 			}
 		});
+	}
+	addPassword(): boolean{
+		if(!this.newPasswordModel){
+			this._profile.showError(new Error('You must write a password'));
+			return false;
+		}
+		this.loadingNewPassword = true;
+		this._profile.addPasswordProfile(this.newPasswordModel)
+		.subscribe({
+			error: ()=>{
+				this.loadingNewPassword = false;
+			},
+			complete: ()=>{
+				this.loadingNewPassword = false;
+				this.isTherePassword = true;
+				this.newPasswordModel = '';
+			}
+		});
+		return true;
+	}
+	updatePassword(): boolean{
+		if(!this.updatePasswordModel){
+			this._profile.showError(new Error('You must write a password'));
+			return false;
+		}
+		this.loadingUpdatePassword = true;
+		this._profile.updatePasswordProfile(this.updatePasswordModel).subscribe({
+			error: ()=>{
+				this.loadingUpdatePassword = false;
+			},
+			complete: ()=>{
+				this.loadingUpdatePassword = false;
+				this.updatePasswordModel = '';
+			}
+		});
+		return true;
+	}
+	deletePassword(){
+		this.loadingDeletePassword = true;
+		this._profile.deletePasswordProfile().subscribe({
+			error: ()=>{
+				this.loadingDeletePassword = false;
+			},
+			complete: ()=>{
+				this.loadingDeletePassword = false;
+				this.isTherePassword = false;
+			}
+		});
+		return true;
 	}
 }

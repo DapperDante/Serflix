@@ -7,7 +7,7 @@ const routes: Routes = [
 	{
 		path: '',
 		component: HomeMoviesComponent,
-		title: 'Movies',
+		title: 'Movies | Serflix',
 	},
 	{
 		path: ':id',

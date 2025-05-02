@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { slideInFwd } from 'src/app/animation/animation';
 import { ProfileInfo } from 'src/app/interface/account.interface';
 import { AuthService } from 'src/app/service/auth.service';
 import { ProfileService } from 'src/app/service/profile.service';
@@ -8,7 +9,9 @@ import { ProfileService } from 'src/app/service/profile.service';
 @Component({
   selector: 'app-setting-account',
   templateUrl: './setting-account.component.html',
-	standalone: false
+	animations: [
+		slideInFwd('0.5s')
+	]
 })
 export class SettingAccountComponent {
 	private readonly _auth = inject(AuthService);
@@ -21,7 +24,8 @@ export class SettingAccountComponent {
 		newPassword: new FormControl('', Validators.required)
 	})
 	ChangeUsernameForm = new FormGroup({
-		newUsername: new FormControl('', Validators.required)
+		newUsername: new FormControl('', Validators.required),
+		repeatUsername: new FormControl('', Validators.required)
 	})
 	ngOnInit(){
 		this.profile$ = this._profile.getProfile$().asObservable();

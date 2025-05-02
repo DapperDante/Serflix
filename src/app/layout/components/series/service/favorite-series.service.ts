@@ -68,7 +68,8 @@ export function FavoriteSeriesInterceptor(
 	next: HttpHandlerFn
 ): Observable<HttpEvent<unknown>> {
 	if (!req.url.includes(PATH)) return next(req);
-	const BASE_IMG = environment.API_TMDB_IMAGE;
+	const BASE_IMG = environment.API_TMDB_IMAGE_ORIGINAL;
+	const BASE_IMG_REDUX = environment.API_TMDB_IMAGE_REDUX;
 	const newReq = req.clone();
 	return next(newReq).pipe(
 		map((data: any) => {
@@ -76,11 +77,11 @@ export function FavoriteSeriesInterceptor(
 			if (body) {
 				if('result' in body){
 					body.result.backdrop_path = `${BASE_IMG}${body.result.backdrop_path}`;
-					body.result.poster_path = `${BASE_IMG}${body.result.poster_path}`;
+					body.result.poster_path = `${BASE_IMG_REDUX}${body.result.poster_path}`;
 					if('production_companies' in body.result){
 						body.result.production_companies.map((element: any) => {
 							if(element.logo_path)
-								element.logo_path = `${BASE_IMG}${element.logo_path}`;
+								element.logo_path = `${BASE_IMG_REDUX}${element.logo_path}`;
 						});
 					}
 					if('similar' in body.result){
@@ -88,7 +89,7 @@ export function FavoriteSeriesInterceptor(
 							if(element.backdrop_path)
 								element.backdrop_path = `${BASE_IMG}${element.backdrop_path}`;
 							if(element.poster_path)
-								element.poster_path = `${BASE_IMG}${element.poster_path}`;
+								element.poster_path = `${BASE_IMG_REDUX}${element.poster_path}`;
 						});
 					}
 					if('recommendations' in body.result){
@@ -96,7 +97,7 @@ export function FavoriteSeriesInterceptor(
 							if(element.backdrop_path)
 								element.backdrop_path = `${BASE_IMG}${element.backdrop_path}`;
 							if(element.poster_path)
-								element.poster_path = `${BASE_IMG}${element.poster_path}`;
+								element.poster_path = `${BASE_IMG_REDUX}${element.poster_path}`;
 						});
 					}
 				}

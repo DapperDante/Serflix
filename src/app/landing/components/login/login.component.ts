@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../service/auth.service';
 import { Router } from '@angular/router';
-import { animate, style, transition, trigger } from '@angular/animations';
+import { animate, sequence, style, transition, trigger } from '@angular/animations';
 import { LayoutService } from 'src/app/service/layout.service';
 @Component({
 	selector: 'app-login',
@@ -13,28 +13,48 @@ import { LayoutService } from 'src/app/service/layout.service';
 			transition(':enter', [
 				style({
 					zIndex: 1,
-					transform: 'translateY(2rem)'
+					transform: 'scale(0.3) translateY(-20%)'
 				}),
-				animate("800ms ease-in-out",
-					style({
-						transform: 'translateY(-12rem)'
-					})
-				),
-				animate("1s ease-in-out",
-					style({
-						zIndex: 3,
-						transform: 'translateY(0)'
-					})
-				),
+				sequence([
+					animate("700ms ease-in-out",
+						style({
+							transform: 'scale(0.5) translateY(120%)'
+						})
+					),
+					animate("700ms ease-in-out",
+						style({
+							transform: 'scale(0.6) translateY(-20%)'
+						})
+					),
+					animate("700ms ease-in-out",
+						style({
+							zIndex: 3,
+							transform: 'translateY(0)'
+						})
+					)
+				])
 			]
 			)
+		]),
+		trigger('tickets', [
+			transition(':enter', [
+				style({
+					opacity: 0,
+					transform: 'scale(2, 2) rotate(50deg) translateY(-60%) translateX(-5%)'
+				}),
+				animate("1s ease-in-out",
+					style({
+						opacity: 1,
+						transform: 'scale(1) rotate(50deg) translateY(-60%) translateX(-5%)'
+					})
+				)
+			])
 		])
 	],
 	styles: `
-		.background{
-			transform: skew(-20deg, 15deg) translateX(-11%) translateY(-8%);
-			filter: brightness(20%);
-			height: 200vh;
+		.tickets{
+			transform: rotate(50deg) translateY(-60%) translateX(-5%);
+			z-index: 1;
 		}
 	`
 })
@@ -42,8 +62,7 @@ export class LoginComponent {
 	private readonly _auth = inject(AuthService);
 	private readonly _layout = inject(LayoutService);
 	urlPosters: string[] = [];
-	isLoadImages = false;
-	imagesLoaded: number = 0;
+	showTickets = false;
 	constructor(private router: Router) {}
 	ngOnInit(): void {
 		this._layout.getPosters().subscribe({
@@ -75,7 +94,7 @@ export class LoginComponent {
 		this.loading = true;
 		this._auth.login(username!, password!).subscribe({
 			next: () => {
-				this.router.navigate(['/profile']);
+				this.router.navigate(['/home']);
 			},
 			error: () => {
 				this.loading = false;
@@ -86,9 +105,10 @@ export class LoginComponent {
 		});
 		return true;
 	}
-	loadImage(): void{
-		if(++this.imagesLoaded >= this.urlPosters.length){
-			this.isLoadImages = true;
-		}
+	startTicketsAnimation(){
+		this.showTickets = true;
+	}
+	navigateToRegister(){
+		this.router.navigate(['/register'], {replaceUrl: true});
 	}
 }

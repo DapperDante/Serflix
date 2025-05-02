@@ -10,27 +10,38 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { DataViewModule } from 'primeng/dataview';
 import { ButtonModule } from 'primeng/button';
 import { ScoreMoviesService } from './service/score-movies.service';
-import { FavoriteMoviesService } from './service/favorite-movies.service';
+import { FavoriteMoviesInterceptor, FavoriteMoviesService } from './service/favorite-movies.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SharedComponentsModule } from 'src/app/shared-components/shared-components.module';
+import { provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
 import { CardModule } from 'primeng/card';
+import { ListItemsModule } from '../list-items/list-items.module';
+import { PanelItemsModule } from '../panel-items/panel-items.module';
 @NgModule({
 	declarations: [HomeMoviesComponent, MovieInfoComponent],
 	imports: [
-		CommonModule,
 		MoviesRoutingModule,
+		CommonModule,
 		SkeletonModule,
-		SharedComponentsModule,
 		NgOptimizedImage,
 		YouTubePlayerModule,
 		RatingModule,
 		InputTextareaModule,
+		CardModule,
 		ButtonModule,
 		DataViewModule,
 		ReactiveFormsModule,
 		FormsModule,
-		CardModule
+		ListItemsModule,
+		PanelItemsModule
 	],
-	providers: [FavoriteMoviesService, ScoreMoviesService],
+	providers: [
+		FavoriteMoviesService,
+		provideHttpClient(
+			withInterceptorsFromDi(),
+			withInterceptors([
+				FavoriteMoviesInterceptor
+			])
+		),
+		ScoreMoviesService],
 })
 export class MoviesModule {}

@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
@@ -43,10 +43,8 @@ export class AuthService implements Service{
 		return this._http.post<TokenRequest>(`${PATH}/register`, newUser).pipe(
 			catchError(this.errorHandler),
 			tap({
-				next: (data) => {
-					this.token = data.token;
-					this._success.showSuccessMessage('Register successful');
-					sessionStorage.setItem('first-time', 'true');
+				next: () => {
+					this._success.showSuccessMessage('Authenticate your account');
 				},
 				error: (error) => {
 					this.showError(error);
@@ -73,6 +71,7 @@ export class AuthService implements Service{
 	}
 	logout(): void {
 		this._cookieService.delete('access-token');
+		sessionStorage.removeItem('first-time');
 		this._router.navigate(['']);
 	}
 	updatePassword(oldPassword: string, newPassword: string): Observable<void> {
@@ -119,14 +118,39 @@ export class AuthService implements Service{
 			})
 		)
 	}
-	showError(error: Error) {
-		this._error.ShowError(error.message);
+	authenticate(): Observable<void> {
+		return this._http.put<void>(`${PATH}/auth`, {})
+		.pipe(
+			catchError(this.errorHandler),
+			tap({
+				next: () =>{
+					this._success.showSuccessMessage('User authenticated');
+				},
+				error: (error) => {
+					this.showError(error);
+				}
+			})
+		)
 	}
-	errorHandler(error: HttpErrorResponse): Observable<never> {
-		return throwError(() => new Error(error.error.msg));
+	resetPassword(newPassword: string, token: string): Observable<void> {
+		const header = new HttpHeaders({
+			Authorization: `${token}`,
+		})
+		return this._http.put<void>(`${PATH}/reset-password`, { newPassword, header })
+		.pipe(
+			catchError(this.errorHandler),
+			tap({
+				next: () => {
+					this._success.showSuccessMessage('Password changed');
+				},
+				error: (error) => {
+					this.showError(error);
+				},
+			})
+		)
 	}
-	resetPassword(email: string): Observable<void>{
-		return this._http.put<void>(`${PATH}/reset-password`, {email})
+	requestResetPassword(email: string): Observable<void>{
+		return this._http.put<void>(`${PATH}/request-reset-password`, {email})
 		.pipe(
 			catchError(this.errorHandler),
 			tap({
@@ -138,6 +162,12 @@ export class AuthService implements Service{
 				},
 			})
 		)
+	}
+	showError(error: Error) {
+		this._error.ShowError(error.message);
+	}
+	errorHandler(error: HttpErrorResponse): Observable<never> {
+		return throwError(() => new Error(error.error.msg));
 	}
 	get firstTime(): boolean{
 		return sessionStorage.getItem('first-time') ? true: false;

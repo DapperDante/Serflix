@@ -82,20 +82,21 @@ export class ItemMoviesService implements Service {
 }
 export function ItemMoviesInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
 	if (!(req.url.includes(PATH) || req.url.includes(PATH_DISCOVER))) return next(req);
-	const BASE_IMG = environment.API_TMDB_IMAGE;
+	const BASE_IMG = environment.API_TMDB_IMAGE_REDUX;
 	const newReq = req.clone();
 	return next(newReq).pipe(
 		map((data: any) => {
+			if(!data?.body)
+				return data;
 			const { body } = data;
-			if (body) {
-				if ('results' in body && Array.isArray(body.results)) {
-					body.results
-						.map((item: MovieInfo) => {
-							if(item.poster_path)
-								item.poster_path = `${BASE_IMG}${item.poster_path}`;
-							return item;
-						});
-				}
+			//Multiple movies
+			if (body?.results && Array.isArray(body.results)) {
+				body.results
+					.map((item: MovieInfo) => {
+						if(item.poster_path)
+							item.poster_path = `${BASE_IMG}${item.poster_path}`;
+						return item;
+					});
 			}
 			return data;
 		})

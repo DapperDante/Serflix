@@ -1,25 +1,47 @@
-<div class="layout-topbar" [ngClass]="{'border-bottom-none': layoutService.config().topbarTheme !== 'light'}">
-    <div class="layout-topbar-start">
-        <a class="layout-topbar-logo" routerLink="">
-            <h1 [style]="{color: 'black'}" class="font-bold m-0">SERFLIX</h1>
-        </a>
-        <a #menuButton class="layout-menu-button" (click)="onMenuButtonClick()" pRipple>
-            <i class="pi pi-angle-right"></i>
-        </a>
+<div
+class="layout-topbar"
+@expandHeight
+(@expandHeight.done)="showData = true"
+[ngClass]="{
+	'border-bottom-none': layoutService.config().topbarTheme !== 'light'
+}">
+	@if(showData){
+	}
+		<div class="layout-topbar-start">
+			<a class="layout-topbar-logo" routerLink="">
+				<h1 @moveBackLeftToRight class="text-logo font-bold m-0">SERFLIX</h1>
+			</a>
+			<a
+				#menuButton
+				class="layout-menu-button"
+				(click)="onMenuButtonClick()"
+				pRipple>
+				<i class="pi pi-angle-right"></i>
+			</a>
 
-        <a #mobileMenuButton class="layout-topbar-mobile-button" (click)="onMobileTopbarMenuButtonClick()" pRipple>
-            <i class="pi pi-bars text-4xl"></i>
-        </a>
-    </div>
+			<a
+				#mobileMenuButton
+				class="layout-topbar-mobile-button"
+				(click)="onMobileTopbarMenuButtonClick()"
+				pRipple>
+				<i class="pi pi-bars text-4xl"></i>
+			</a>
+		</div>
 
-    <div class="layout-topbar-end">
-        <div class="layout-topbar-actions-end">
-            <ul class="layout-topbar-items justify-content-center">
-                <li class="layout-topbar-search">
-                    <input type="text" placeholder="Search" pInputText [(ngModel)]="searchText" (keyup.enter)="sendSearch()" class="inputSearch transition-duration-500">
-                    <i class="pi-fw pi pi-search"></i>
-                </li>
-            </ul>
-        </div>
-    </div>
+		<div class="layout-topbar-end">
+			<div class="layout-topbar-actions-end">
+				<ul class="layout-topbar-items justify-content-center">
+					<li class="layout-topbar-search">
+						<input
+							type="text"
+							placeholder="Search"
+							pInputText
+							[(ngModel)]="searchText"
+							(keyup.enter)="sendSearch()"
+							class="inputSearch transition-duration-500" />
+						<i class="pi-fw pi pi-search"></i>
+					</li>
+				</ul>
+			</div>
+		</div>
 </div>

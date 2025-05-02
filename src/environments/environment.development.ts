@@ -12,6 +12,7 @@ export const environment = {
 	API_BACKEND_PROFILE: 'http://localhost:3000/api/profile',
 	API_BACKEND_SCORE: 'http://localhost:3000/api/score',
 	API_BACKEND_SEARCH: 'http://localhost:3000/api/search',
-	API_TMDB_IMAGE: 'https://image.tmdb.org/t/p/original',
+	API_TMDB_IMAGE_ORIGINAL: 'https://image.tmdb.org/t/p/original',
+	API_TMDB_IMAGE_REDUX: 'https://image.tmdb.org/t/p/w500',
 	API_IMAGES_PROFILE: 'https://rickandmortyapi.com/api',
 };

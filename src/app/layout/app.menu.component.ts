@@ -27,13 +27,6 @@ export class AppMenuComponent implements OnInit {
 						command: () => {
 							this.NavigateOtherPage('serie');
 						},
-					},
-					{
-						label: 'Collections',
-						icon: 'pi pi-book',
-						command: () => {
-							this.NavigateOtherPage('collection');
-						}
 					}
 				]
 			},
@@ -69,22 +62,10 @@ export class AppMenuComponent implements OnInit {
 						}
 					}
 				]
-			},
-			{
-				label: 'Info',
-				items: [
-					{
-						label: 'stars',
-						icon: 'pi pi-star',
-						command: () => {
-							this.NavigateOtherPage('stars');
-						}
-					}
-				]
 			}
 		];
 	}
 	NavigateOtherPage(...path: string[]) {
-		this.router.navigate(['home', ...path]);
+		this.router.navigate(['home/access', ...path]);
 	}
 }

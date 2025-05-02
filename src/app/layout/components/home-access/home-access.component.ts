@@ -1,14 +1,15 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { map, Observable, of } from 'rxjs';
 import { MovieBasic, MovieInfo } from 'src/app/interface/movies.interface';
 import { SerieBasic, SerieInfo } from 'src/app/interface/series.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProfileService } from 'src/app/service/profile.service';
 import { RecommendationService } from '../../service/recommendation.service';
-import { RecGlobal } from 'src/app/interface/recommendation.interface';
+import { slideInFwd } from 'src/app/animation/animation';
 @Component({
 	selector: 'app-home-access',
 	templateUrl: './home-access.component.html',
+	animations: [slideInFwd('2s')],
 	styles: `
 		.main-image{
 			mask-image: linear-gradient(to right, black 70%, transparent)
@@ -29,12 +30,12 @@ import { RecGlobal } from 'src/app/interface/recommendation.interface';
 			}
 		}
 	`,
-	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HomeAccessComponent {
-	private readonly _recommendation = inject(RecommendationService);
+export class HomeAccessComponent implements OnInit{
 	private readonly _profile = inject(ProfileService);
-	mainItems$!: Observable<RecGlobal>;
+	private readonly _recommendation = inject(RecommendationService);
+	mainItems$!: Observable<(MovieBasic | SerieBasic)[]>;
+	showLastViewed = false;
 	favorites$!: Observable<any>;
 	recLastView$!: Observable<MovieBasic[] | SerieBasic[]>;
 	recs$: Observable<MovieBasic[] | SerieBasic[]>[] = [];
@@ -42,40 +43,31 @@ export class HomeAccessComponent {
 	itemsToShowMain = 4;
 	constructor(private _router: Router, private _routerCurrent: ActivatedRoute) {}
 	ngOnInit() {
-		this.mainItems$ = this._recommendation.getRecommendations()
-		.pipe(
-			map(
-				data => {
-					data.results = data.results.slice(0, this.itemsToShowMain);
-					return data;
-				}
-			)
-		);
-		this._recommendation.getRecommendationsByProfile()
-			.subscribe(data => {
-				const {last_viewed} = data;
-				if(last_viewed)
-					this.nameOfLastViewedItem = `Because you watched ${last_viewed.original_name || last_viewed.original_title}`;
-				this.recLastView$ = of(last_viewed?.recommendations?.results ? last_viewed?.recommendations?.results : []);
-				data.recommendations.forEach(rec =>{
-					this.recs$.push(of(rec.results));
-				});
-			})
-		this.favorites$ = this._profile.getProfile$().asObservable()
-			.pipe(map(profile => profile?.results));
+		this._recommendation.getRecommendations().subscribe((res) => {
+			this.mainItems$ = of(res.results.slice(0, this.itemsToShowMain));
+		});
+		this._recommendation.getRecommendationsByProfile().subscribe((res) => {
+			const { last_viewed, recommendations } = res;
+			if (last_viewed) {
+				this.showLastViewed = true;
+				this.nameOfLastViewedItem = `Because you watched ${last_viewed.original_name || last_viewed.original_title}`;
+			}
+			this.recLastView$ = of(last_viewed?.recommendations?.results ? last_viewed?.recommendations?.results : []);
+			recommendations.forEach((rec) => {
+				this.recs$.push(of(rec.results));
+			});
+		});
+		this.favorites$ = this._profile.getProfile$().pipe(map(res=>res?.results));
 	}
-	ngAfterViewInit(){
-		this._profile.refreshProfile();
-	}
-	SelectedMain(item: MovieInfo | SerieInfo){
-		if('original_name' in item){
+	SelectedMain(item: MovieInfo | SerieInfo) {
+		if ('original_name' in item) {
 			this.NavigateToSerie(item.id);
 			return;
 		}
 		this.NavigateToMovie(item.id);
 	}
-	SelectedItem(item: {id: number, type: string}){
-		if(item.type === 'Serie'){
+	SelectedItem(item: { id: number; type: string }) {
+		if (item.type === 'Serie') {
 			this.NavigateToSerie(item.id);
 			return;
 		}
@@ -89,5 +81,8 @@ export class HomeAccessComponent {
 	}
 	SelectedCategory(idCategory: number | string) {
 		this._router.navigate(['categories', idCategory], { relativeTo: this._routerCurrent });
+	}
+	showChange(){
+		console.log("Render")
 	}
 }

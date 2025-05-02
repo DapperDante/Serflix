@@ -1,14 +1,16 @@
 export interface Profile{
 	id: number,
 	name: string,
-	img: string
+	img: string,
+	password: string | null
 }
 export interface ProfileInfo {
 	name: string,
 	img: string,
 	results: ProfileItem[],
 	goals: Goal[],
-	plan: {id: number, name: string, price: string, styleClass: string};
+	plan: {id: number, name: string, price: string, styleClass: string},
+	password: boolean
 }
 
 export interface ProfileItem{

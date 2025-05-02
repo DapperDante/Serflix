@@ -1,42 +1,40 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LandingComponent } from './components/landing/landing.component';
-import { LoginComponent } from './components/login/login.component';
-import { RegisterComponent } from './components/register/register.component';
-import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
-import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: LandingComponent,
+    loadChildren: () => import('./components/landing-home/landing-home.module').then(m => m.LandingHomeModule),
     title: 'Serflix'
   },
   {
     path: 'login',
-    component: LoginComponent,
+    loadChildren: () => import('./components/login/login.module').then(m => m.LoginModule),
     title: 'Login | Serflix'
   },
   {
     path: 'register',
-    component: RegisterComponent,
+    loadChildren: () => import('./components/register/register.module').then(m => m.RegisterModule),
     title: 'Register | Serflix'
   },
 	{
 		path: 'reset-password',
-		component: ForgotPasswordComponent,
+		loadChildren: () => import('./components/forgot-password/forgot-password.module').then(m => m.ForgotPasswordModule),
 		title: 'Forgot Password | Serflix'
 	},
 	{
 		path: 'reset-password/:token',
-		component: ResetPasswordComponent,
+		loadChildren: () => import('./components/reset-password/reset-password.module').then(m => m.ResetPasswordModule),
 		title: 'Reset Password | Serflix'
+	},
+	{
+		path: 'auth/:token',
+		loadChildren: () => import('./components/auth-user/auth-user.module').then(m => m.AuthUserModule),
+		title: 'Authenticate | Serflix'
 	}
 ]
-
 @NgModule({
-  declarations: [],
   imports: [RouterModule.forChild(routes)],
-exports: [RouterModule]
+	exports: [RouterModule]
 })
 export class LandingRoutingModule { }

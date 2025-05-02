@@ -46,7 +46,7 @@ export function SearchMoviesInterceptor(
 	next: HttpHandlerFn
 ): Observable<HttpEvent<unknown>> {
 	if (!req.url.includes(PATH)) return next(req);
-	const BASE_IMG = environment.API_TMDB_IMAGE;
+	const BASE_IMG = environment.API_TMDB_IMAGE_REDUX;
 	const newReq = req.clone();
 	return next(newReq).pipe(
 		map((data: any) => {

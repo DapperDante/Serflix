@@ -44,7 +44,7 @@ export class AppMenuProfileComponent {
 	}
 	ChangeProfile() {
 		this._profile.selectedProfile = false;
-		this.router.navigate(['profile']);
+		this.router.navigate(['/home']);
 	}
 	get isHorizontal() {
 		return this.layoutService.isHorizontal() && this.layoutService.isDesktop();

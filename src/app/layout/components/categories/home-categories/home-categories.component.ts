@@ -55,15 +55,15 @@ export class HomeCategoriesComponent {
 	ngOnInit(): void {
 		this._activeRoute.params.subscribe((params) => {
 			this.categoryCurrent = this.dataValid.find((data) => data.id == params['id']);
-			if (!this.categoryCurrent) this._router.navigate(['/home']);
+			if (!this.categoryCurrent) this._router.navigate(['']);
 			this.UpdateRequest(1);
 		});
 	}
 	SelectedItem(item: {id: number, type: string}){
 		if(item.type == 'movie')
-			this._router.navigate(['home','movie', item.id]);
+			this._router.navigate(['home','access','movie', item.id]);
 		else
-			this._router.navigate(['home','serie', item.id]);
+			this._router.navigate(['home','access','serie', item.id]);
 	}
 	ChangePage(event: any) {
 		this.indexPage = event.page! + 1;

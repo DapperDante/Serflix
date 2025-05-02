@@ -1,33 +1,44 @@
 <div class="grid nested-grid justify-content-around" style="min-height: 80vh">
 	@if(profile$ | async; as profile){
-		<div class="col-10 lg:col-6 h-8rem border-3 mb-5" [ngClass]=profile.plan.styleClass>
-			<h2>{{profile.plan.name}}</h2>
-			<p>{{profile.plan.price}}</p>
-		</div>
-	}
-	<div class="col-12 lg:h-22rem">
+	<div
+		class="col-10 lg:col-6 h-8rem border-3"
+		@slideInFwd
+		[ngClass]="profile.plan.styleClass">
+		<h2>{{ profile.plan.name }}</h2>
+		<p>{{ profile.plan.price }}</p>
+	</div>
+	<div class="col-12 lg:h-26rem">
 		<div class="grid nested-grid h-full justify-content-around">
-			<div class="col-12 lg:col-4 bg-red-500 border-round mb-8 lg:mb-0">
-				<div class="grid justify-content-center h-full align-items-center">
+			<div class="col-12 lg:col-3 bg-red-600 border-round shadow-8">
+				<div class="grid bg-red-500 border-round m-2">
 					<div class="col-12">
-						<h2 class="text-center">Change password</h2>
+						<h2 class="text-center fadein animation-duration-500">
+							Change password
+						</h2>
 					</div>
-					<form [formGroup]="ChangePasswordForm">
-						<div class="field mb-5">
+					<form [formGroup]="ChangePasswordForm" class="w-full">
+						<div class="col-12">
 							<p-floatLabel>
 								<p-password
 									id="old-password"
 									formControlName="currentPassword"
 									[feedback]="false"
-									[toggleMask]="true"/>
-								<label for="old-password">Password</label><br>
+									styleClass="animate-width animation-duration-500"
+									[style]="{ width: '100%' }"
+									inputStyleClass="w-full py-3"
+									[toggleMask]="true" />
+								<label for="old-password">Password</label>
+								<br />
 							</p-floatLabel>
 						</div>
-						<div class="field mb-5">
+						<div class="col-12">
 							<p-floatLabel>
 								<p-password
 									[toggleMask]="true"
 									id="new-password"
+									styleClass="animate-width animation-duration-500"
+									[style]="{ width: '100%' }"
+									inputStyleClass="w-full py-3"
 									formControlName="newPassword">
 									<ng-template pTemplate="header">
 										<h6>Enter a new password</h6>
@@ -43,19 +54,67 @@
 										</ul>
 									</ng-template>
 								</p-password>
-								<label for="new-password">New password</label><br>
+								<label for="new-password">New password</label>
+								<br />
 							</p-floatLabel>
 						</div>
-						<p-button
-							label="Change password"
-							icon="pi pi-pencil"
-							class="my-2"
-							(onClick)="changePassword()"
-							[loading]="loadingChangePassword"></p-button>
+						<div class="col-12">
+							<p-button
+								label="Update"
+								icon="pi pi-pencil"
+								class="fadein animation-duration-500"
+								size="large"
+								(onClick)="changePassword()"
+								[loading]="loadingChangePassword"></p-button>
+						</div>
 					</form>
 				</div>
 			</div>
-			<div class="col-12 lg:col-4 bg-red-500 border-round">
+			<div class="col-12 lg:col-3 bg-red-600 border-round shadow-8">
+				<div class="grid bg-red-500 border-round m-2">
+					<div class="col-12">
+						<h2 class="text-center fadein animation-duration-500">Change username</h2>
+					</div>
+					<form [formGroup]="ChangeUsernameForm" class="w-full">
+						<div class="col-12">
+							<p-floatLabel>
+								<input
+									pInputText
+									type="text"
+									id="new-username"
+									formControlName="newUsername"
+									class="animate-width animation-duration-500 py-3"
+									style="width: 100%;"/>
+								<label for="new-username">New username</label>
+								<br />
+							</p-floatLabel>
+						</div>
+						<div class="col-12">
+							<p-floatLabel>
+								<input
+									pInputText
+									type="text"
+									id="repeat-username"
+									formControlName="repeatUsername"
+									class="animate-width animation-duration-500 py-3"
+									style="width: 100%;"/>
+								<label for="repeat-username">Repeat username</label>
+								<br />
+							</p-floatLabel>
+						</div>
+						<div class="col-12">
+							<p-button
+								label="Update"
+								icon="pi pi-pencil"
+								class="fadein animation-duration-500"
+								size="large"
+								(onClick)="changeUsername()"
+								[loading]="loadingChangeUsername"></p-button>
+						</div>
+					</form>
+				</div>
+			</div>
+			<!-- <div class="col-12 lg:col-4 bg-red-500 border-round">
 				<div class="grid justify-content-center h-full align-items-center">
 					<div class="col-12 text-center">
 						<h2 class="text-center">Change username</h2>
@@ -69,8 +128,9 @@
 									class="w-15rem"
 									formControlName="newUsername"
 									[maxlength]="40"
-									title="New username"/>
-								<label for="new-username">New username</label><br>
+									title="New username" />
+								<label for="new-username">New username</label>
+								<br />
 							</p-floatLabel>
 						</div>
 						<div class="field mb-5">
@@ -81,19 +141,22 @@
 									class="w-15rem"
 									formControlName="newUsername"
 									[maxlength]="40"
-									title="New username"/>
-								<label for="repeat-username">Repeat userename</label><br>
+									title="New username" />
+								<label for="repeat-username">Repeat userename</label>
+								<br />
 							</p-floatLabel>
 						</div>
 						<p-button
-							label="Change username"
+							label="Update"
 							icon="pi pi-pencil"
 							class="my-2"
+							size="large"
 							(onClick)="changeUsername()"
 							[loading]="loadingChangeUsername"></p-button>
 					</form>
 				</div>
-			</div>
+			</div> -->
 		</div>
 	</div>
+	}
 </div>

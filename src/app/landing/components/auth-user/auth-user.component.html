@@ -1,0 +1,12 @@
+<div class="h-screen w-screen overflow-hidden relative">
+	<div class="flex justify-content-center align-items-center h-screen">
+		@if(showTitle){
+			<h1 class="z-1 relative m-auto" style="font-size: 10vw;">Authenticated</h1>
+		}
+	</div>
+	<div
+		class="bg-red-600 h-screen z-1 absolute top-0 box"
+		[@box]="stateOfAnimation"
+		(@box.done)="afterAnimationEntry()"></div>
+	<app-background-posters></app-background-posters>
+</div>

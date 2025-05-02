@@ -1,41 +1,171 @@
-<div class="grid grid-nested">
-		@if(profile$ | async; as profile){
-			<div class="col-12 grid grid-nogutter front-main align-items-center" [@fadeIn]>
-				<div class="col-12 lg:col lg:h-full h-15rem relative cursor-pointer flex justify-content-center align-items-center">
-					<div class="absolute w-full h-full flex justify-content-center align-items-center icon-image opacity-0" (click)="ChangePhotoProfile()">
-						<i class="pi pi-user-edit absolute"></i>
-					</div>
-					<img [ngSrc]="profile.img" alt="image's profile" fill priority [style]="{objectFit: 'contain', zIndex: -1}" class="image-profile h-full w-auto m-auto">
-					<app-show-images title="Select an image" [images$]="photos$" [(isActive)]="selectPhotoProfile" (getImage)="UpdateImg($event)"/>
+<div class="grid nested-grid">
+	@if(profile$ | async; as profile){
+		<h1 class="col-12 text-center m-0" @slideInFwd>Hello {{ profile.name }}</h1>
+		<div class="col-12 h-22rem border-round mb-3" @slideInFwd>
+			<div class="grid justify-content-evenly" style="height: inherit">
+				<div
+					class="col-2 h-full border-round shadow-5"
+					style="background-color: var(--surface-e)">
+					<div
+						class="bg-center bg-contain bg-no-repeat h-full w-auto cursor-pointer image-profile"
+						[style]="{ backgroundImage: 'url(' + profile.img + ')' }"></div>
+					<app-show-images
+						title="Select an image"
+						[images$]="photos$"
+						[(isActive)]="selectPhotoProfile"
+						(getImage)="updateImg($event)" />
 				</div>
-				<div class="col-12 lg:col">
-					@if(dataChartFavorite){
-						<p-chart type="doughnut" [data]="dataChartFavorite" [options]="dataChartOptions" height="100%"/>
-					}@else {
-						<div class="flex justify-content-center align-items-center h-full">
-							<p class="text-center">Don't have movies or series favorites</p>
+				<!-- <div class="col-12 lg:col lg:h-full h-15rem relative cursor-pointer">
+									<div class="p-4" style="background-color: var(--surface-b)">
+										<div class="absolute w-full h-full flex justify-content-center align-items-center icon-image opacity-0" (click)="ChangePhotoProfile()">
+											<img [ngSrc]="profile.img" alt="image's profile" fill priority [style]="{objectFit: 'contain', zIndex: -1}" class="image-profile h-full w-auto m-auto">
+											<i class="pi pi-user-edit absolute"></i>
+										</div>
+									</div>
+								</div> -->
+				<div class="col-3 surface-overlay shadow-5 border-round">
+					<div class="grid">
+						<h2 class="col-12 text-center m-0">Favorites</h2>
+						<div class="col-7 m-auto">
+							@if(dataChartFavorite){
+								<p-chart
+									type="doughnut"
+									[data]="dataChartFavorite"
+									[options]="dataChartOptions" />
+							}@else {
+								<div class="flex justify-content-center align-items-center h-full">
+									<p class="text-center">Don't have favorites movies or series</p>
+								</div>
+							}
+						</div>
+					</div>
+				</div>
+				<div class="col-3 surface-overlay border-round shadow-5">
+					<div class="grid h-full p-4">
+						<h2 class="col-12 text-center m-0">Change name</h2>
+						<div class="col-12">
+							<p-floatLabel>
+								<input
+									pInputText
+									id="change-name"
+									class="animate-width animation-duration-500 py-3"
+									style="width: 100%"
+									[(ngModel)]="newName" />
+								<label for="change-name">Change name</label>
+							</p-floatLabel>
+						</div>
+						<div class="col-12">
+							<p-button
+								label="Update"
+								size="large"
+								class="fadein animation-duration-500"
+								icon="pi pi-pencil"
+								(onClick)="updateName()"
+								[loading]="loadingUpdateName" />
+						</div>
+					</div>
+				</div>
+				<!-- Password -->
+				<div class="col-3 surface-overlay border-round shadow-5" @slideInFwd>
+					<div class="grid nested-grid h-full p-4">
+						<h2 class="col-12 text-center m-0">
+							{{ isTherePassword ? "Update password" : "Add password" }}
+						</h2>
+						<div class="col-12">
+							@if(isTherePassword){
+								<div class="grid">
+									<div class="col-12">
+										<p-floatLabel>
+											<input
+												pInputText
+												id="update-password"
+												class="animate-width animation-duration-500 py-3"
+												style="width: 100%"
+												[(ngModel)]="updatePasswordModel" />
+											<label for="update-password">Update password</label>
+										</p-floatLabel>
+									</div>
+									<div class="col-6">
+										<p-button
+											label="Apply"
+											(onClick)="updatePassword()"
+											styleClass="w-full"
+											size="large"
+											[loading]="loadingUpdatePassword"
+											icon="pi pi-check"></p-button>
+									</div>
+									<div class="col-6">
+										<p-button
+											label="Delete"
+											(onClick)="deletePassword()"
+											styleClass="w-full"
+											size="large"
+											[loading]="loadingDeletePassword"
+											icon="pi pi-trash"></p-button>
+									</div>
+								</div>
+							}
+							@else if(showAddPassword){
+								<div class="grid">
+									<div class="col-12">
+										<p-floatLabel>
+											<input
+												pInputText
+												id="new-password"
+												class="animate-width animation-duration-500 py-3"
+												style="width: 100%"
+												[(ngModel)]="newPasswordModel" />
+											<label for="new-password">New password</label>
+										</p-floatLabel>
+									</div>
+									<div class="col-12">
+										<p-button
+											label="Update"
+											size="large"
+											class="fadein animation-duration-500"
+											icon="pi pi-pencil"
+											(onClick)="addPassword()"
+											[loading]="loadingNewPassword" />
+									</div>
+								</div>
+							}@else{
+								<div
+									class="h-full w-5rem bg-red-500 m-auto border-round relative cursor-pointer hover:shadow-5"
+									(click)="showAddPassword = true">
+									<i
+										class="pi pi-plus text-6xl absolute top-50 left-50"
+										style="transform: translateX(-50%) translateY(-50%)"></i>
+								</div>
+							}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-12">
+			<div class="grid shadow-6">
+				<h2 class="col-12 m-0 text-center py-2 bg-red-600 border-round-top">
+					GOALS
+				</h2>
+				<div
+					class="col-12 grid grid-nogutter bg-red-500 border-round-bottom"
+					style="height: auto"
+					@slideInFwd
+					@expandHeight
+					@slideInFwdStagger>
+					@for(goals of profile.goals; track $index){
+						<div class="col-12 lg:col-1 h-auto relative">
+							<div
+								class="bg-center bg-auto bg-contain bg-no-repeat h-9rem hover:shadow-6"
+								[style]="{ backgroundImage: 'url(' + goals.url + ')' }"></div>
+						</div>
+					}@empty {
+						<div class="col-12">
+							<p class="text-center py-5">Don't have goals</p>
 						</div>
 					}
 				</div>
-				<div class="col-12 lg:col surface-overlay border-round px-5 py-7">
-					<p-floatLabel>
-						<input type="text" pInputText title="change name" id="change-name" class="w-full" [style]="{fontSize: '1.2rem'}" [(ngModel)]="newName"/>
-						<label for="change-name">Change name</label>
-					</p-floatLabel>
-					<p-button label="Change" icon="pi pi-pencil" [style]="{marginTop: '2rem'}" (onClick)="UpdateName()" [loading]="loading"/>
-				</div>
 			</div>
-			<h2 class="col-12 text-center">GOALS</h2>
-			<div class="col-12 grid grid-nogutter bg-red-500 border-round h-auto" [@fadeIn]>
-				@for(goals of profile.goals; track $index){
-					<div class="col-12 lg:col-2 h-10rem relative">
-						<img [ngSrc]="goals.url" alt="goal" fill priority="false" [style]="{objectFit: 'contain'}" [title]="goals.name" class="w-full">
-					</div>
-				}@empty {
-					<div class="col-12 h-8rem">
-						<p class="text-center pt-5">Don't have goals</p>
-					</div>
-				}
-			</div>
-		}
+		</div>
+	}
 </div>

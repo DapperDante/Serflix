@@ -7,11 +7,15 @@ import { FavoriteMoviesService } from '../../service/favorite-movies.service';
 import { ErrorHandlingService } from 'src/app/error/error-handling.service';
 import { MovieBasic, MovieRequest, MovieScore } from 'src/app/interface/movies.interface';
 import { Title } from '@angular/platform-browser';
+import { slideInFwd } from 'src/app/animation/animation';
 
 @Component({
 	selector: 'app-movie-info',
 	templateUrl: './movie-info.component.html',
 	standalone: false,
+	animations: [
+		slideInFwd('0.5s')
+	],
 	styles: `
 		:host ::ng-deep .p-dataview-content{
 			border-radius: 0.3rem;

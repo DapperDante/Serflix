@@ -5,7 +5,8 @@ import { SettingAccountComponent } from './setting-account.component';
 const routes = [
 	{
 		path: '',
-		component: SettingAccountComponent
+		component: SettingAccountComponent,
+		title: 'Settings | Serflix'
 	}
 
 ];

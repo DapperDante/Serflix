@@ -3,11 +3,13 @@
 		<div class="col-12 main">
 			<div class="grid relative border-round-top background h-full">
 				<img
+					@slideInFwd
 					[src]="movie.result.backdrop_path"
 					alt="background"
 					class="absolute w-full h-full xl:h-auto opacity-7">
 				<div class="col-12 lg:col-3 relative lg:my-auto lg:mx-6 h-full">
 					<img
+						@slideInFwd
 						[ngSrc]="movie.result.poster_path"
 						alt="poster" fill priority
 						[style]="{'object-fit': 'contain'}"
@@ -17,6 +19,7 @@
 					<div class="flex justify-content-center h-full align-items-center">
 						@if(movie.result.videos?.results?.length){
 							<youtube-player
+								@slideInFwd
 								[videoId]="movie.result.videos!.results[0].key"
 								class="shadow-6"/>
 						}@else {
@@ -28,7 +31,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-12 xl:col-6 text-justify">
+		<div class="col-12 xl:col-6 text-justify border-round" style="background-color: var(--surface-e)">
 			<p [style]="{fontSize: '1.8rem'}">{{movie.result.overview}}</p>
 			@if(isFavorite){
 				<p-button icon="pi pi-heart-fill" [rounded]="true" size="large" (onClick)="deleteFavoriteMovie()"
@@ -38,15 +41,13 @@
 					[loading]="loadingFavorite" />
 			}
 		</div>
+		<!-- Review's section -->
 		@if(review$ | async; as reviews){
 			<div class="col-12 lg:col-6 flex justify-content-center lg:align-items-center">
 				<p-rating [readonly]="true" [cancel]="false" class="stars-main" [(ngModel)]="reviews.avg_score"/>
 			</div>
 			<div class="col-12">
 				@if(reviews.its_score){
-					<!-- <div class="h-10rem bg-red-500 flex justify-content-center align-items-center border-round border-orange-500 border-3">
-						<p [style]="{fontSize: '2rem'}">Thanks for your review</p>
-					</div> -->
 					<p-card [header]=reviews.its_score.name>
 						<div class="grid grid-nogutter">
 							<p>{{reviews.its_score.review}}</p>
@@ -55,24 +56,26 @@
 					</p-card>
 				}
 				@else {
-					<form
-						[formGroup]="ratingForm"
-						class="flex justify-content-center flex-column align-items-center">
-						<p-rating class="stars-review" formControlName="rating" />
-						<textarea
-							rows="3" cols="30"
-							pInputTextarea
-							[autoResize]='true'
-							title="review" class="my-4"
-							placeholder="Write your review about it"
-							formControlName="review">
-						</textarea>
-						<p-button
-							label="submit"
-							icon="pi pi-send"
-							[loading]="loadingReview"
-							(onClick)="SendReview()" />
-					</form>
+					<div class="bg-red-500 w-23rem m-auto py-3 border-round">
+						<form
+							[formGroup]="ratingForm"
+							class="flex justify-content-center flex-column align-items-center">
+							<p-rating class="stars-review" formControlName="rating" />
+							<textarea
+								rows="3" cols="30"
+								pInputTextarea
+								[autoResize]='true'
+								title="review" class="my-4"
+								placeholder="Write your review about it"
+								formControlName="review">
+							</textarea>
+							<p-button
+								label="submit"
+								icon="pi pi-send"
+								[loading]="loadingReview"
+								(onClick)="SendReview()" />
+						</form>
+					</div>
 				}
 			</div>
 			<div class="col-12">
@@ -111,12 +114,14 @@
 			<p-skeleton class="col-12" height="10rem"/>
 			<p-skeleton class="col-12" height="10rem"/>
 		}
+		<!-- Company's section -->
 		<div class="col-12">
-			<div class="grid h-6rem bg-red-500">
+			<div class="grid h-18rem surface-b">
 				@for(companie of movie.result.production_companies; track $index){
-					<div class="col relative">
+					<div class="col relative bg-red-500 border-round">
 						@if(companie.logo_path){
-							<img [ngSrc]="companie.logo_path" alt="companie" [title]="companie.name" fill [priority]="false"
+							<img [src]="companie.logo_path" alt="companie" [title]="companie.name"
+							class="w-full h-auto"
 							[style]="{'object-fit': 'contain'}">
 						}
 						@else {
@@ -128,6 +133,7 @@
 				}
 			</div>
 		</div>
+		<!-- Recommendation's section -->
 		<div class="col-12">
 			@defer (on viewport) {
 				<app-list-items [items]="similar$" title="Similar" (getIdAndType)="ChangeMovie($event)" />

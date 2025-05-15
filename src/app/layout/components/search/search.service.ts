@@ -1,4 +1,10 @@
-import { HttpClient, HttpErrorResponse, HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
+import {
+	HttpClient,
+	HttpErrorResponse,
+	HttpEvent,
+	HttpHandlerFn,
+	HttpRequest,
+} from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { catchError, map, Observable, tap, throwError } from 'rxjs';
 import { ErrorHandlingService } from 'src/app/error/error-handling.service';
@@ -14,13 +20,19 @@ const PATH = environment.API_BACKEND_SEARCH;
 export class SearchService implements Service {
 	private readonly _http = inject(HttpClient);
 	private readonly _error = inject(ErrorHandlingService);
-	getItemsByQuery(query: string, times: number | string, manyItemsRelation: number | string): Observable<ManyMovies> {
+	getItemsByQuery(
+		query: string,
+		times: number | string,
+		manyItemsRelation: number | string
+	): Observable<ManyMovies> {
 		return this._http
-			.get<ManyMovies>(`${PATH}?query=${query}&times=${times}&manyItemsRelation=${manyItemsRelation}`)
+			.get<ManyMovies>(
+				`${PATH}?query=${query}&times=${times}&manyItemsRelation=${manyItemsRelation}`
+			)
 			.pipe(
 				catchError(this.errorHandler),
 				tap({
-					error: (error)=>this.showError(error)
+					error: (error) => this.showError(error),
 				})
 			);
 	}
@@ -50,15 +62,13 @@ export function SearchMoviesInterceptor(
 	const newReq = req.clone();
 	return next(newReq).pipe(
 		map((data: any) => {
-			const {body} = data;
-			if (body) {
-				if ('results' in body && Array.isArray(body.results)) {
-					body.results.map((value: any) => {
-						if(value.poster_path)
-							value.poster_path = `${BASE_IMG}/${value.poster_path}`;
-						return value;
-					});
-				}
+			if (!data?.body) return data;
+			const { body } = data;
+			if (body?.results && Array.isArray(body.results)) {
+				body.results.map((value: any) => {
+					if (value.poster_path) value.poster_path = `${BASE_IMG}/${value.poster_path}`;
+					return value;
+				});
 			}
 			return data;
 		})

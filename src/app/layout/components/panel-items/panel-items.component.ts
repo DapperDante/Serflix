@@ -34,7 +34,7 @@ export class PanelItemsComponent {
 	activeItem = input<MenuItem>();
 	//Variable to control the items
 	items = input.required<Observable<ManyMovies | ManySeries | any>>();
-	title = input.required<String>();
+	title = input<String>();
 	getId = output<number>();
 	getIdAndType = output<{ id: number; type: string }>();
 	//Variable to control the paginator

@@ -3,7 +3,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../service/auth.service';
 import { Router } from '@angular/router';
 import { animate, sequence, style, transition, trigger } from '@angular/animations';
-import { LayoutService } from 'src/app/service/layout.service';
 @Component({
 	selector: 'app-login',
 	templateUrl: './login.component.html',
@@ -60,17 +59,9 @@ import { LayoutService } from 'src/app/service/layout.service';
 })
 export class LoginComponent {
 	private readonly _auth = inject(AuthService);
-	private readonly _layout = inject(LayoutService);
 	urlPosters: string[] = [];
 	showTickets = false;
 	constructor(private router: Router) {}
-	ngOnInit(): void {
-		this._layout.getPosters().subscribe({
-			next: (res) =>{
-				this.urlPosters = res.result;
-			}
-		})
-	}
 	loginForm = new FormGroup({
 		username: new FormControl('', [Validators.required, Validators.minLength(this._auth.minLengthUsername)]),
 		password: new FormControl('',

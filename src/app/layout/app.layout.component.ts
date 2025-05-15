@@ -36,16 +36,8 @@ export class AppLayoutComponent implements OnDestroy {
 		private menuService: MenuService,
 		public layoutService: LayoutService,
 		public renderer: Renderer2,
-		public router: Router,
-		private cd: ChangeDetectorRef
+		public router: Router
 	) {
-		this.router.events
-		.pipe(
-			filter((event)=>event instanceof NavigationEnd)
-		)
-		.subscribe(() =>{
-			this._profile.refreshProfile();
-		})
 		this.hideMenuProfile();
 
 		this.overlayMenuOpenSubscription = this.layoutService.overlayOpen$.subscribe(() => {

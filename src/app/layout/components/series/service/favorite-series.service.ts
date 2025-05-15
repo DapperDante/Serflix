@@ -19,7 +19,7 @@ export class FavoriteSeriesService implements Service {
 	private readonly _succesful = inject(SuccessHandlingService);
 	addSerie(idSerie: number): Observable<{ msg: string; id: number; goal?: Goal }> {
 		const serie = { idSerie };
-		return this._http.post<{ msg: string; id: number; goal: Goal }>(`${PATH}/add`, serie).pipe(
+		return this._http.post<{ msg: string; id: number; goal: Goal }>(PATH, serie).pipe(
 			catchError(this.errorHandler),
 			tap({
 				error: (error) => this.showError(error),
@@ -32,11 +32,11 @@ export class FavoriteSeriesService implements Service {
 	}
 	getSerieByProfile(idSerie: number | string): Observable<SerieRequest> {
 		return this._http
-			.get<SerieRequest>(`${PATH}/get/${idSerie}`)
+			.get<SerieRequest>(`${PATH}/${idSerie}`)
 			.pipe(catchError(this.errorHandler), tap({ error: (error) => this.showError(error) }));
 	}
 	deleteSerie(idSerie: number | string): Observable<void> {
-		return this._http.delete<void>(`${PATH}/delete/${idSerie}`).pipe(
+		return this._http.delete<void>(`${PATH}/${idSerie}`).pipe(
 			catchError(this.errorHandler),
 			tap({
 				error: (error) => this.showError(error),

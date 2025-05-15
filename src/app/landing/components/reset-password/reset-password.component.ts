@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/service/auth.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { AuthService } from 'src/app/service/auth.service';
 })
 export class ResetPasswordComponent {
 	private readonly _auth = inject(AuthService);
-	constructor(private route: ActivatedRoute){}
+	constructor(private _route: ActivatedRoute, private _router: Router){}
 	loading: boolean = false;
 	formControl = new FormGroup({
 		newPassword: new FormControl('', [
@@ -34,9 +34,9 @@ export class ResetPasswordComponent {
 			this._auth.showError(new Error("Passwords don't match"));
 			return false;
 		}
-		const token = this.route.snapshot.paramMap.get('token')!;
+		const token = this._route.snapshot.paramMap.get('token')!;
 		this.loading = true;
-		this._auth.resetPassword(newPassword!, token).subscribe({
+		this._auth.forgotPassword(newPassword!, token).subscribe({
 			next: () => {
 				this.loading = true;
 			},
@@ -45,6 +45,7 @@ export class ResetPasswordComponent {
 			},
 			complete: () => {
 				this.loading = false;
+				this._router.navigate(['/login']);
 			},
 		});
 		return true;

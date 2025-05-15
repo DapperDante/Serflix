@@ -16,7 +16,7 @@ export class RecommendationService implements Service{
 	private readonly _http = inject(HttpClient);
 	private readonly _error = inject(ErrorHandlingService);
 	getRecommendationsByProfile(): Observable<RecByProfile> {
-		return this._http.get<RecByProfile>(`${PATH}/get-profile`)
+		return this._http.get<RecByProfile>(PATH)
 		.pipe(
 			catchError(this.errorHandler),
 			tap({error: (error)=>this.showError(error)}),
@@ -35,7 +35,7 @@ export class RecommendationService implements Service{
 		)
 	}
 	getRecommendations(): Observable<RecGlobal>{
-		return this._http.get<RecGlobal>(`${PATH}/get`)
+		return this._http.get<RecGlobal>(`${PATH}/all`)
 		.pipe(
 			catchError(this.errorHandler),
 			tap({error: (error)=>this.showError(error)}),

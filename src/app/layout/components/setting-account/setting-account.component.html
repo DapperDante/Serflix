@@ -1,7 +1,7 @@
 <div class="grid nested-grid justify-content-around" style="min-height: 80vh">
 	@if(profile$ | async; as profile){
 	<div
-		class="col-10 lg:col-6 h-8rem border-3"
+		class="col-10 lg:col-6 h-8rem border-3 mb-2"
 		@slideInFwd
 		[ngClass]="profile.plan.styleClass">
 		<h2>{{ profile.plan.name }}</h2>
@@ -9,7 +9,7 @@
 	</div>
 	<div class="col-12 lg:h-26rem">
 		<div class="grid nested-grid h-full justify-content-around">
-			<div class="col-12 lg:col-3 bg-red-600 border-round shadow-8">
+			<div class="col-12 lg:col-3 bg-red-600 border-round shadow-8 mb-2">
 				<div class="grid bg-red-500 border-round m-2">
 					<div class="col-12">
 						<h2 class="text-center fadein animation-duration-500">

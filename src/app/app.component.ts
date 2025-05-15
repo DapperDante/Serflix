@@ -13,7 +13,7 @@ export class AppComponent {
 		const newConfig: AppConfig = {
 			ripple: true,
 			inputStyle: 'outlined',
-			menuMode: 'overlay',
+			menuMode: 'slim-plus',
 			colorScheme: 'dark',
 			componentTheme: 'red',
 			scale: 14,

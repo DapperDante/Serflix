@@ -1,15 +1,12 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { LayoutService } from './service/app.layout.service';
+import { ColorScheme, LayoutService } from './service/app.layout.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { expandHeight, moveBackLeftToRight } from '../animation/animation';
 
 @Component({
 	selector: 'app-topbar',
 	templateUrl: './app.topbar.component.html',
-	animations: [
-		moveBackLeftToRight('4s'),
-		expandHeight('0.3s')
-	],
+	animations: [moveBackLeftToRight('4s'), expandHeight('0.3s')],
 	styles: `
 			.inputSearch:focus{
 				width: 20rem !important;
@@ -42,13 +39,15 @@ export class AppTopbarComponent {
 	get mobileTopbarActive(): boolean {
 		return this.layoutService.state.topbarMenuActive;
 	}
-
 	onMenuButtonClick() {
 		this.layoutService.onMenuToggle();
 	}
 
 	sendSearch() {
-		this.router.navigate(['search'], { relativeTo: this.currentRouter, queryParams: { query: this.searchText } });
+		this.router.navigate(['search'], {
+			relativeTo: this.currentRouter,
+			queryParams: { query: this.searchText },
+		});
 		this.searchText = '';
 	}
 	onMobileTopbarMenuButtonClick() {

@@ -28,13 +28,11 @@ export class ProfileService implements Service {
 	addProfile(img: string, name: string): Observable<TokenRequest> {
 		const profile = { name, img };
 		return this._http
-			.post<TokenRequest>(`${PATH}/add`, profile)
+			.post<TokenRequest>(PATH, profile)
 			.pipe(
 				catchError(this.errorHandler),
 				tap({
-					next: (res) =>{
-						this._auth.token = res.token;
-						this.selectedProfile = true;
+					next: () =>{
 						this._sucessful.showSuccessMessage('Profile created successfully');
 					},
 					error: (error) => this.showError(error)
@@ -42,20 +40,31 @@ export class ProfileService implements Service {
 	}
 	//First, you must use accessProfile when you want to access a profile, after you can use getProfile$ to get the profile
 	loginProfile(idProfile: number | string, password: string | null): Observable<TokenRequest> {
-		return this._http.post<TokenRequest>(`${PATH}/log-in`, { idProfile, password }).pipe(
+		return this._http.post<TokenRequest>(`${PATH}/login`, { idProfile, password }).pipe(
 			catchError(this.errorHandler),
 			tap({
-				next: (access) => {
-					this._auth.token = access.token;
+				next: (res) => {
+					this._auth.token = res.token;
 					this.selectedProfile = true;
-					this._sucessful.showSuccessMessage('Profile logged in successfully');
+				},
+				error: (error) => this.showError(error),
+			})
+		);
+	}
+	logoutProfile(): Observable<TokenRequest> {
+		return this._http.post<TokenRequest>(`${PATH}/logout`, {}).pipe(
+			catchError(this.errorHandler),
+			tap({
+				next: (res) => {
+					this._auth.token = res.token;
+					this.selectedProfile = false;
 				},
 				error: (error) => this.showError(error),
 			})
 		);
 	}
 	getProfiles(): Observable<{ results: Profile[] }> {
-		return this._http.get<{ results: Profile[] }>(`${PATH}/get-all`).pipe(
+		return this._http.get<{ results: Profile[] }>(`${PATH}/all`).pipe(
 			catchError(this.errorHandler),
 			tap({
 				error: (error) => this.showError(error),
@@ -68,7 +77,7 @@ export class ProfileService implements Service {
 	*/
 	refreshProfile() {
 		this._http
-			.get<ProfileInfo>(`${PATH}/get`)
+			.get<ProfileInfo>(PATH)
 			.pipe(
 				map((profile) => {
 					const BASE_IMG = environment.API_TMDB_IMAGE_REDUX;
@@ -76,7 +85,6 @@ export class ProfileService implements Service {
 						result.poster_path = `${BASE_IMG}${result.poster_path}`;
 						return result;
 					});
-					// profile.plan = this._auth.getPlan(profile.plan.id);
 					profile.plan = this._auth.plans.find((plan) => plan.id === profile.plan.id)!;
 					return profile;
 				}),
@@ -95,7 +103,7 @@ export class ProfileService implements Service {
 	}
 	updateProfile(name?: string, img?: string): Observable<void> {
 		const profile = { name, img };
-		return this._http.put<void>(`${PATH}/put`, profile).pipe(
+		return this._http.put<void>(PATH, profile).pipe(
 			catchError(this.errorHandler),
 			tap({
 				error: (error) => this.showError(error),
@@ -104,7 +112,7 @@ export class ProfileService implements Service {
 		);
 	}
 	addPasswordProfile(password: string): Observable<void> {
-		return this._http.post<void>(`${PATH}/add-password`, { password })
+		return this._http.post<void>(`${PATH}/password`, { password })
 		.pipe(
 			catchError(this.errorHandler),
 			tap({
@@ -114,7 +122,7 @@ export class ProfileService implements Service {
 		);
 	}
 	updatePasswordProfile(password: string): Observable<void>{
-		return this._http.put<void>(`${PATH}/update-password`, { password })
+		return this._http.put<void>(`${PATH}/password`, { password })
 		.pipe(
 			catchError(this.errorHandler),
 			tap({
@@ -124,7 +132,7 @@ export class ProfileService implements Service {
 		);
 	}
 	deletePasswordProfile(): Observable<void> {
-		return this._http.delete<void>(`${PATH}/delete-password`)
+		return this._http.delete<void>(`${PATH}/password`)
 		.pipe(
 			catchError(this.errorHandler),
 			tap({
@@ -134,14 +142,14 @@ export class ProfileService implements Service {
 		);
 	}
 	get selectedProfile(): boolean {
-		return sessionStorage.getItem('isSelectedProfile') ? true : false;
+		return sessionStorage.getItem('select-profile') ? true : false;
 	}
 	set selectedProfile(value: boolean) {
 		if (!value) {
-			sessionStorage.removeItem('isSelectedProfile');
+			sessionStorage.removeItem('select-profile');
 			return;
 		}
-		sessionStorage.setItem('isSelectedProfile', 'true');
+		sessionStorage.setItem('select-profile', 'true');
 	}
 	showError(error: Error): void {
 		this._error.ShowError(error.message);

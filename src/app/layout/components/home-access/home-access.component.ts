@@ -43,6 +43,7 @@ export class HomeAccessComponent implements OnInit{
 	itemsToShowMain = 4;
 	constructor(private _router: Router, private _routerCurrent: ActivatedRoute) {}
 	ngOnInit() {
+		this._profile.refreshProfile();
 		this._recommendation.getRecommendations().subscribe((res) => {
 			this.mainItems$ = of(res.results.slice(0, this.itemsToShowMain));
 		});

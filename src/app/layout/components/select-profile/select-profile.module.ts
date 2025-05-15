@@ -9,6 +9,7 @@ import { ButtonModule } from 'primeng/button';
 import { SelectorImagesProfileModule } from '../selector-images-profile/selector-images-profile.module';
 import { SkeletonModule } from 'primeng/skeleton';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { InputTextModule } from 'primeng/inputtext';
 
 @NgModule({
 	declarations: [SelectProfileComponent, WelcomeComponent],
@@ -16,6 +17,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 		CommonModule,
 		SelectProfileRoutingModule,
 		DialogModule,
+		InputTextModule,
 		FormsModule,
 		ButtonModule,
 		SelectorImagesProfileModule,

@@ -13,13 +13,13 @@ const PATH = environment.API_BACKEND_LAYOUT;
 export class LayoutService implements Service{
 	private readonly _http = inject(HttpClient)
 	private readonly _error = inject(ErrorHandlingService);
-	posters$: BehaviorSubject<string[] | undefined>;
+	posters$: BehaviorSubject<{msg: string, result: string[]}>;
 	constructor() {
-		this.posters$ = new BehaviorSubject<string[] | undefined>(undefined);
+		this.posters$ = new BehaviorSubject<{msg: string, result: string[]}>({msg: '', result: []});
 		this.getPosters()
 		.subscribe(
 			(res)=>{
-				this.posters$.next(res.result);
+				this.posters$.next(res);
 			}
 		);
 	}

@@ -28,6 +28,7 @@ export class SettingAccountComponent {
 		repeatUsername: new FormControl('', Validators.required)
 	})
 	ngOnInit(){
+		this._profile.refreshProfile();
 		this.profile$ = this._profile.getProfile$().asObservable();
 	}
 	changePassword(): boolean{

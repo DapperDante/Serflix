@@ -6,17 +6,12 @@ const routes = [
 	{
 		path: '',
 		component: SettingAccountComponent,
-		title: 'Settings | Serflix'
-	}
-
+		title: 'Settings | Serflix',
+	},
 ];
 
 @NgModule({
-  imports: [
-		RouterModule.forChild(routes)
-  ],
-	exports: [
-		RouterModule
-	]
+	imports: [RouterModule.forChild(routes)],
+	exports: [RouterModule],
 })
-export class SettingAccountRoutingModule { }
+export class SettingAccountRoutingModule {}

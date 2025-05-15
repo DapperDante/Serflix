@@ -12,6 +12,7 @@ import { InputIconModule } from 'primeng/inputicon';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SelectorImagesProfileModule } from '../selector-images-profile/selector-images-profile.module';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 @NgModule({
 	declarations: [ProfileComponent],
 	imports: [
@@ -29,6 +30,11 @@ import { SelectorImagesProfileModule } from '../selector-images-profile/selector
 		ReactiveFormsModule,
 		SelectorImagesProfileModule,
 		FormsModule
+	],
+	providers: [
+		provideHttpClient(
+			withInterceptorsFromDi()
+		)
 	]
 })
 export class ProfileModule {}

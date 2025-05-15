@@ -10,22 +10,21 @@ import { environment } from 'src/environments/environment.development';
 export class BackendInterceptorService implements HttpInterceptor {
 	private readonly _auth = inject(AuthService);
 	intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+		console.log("Intercepting request...");
 		if(urlWithoutToken.some((url) => req.url.includes(url)))
 			return next.handle(req);
 		return next.handle(
 			req.clone({
 				setHeaders: {
-					Authorization: `${this._auth.token}`,
-				},
+					Authorization: `Bearer ${this._auth.token}`,
+				}
 			})
 		);
 	}
 }
 const urlWithoutToken: string[] = [
+	`${environment.API_BACKEND_LAYOUT}`,
 	`${environment.API_BACKEND_USER}/login`,
 	`${environment.API_BACKEND_USER}/register`,
-	`${environment.API_TMDB}`,
-	`${environment.API_BACKEND_USER}/forgot-password`,
-	`${environment.API_BACKEND_USER}/auth`,
-	`${environment.API_BACKEND_USER}/auth/verify-email`
+	`${environment.API_TMDB}`
 ];

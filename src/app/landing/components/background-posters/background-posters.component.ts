@@ -10,6 +10,13 @@ import { LayoutService } from 'src/app/service/layout.service';
 			filter: brightness(20%);
 			height: 200vh;
 		}
+		@media (max-width: 768px) {
+			.background{
+				transform: skew(-20deg, 15deg) translateX(-50%) translateY(-8%);
+				filter: brightness(20%);
+				height: 200vh;
+			}
+		}
 	`
 })
 export class BackgroundPostersComponent {
@@ -19,7 +26,7 @@ export class BackgroundPostersComponent {
 		this._layout.posters$
 		.subscribe(
 			(res)=>{
-				this.urlPosters = res;
+				this.urlPosters = res.result;
 			}
 		)
 	}

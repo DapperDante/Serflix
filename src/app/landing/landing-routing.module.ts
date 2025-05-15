@@ -18,12 +18,12 @@ const routes: Routes = [
     title: 'Register | Serflix'
   },
 	{
-		path: 'reset-password',
+		path: 'forgot-password',
 		loadChildren: () => import('./components/forgot-password/forgot-password.module').then(m => m.ForgotPasswordModule),
 		title: 'Forgot Password | Serflix'
 	},
 	{
-		path: 'reset-password/:token',
+		path: 'forgot-password/:token',
 		loadChildren: () => import('./components/reset-password/reset-password.module').then(m => m.ResetPasswordModule),
 		title: 'Reset Password | Serflix'
 	},

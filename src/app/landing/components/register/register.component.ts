@@ -89,6 +89,7 @@ export class RegisterComponent {
 			},
 			complete: ()=>{
 				this.loading = false;
+				this.registerForm.reset();
 			}
 		});
 		return true;

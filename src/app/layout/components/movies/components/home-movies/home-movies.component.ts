@@ -28,9 +28,9 @@ export class HomeMoviesComponent implements OnInit {
 		{ label: 'Upcoming', command: () => this.changeSection(4) }
 	];
 	activeItem!: MenuItem;
-	constructor(private router: Router, private currentRouter: ActivatedRoute) {}
+	constructor(private router: Router, private activeRoute: ActivatedRoute) {}
 	ngOnInit() {
-		this.currentRouter.queryParams.subscribe((params) => {
+		this.activeRoute.queryParams.subscribe((params) => {
 			if (!params['page'] || !params['header']) {
 				this.router.navigate([], {
 					queryParams: {
@@ -38,7 +38,7 @@ export class HomeMoviesComponent implements OnInit {
 						header: 1,
 					},
 					queryParamsHandling: 'merge',
-					relativeTo: this.currentRouter,
+					relativeTo: this.activeRoute,
 				});
 			} else {
 				this.indexSection = Number(params['header']);
@@ -58,7 +58,7 @@ export class HomeMoviesComponent implements OnInit {
 				header: index,
 			},
 			queryParamsHandling: 'merge',
-			relativeTo: this.currentRouter,
+			relativeTo: this.activeRoute,
 		});
 	}
 	changePage(event: PageEvent) {
@@ -70,11 +70,11 @@ export class HomeMoviesComponent implements OnInit {
 				header: this.indexSection,
 			},
 			queryParamsHandling: 'merge',
-			relativeTo: this.currentRouter,
+			relativeTo: this.activeRoute,
 		});
 	}
 	selectedMovie(idMovie: number) {
-		this.router.navigate([idMovie], { relativeTo: this.currentRouter });
+		this.router.navigate([idMovie], { relativeTo: this.activeRoute });
 	}
 	//For give control when update data of movies
 	private updateRequest(indexSection: number, page: number = 1) {

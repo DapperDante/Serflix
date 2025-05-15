@@ -1,29 +1,21 @@
 <div class="grid nested-grid">
 	@if(profile$ | async; as profile){
 		<h1 class="col-12 text-center m-0" @slideInFwd>Hello {{ profile.name }}</h1>
-		<div class="col-12 h-22rem border-round mb-3" @slideInFwd>
+		<div class="col-12 lg:h-22rem border-round mb-3" @slideInFwd>
 			<div class="grid justify-content-evenly" style="height: inherit">
 				<div
-					class="col-2 h-full border-round shadow-5"
+					class="col-12 h-10rem lg:col-2 lg:h-full border-round shadow-5 mb-3"
 					style="background-color: var(--surface-e)">
 					<div
 						class="bg-center bg-contain bg-no-repeat h-full w-auto cursor-pointer image-profile"
-						[style]="{ backgroundImage: 'url(' + profile.img + ')' }"></div>
+						[style]="{ backgroundImage: 'url(' + profile.img + ')' }" (click)="changePhotoProfile()"></div>
 					<app-show-images
 						title="Select an image"
 						[images$]="photos$"
 						[(isActive)]="selectPhotoProfile"
 						(getImage)="updateImg($event)" />
 				</div>
-				<!-- <div class="col-12 lg:col lg:h-full h-15rem relative cursor-pointer">
-									<div class="p-4" style="background-color: var(--surface-b)">
-										<div class="absolute w-full h-full flex justify-content-center align-items-center icon-image opacity-0" (click)="ChangePhotoProfile()">
-											<img [ngSrc]="profile.img" alt="image's profile" fill priority [style]="{objectFit: 'contain', zIndex: -1}" class="image-profile h-full w-auto m-auto">
-											<i class="pi pi-user-edit absolute"></i>
-										</div>
-									</div>
-								</div> -->
-				<div class="col-3 surface-overlay shadow-5 border-round">
+				<div class="col-12 lg:col-3 surface-overlay shadow-5 border-round mb-3">
 					<div class="grid">
 						<h2 class="col-12 text-center m-0">Favorites</h2>
 						<div class="col-7 m-auto">
@@ -40,7 +32,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-3 surface-overlay border-round shadow-5">
+				<div class="col-12 lg:col-3 surface-overlay border-round shadow-5 mb-3">
 					<div class="grid h-full p-4">
 						<h2 class="col-12 text-center m-0">Change name</h2>
 						<div class="col-12">
@@ -65,8 +57,7 @@
 						</div>
 					</div>
 				</div>
-				<!-- Password -->
-				<div class="col-3 surface-overlay border-round shadow-5" @slideInFwd>
+				<div class="col-12 lg:col-3 surface-overlay border-round shadow-5" @slideInFwd>
 					<div class="grid nested-grid h-full p-4">
 						<h2 class="col-12 text-center m-0">
 							{{ isTherePassword ? "Update password" : "Add password" }}

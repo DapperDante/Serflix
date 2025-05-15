@@ -23,7 +23,7 @@ export class ScoreMoviesService implements Service {
 			review,
 		};
 		console.log(resp);
-		return this._http.post<{msg: string}>(`${PATH}/add`, resp).pipe(
+		return this._http.post<{msg: string}>(PATH, resp).pipe(
 			catchError(this.errorHandler),
 			tap({
 				error: (error)=>this.showError(error),
@@ -32,7 +32,7 @@ export class ScoreMoviesService implements Service {
 		);
 	}
 	getReviewsOfMovie(idMovie: string | number): Observable<MovieScore> {
-		return this._http.get<MovieScore>(`${PATH}/get/${idMovie}`)
+		return this._http.get<MovieScore>(`${PATH}/${idMovie}`)
 		.pipe(
 			catchError(this.errorHandler),
 			tap({error: (error) => this.showError(error)})

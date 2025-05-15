@@ -40,7 +40,7 @@ export class AuthService implements Service{
 	constructor(private _router: Router) {}
 	register(username: string, email: string, password: string): Observable<TokenRequest> {
 		const newUser = { username, email, password };
-		return this._http.post<TokenRequest>(`${PATH}/register`, newUser).pipe(
+		return this._http.post<TokenRequest>(`${PATH}/signup`, newUser).pipe(
 			catchError(this.errorHandler),
 			tap({
 				next: () => {
@@ -71,6 +71,7 @@ export class AuthService implements Service{
 	}
 	logout(): void {
 		this._cookieService.delete('access-token');
+		sessionStorage.removeItem('select-profile');
 		sessionStorage.removeItem('first-time');
 		this._router.navigate(['']);
 	}
@@ -79,7 +80,7 @@ export class AuthService implements Service{
 			oldPassword,
 			newPassword,
 		};
-		return this._http.post<void>(`${PATH}/change-password`, password).pipe(
+		return this._http.put<void>(`${PATH}/password`, password).pipe(
 			catchError(this.errorHandler),
 			tap({
 				next: () => {
@@ -93,7 +94,7 @@ export class AuthService implements Service{
 	}
 	updateUsername(newUsername: string): Observable<void> {
 		const username = { newUsername };
-		return this._http.post<void>(`${PATH}/change-username`, username).pipe(
+		return this._http.post<void>(`${PATH}/username`, username).pipe(
 			catchError(this.errorHandler),
 			tap({
 				next: () => {
@@ -106,7 +107,7 @@ export class AuthService implements Service{
 		);
 	}
 	updateFirstTime(): Observable<void>{
-		return this._http.put<void>(`${PATH}/update-first-time`, {}).pipe(
+		return this._http.put<void>(`${PATH}/first-time`, {}).pipe(
 			catchError(this.errorHandler),
 			tap({
 				next: () => {
@@ -118,8 +119,11 @@ export class AuthService implements Service{
 			})
 		)
 	}
-	authenticate(): Observable<void> {
-		return this._http.put<void>(`${PATH}/auth`, {})
+	authenticate(token:string): Observable<void> {
+		const headers = new HttpHeaders({
+			Authorization: `Bearer ${token}`,
+		})
+		return this._http.put<void>(`${PATH}/auth`, {},{headers})
 		.pipe(
 			catchError(this.errorHandler),
 			tap({
@@ -132,11 +136,11 @@ export class AuthService implements Service{
 			})
 		)
 	}
-	resetPassword(newPassword: string, token: string): Observable<void> {
-		const header = new HttpHeaders({
-			Authorization: `${token}`,
+	forgotPassword(newPassword: string, token: string): Observable<void> {
+		const headers = new HttpHeaders({
+			Authorization: `Bearer ${token}`,
 		})
-		return this._http.put<void>(`${PATH}/reset-password`, { newPassword, header })
+		return this._http.put<void>(`${PATH}/forgot-password`, { newPassword}, {headers})
 		.pipe(
 			catchError(this.errorHandler),
 			tap({
@@ -150,7 +154,7 @@ export class AuthService implements Service{
 		)
 	}
 	requestResetPassword(email: string): Observable<void>{
-		return this._http.put<void>(`${PATH}/request-reset-password`, {email})
+		return this._http.put<void>(`${PATH}/request/forgot-password`, {email})
 		.pipe(
 			catchError(this.errorHandler),
 			tap({

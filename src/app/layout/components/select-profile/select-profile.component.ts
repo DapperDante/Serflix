@@ -19,6 +19,9 @@ import { slideInFwd, slideInFwdStagger } from 'src/app/animation/animation';
 		transition: 0.3s;
 		filter: brightness(0.6);
 	}
+	:host ::ng-deep .p-button-icon{
+		font-size: 3rem;
+	}
 	`,
 })
 export class SelectProfileComponent {
@@ -87,8 +90,11 @@ export class SelectProfileComponent {
 			return;
 		}
 		this._profile.addProfile(this.newPhotoProfile, this.newNameProfile)
-		.subscribe(()=>{
-			this._router.navigate(['home/access']);
+		.subscribe({
+			complete: () =>{
+				this.addProfile = false;
+				this.profiles$ = this._profile.getProfiles();
+			}
 		});
 	}
 	accessProfilePassword(){

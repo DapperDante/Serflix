@@ -32,9 +32,14 @@ export class AuthUserComponent {
 	constructor(private route: ActivatedRoute, private router: Router){}
 	ngOnInit(){
 		const token = this.route.snapshot.paramMap.get('token');
-		this._auth.token = token!;
-		this._auth.authenticate()
+		if(!token){
+			this.router.navigate(['/login']);
+			return;
+		}
+		this._auth.authenticate(token)
 		.subscribe(()=>{
+			console.log('User authenticated');
+			this._auth.logout();
 			this.router.navigate(['/login']);
 		});
 	}

@@ -17,7 +17,7 @@ export class FavoriteMoviesService implements Service{
 	private readonly _sucessful = inject(SuccessHandlingService);
 	addMovie(idMovie: number): Observable<{ msg: string; id: number, goal?: {id: number, name: string, detail: string, url: string} }> {
 		const movie = {idMovie};
-		return this._http.post<{ msg: string; id: number, goal?: {id: number, name: string, detail: string, url: string} }>(`${PATH}/add`,movie).pipe(
+		return this._http.post<{ msg: string; id: number, goal?: {id: number, name: string, detail: string, url: string} }>(PATH,movie).pipe(
 			catchError(this.errorHandler),
 			tap({
 				error: (error)=>this.showError(error),
@@ -30,14 +30,14 @@ export class FavoriteMoviesService implements Service{
 		)
 	}
 	getMovieByProfile(idMovie: number | string): Observable<MovieRequest> {
-		return this._http.get<MovieRequest>(`${PATH}/get/${idMovie}`)
+		return this._http.get<MovieRequest>(`${PATH}/${idMovie}`)
 		.pipe(
 			catchError(this.errorHandler),
 			tap({error: (error)=>this.showError(error)})
 		);
 	}
 	deteleMovie(idMovie: number | string): Observable<void> {
-		return this._http.delete<void>(`${PATH}/delete/${idMovie}`)
+		return this._http.delete<void>(`${PATH}/${idMovie}`)
 		.pipe(
 			catchError(this.errorHandler),
 			tap({

@@ -41,10 +41,10 @@ const routes: Routes = [
 				path: 'categories',
 				loadChildren: () => import('./components/categories/categories.module').then((m) => m.CategoriesModule)
 			},
-			{
-				path: 'setting',
-				loadChildren: () => import('./components/setting-account/setting-account.module').then((m) => m.SettingAccountModule)
-			},
+			// {
+			// 	path: 'setting',
+			// 	loadChildren: () => import('./components/setting-account/setting-account.module').then((m) => m.SettingAccountModule)
+			// },
 		]
 	},
 ]

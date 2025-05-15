@@ -1,12 +1,7 @@
-<div class="absolute grid grid-nogutter w-screen z-0 left-0 top-0 background">
+<div class="absolute grid grid-nogutter lg:w-screen z-0 left-0 top-0 background" [style]="{width: '61rem'}">
 	@for(url of urlPosters; track $index){
-		<div class="col-2 relative h-auto">
-			<img
-				[ngSrc]="url"
-				alt="poster"
-				style="max-width: 100%; height: auto;"
-				[priority]="true"
-				fill>
-		</div>
+	<div class="col-4 lg:col-2 relative h-auto">
+		<img [ngSrc]="url" alt="poster" style="max-width: 100%; height: auto" [priority]="true" fill />
+	</div>
 	}
 </div>

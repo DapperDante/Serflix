@@ -8,15 +8,15 @@
             <i class="layout-menu-profile-toggler pi pi-fw" [ngClass]="{'pi-angle-down': menuProfilePosition === 'start' || isHorizontal, 'pi-angle-up': menuProfilePosition === 'end' && !isHorizontal}"></i>
         </button>
     }@else{
-				<p-skeleton width="100%" height="35px"/>
+				<p-skeleton width="100%" height="50px"/>
     }
     <ul *ngIf="menuProfileActive" [@menu]="isHorizontal ? 'overlay' : 'inline'">
-        <li pTooltip="Settings" [tooltipDisabled]="isTooltipDisabled">
+        <!-- <li pTooltip="Settings" [tooltipDisabled]="isTooltipDisabled">
             <button class="p-link" routerLink="setting">
                 <i class="pi pi-cog pi-fw"></i>
                 <span>Settings</span>
             </button>
-        </li>
+        </li> -->
         <li pTooltip="Profile" [tooltipDisabled]="isTooltipDisabled">
             <button class="p-link" routerLink="profile">
                 <i class="pi pi-user pi-fw"></i>
@@ -24,13 +24,13 @@
             </button>
         </li>
         <li pTooltip="Support" [tooltipDisabled]="isTooltipDisabled">
-            <button class="p-link" (click)="ChangeProfile()">
+            <button class="p-link" (click)="changeProfile()">
                 <i class="pi pi-sync pi-fw"></i>
                 <span>Change profile</span>
             </button>
         </li>
         <li pTooltip="Logout" [tooltipDisabled]="isTooltipDisabled">
-            <button class="p-link" (click)="LogOut()">
+            <button class="p-link" (click)="logout()">
                 <i class="pi pi-sign-out pi-fw"></i>
                 <span>Logout</span>
             </button>

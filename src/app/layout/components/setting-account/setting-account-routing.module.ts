@@ -5,17 +5,13 @@ import { SettingAccountComponent } from './setting-account.component';
 const routes = [
 	{
 		path: '',
-		component: SettingAccountComponent
-	}
-
+		component: SettingAccountComponent,
+		title: 'Settings | Serflix',
+	},
 ];
 
 @NgModule({
-  imports: [
-		RouterModule.forChild(routes)
-  ],
-	exports: [
-		RouterModule
-	]
+	imports: [RouterModule.forChild(routes)],
+	exports: [RouterModule],
 })
-export class SettingAccountRoutingModule { }
+export class SettingAccountRoutingModule {}

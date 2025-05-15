@@ -11,7 +11,8 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SharedComponentsModule } from 'src/app/shared-components/shared-components.module';
+import { SelectorImagesProfileModule } from '../selector-images-profile/selector-images-profile.module';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 @NgModule({
 	declarations: [ProfileComponent],
 	imports: [
@@ -26,9 +27,14 @@ import { SharedComponentsModule } from 'src/app/shared-components/shared-compone
 		IconFieldModule,
 		InputIconModule,
 		ButtonModule,
-		SharedComponentsModule,
 		ReactiveFormsModule,
+		SelectorImagesProfileModule,
 		FormsModule
+	],
+	providers: [
+		provideHttpClient(
+			withInterceptorsFromDi()
+		)
 	]
 })
 export class ProfileModule {}

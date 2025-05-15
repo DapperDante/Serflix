@@ -1,71 +1,25 @@
-import { ErrorHandler, NgModule } from '@angular/core';
-import { HashLocationStrategy, LocationStrategy, NgOptimizedImage } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AppLayoutModule } from './layout/app.layout.module';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { tmdbInterceptor } from './interceptors/tmdb.interceptor';
+import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { backendInterceptor } from './interceptors/backend.interceptor';
-import { GlobalErrorService } from './error/global-error.service';
 import { ToastModule } from 'primeng/toast';
-import { ErrorPageComponent } from './error/error-page/error-page.component';
-import { errorHandlingInterceptor } from './error/error-handling.interceptor';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { SelectprofileComponent } from './select-profile/select-profile.component';
-import { DialogModule } from 'primeng/dialog';
-import { SharedComponentsModule } from './shared-components/shared-components.module';
-import { InputTextModule } from 'primeng/inputtext';
-import { ButtonModule } from 'primeng/button';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NotFoundComponent } from './not-found/not-found.component';
-import { SkeletonModule } from 'primeng/skeleton';
-import { RecommendationInterceptor } from './layout/service/recommendation.service';
-import { ItemMoviesInterceptor } from './layout/components/movies/service/item-movies.service';
-import { ItemSeriesInterceptor } from './layout/components/series/service/item-series.service';
-import { FavoriteMoviesInterceptor } from './layout/components/movies/service/favorite-movies.service';
-import { FavoriteSeriesInterceptor } from './layout/components/series/service/favorite-series.service';
-import { SearchMoviesInterceptor } from './layout/components/search/search.service';
-
+import { MessageService } from 'primeng/api';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BackendInterceptorService } from './interceptors/backend.interceptor.service';
+import { TmdbInterceptorService } from './interceptors/tmdb.interceptor.service';
+import { ErrorInterceptorService } from './interceptors/error.interceptor.service';
 @NgModule({
-	declarations: [AppComponent, ErrorPageComponent, SelectprofileComponent, NotFoundComponent],
-	imports: [
-		AppRoutingModule,
-		AppLayoutModule,
-		BrowserModule,
-		BrowserAnimationsModule,
-		ToastModule,
-		DialogModule,
-		SharedComponentsModule,
-		InputTextModule,
-		ButtonModule,
-		DialogModule,
-		ConfirmDialogModule,
-		ReactiveFormsModule,
-		SkeletonModule,
-		FormsModule,
-		NgOptimizedImage
-	],
+	declarations: [AppComponent],
+	imports: [AppRoutingModule, BrowserAnimationsModule, BrowserModule, ToastModule],
 	providers: [
-		{ provide: ErrorHandler, useClass: GlobalErrorService },
 		{ provide: LocationStrategy, useClass: HashLocationStrategy },
-		provideHttpClient(
-			withInterceptors([
-				tmdbInterceptor,
-				backendInterceptor,
-				ItemMoviesInterceptor,
-				ItemSeriesInterceptor,
-				FavoriteMoviesInterceptor,
-				FavoriteSeriesInterceptor,
-				SearchMoviesInterceptor,
-				errorHandlingInterceptor,
-				RecommendationInterceptor
-			])
-		),
+		{ provide: HTTP_INTERCEPTORS, useClass: BackendInterceptorService, multi: true },
+		{ provide: HTTP_INTERCEPTORS, useClass: TmdbInterceptorService, multi: true },
+		{ provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptorService, multi: true },
+		provideHttpClient(),
 		MessageService,
-		ConfirmationService,
 	],
 	bootstrap: [AppComponent],
 })

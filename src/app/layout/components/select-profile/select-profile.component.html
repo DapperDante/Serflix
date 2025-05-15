@@ -1,0 +1,99 @@
+@if(profiles$ | async; as profiles){
+	@if(isFirstTime){
+		<app-welcome></app-welcome>
+	}
+	<div class="grid grid-nogutter nested-grid h-screen align-content-around">
+		<h1 class="col-12 my-0 text-center lg:text-8xl" @slideInFwd>Select your profile</h1>
+		<div class="col-12">
+			<div class="grid nested-grid grid-nogutter justify-content-around" @slideInFwdStagger>
+				@for(profile of profiles.results; track $index){
+				<div class="col-12 lg:col-2">
+					<div class="grid grid-nogutter">
+						<div
+							class="col-12 relative h-15rem"
+							(click)="selectProfile(profile.id, profile.password)">
+							<div
+								class="bg-center bg-contain bg-no-repeat h-full cursor-pointer select-profile relative"
+								[style]="{ backgroundImage: 'url(' + profile.img + ')' }"
+								[ngStyle]="{ filter: profile.password ? 'brightness(0.5)' : 'none' }">
+								@if(profile.password){
+								<i
+									class="pi pi-lock absolute top-50 right-50 text-4xl text-black-alpha-90 font-bold"
+									style="transform: translateX(50%) translateY(-50%)"></i>
+								}
+							</div>
+						</div>
+						<div class="col-12">
+							<p [style]="{ 'font-size': 'x-large' }" class="font-bold text-center">
+								{{ profile.name }}
+							</p>
+						</div>
+					</div>
+				</div>
+				} @if(!profiles.results || profiles.results.length < 5){
+				<div
+					class="col-12 lg:col-2 h-15rem py-2 px-8 relative border-round cursor-pointer select-profile"
+					(click)="addProfile = true">
+					<p-button icon="pi pi-plus" styleClass="h-full w-full"/>
+					<!-- <div >
+						<i
+							class="pi pi-plus absolute top-50 left-50 text-8xl"
+							style="transform: translateX(-50%) translateY(-50%)"></i>
+					</div> -->
+				</div>
+				}
+			</div>
+		</div>
+	</div>
+	<!--To create a profile-->
+	<p-dialog
+		header="Add profile"
+		[modal]="true"
+		[(visible)]="addProfile"
+		[style]="{ width: '25rem', height: '30rem' }">
+		<div class="flex justify-content-center align-items-center pointer h-10rem w-10rem m-auto">
+			@if(newPhotoProfile){
+			<img [src]="newPhotoProfile" alt="Not found" (click)="viewPhotosForProfile()" class="h-full" />
+			}@else {
+			<i
+				class="pi pi-user cursor-pointer"
+				[style]="{ 'font-size': '10rem' }"
+				(click)="viewPhotosForProfile()"></i>
+			}
+		</div>
+		<div class="flex justify-content-center flex-column">
+			<label for="name">Name</label>
+			<br />
+			<input pInputText type="text" name="" id="name" title="name" [(ngModel)]="newNameProfile" />
+		</div>
+		<ng-template pTemplate="footer" class="flex">
+			<p-button label="Create" (onClick)="createProfile()" />
+		</ng-template>
+		<p-confirmDialog />
+	</p-dialog>
+	<!-- To select a photo for profile -->
+	<app-show-images
+		title="Select photo"
+		[(isActive)]="selectPhotoProfile"
+		[images$]="photos$"
+		(getImage)="changePhotoProfile($event)" />
+	<!-- For profiles that has a password -->
+	<p-dialog header="Enter password" [(visible)]="showEnterPassword" [modal]="true">
+		<div class="flex flex-column h-5rem w-20rem">
+			<label for="password" class="mb-2">Password</label>
+			<input
+				pInputText
+				type="password"
+				name=""
+				class="py-3"
+				id="password"
+				title="password"
+				[(ngModel)]="passwordProfile" />
+		</div>
+		<ng-template pTemplate="footer" class="flex">
+			<p-button label="Accept" (onClick)="accessProfilePassword()" />
+		</ng-template>
+	</p-dialog>
+}@else {
+	<p-skeleton height="100vh" width="100vw"></p-skeleton>
+}

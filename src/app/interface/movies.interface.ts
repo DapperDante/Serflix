@@ -4,15 +4,11 @@ export type MovieRequest = {
 	result: MovieInfo,
 	is_favorite: boolean
 };
-
 export interface MovieScore {
-	id: number,
-	profile_id: number,
-	movie_id: number,
-	score: number,
-	review: string
+	avg_score: number,
+	scores: any,
+	its_score: any
 }
-
 export interface ManyMovies{
 	dates?: 			 Dates;
 	page: 				 number;
@@ -20,7 +16,6 @@ export interface ManyMovies{
 	total_pages:   number;
 	total_results: number;
 }
-
 interface Dates {
 		maximum: Date;
 		minimum: Date;

@@ -13,78 +13,63 @@ export class AppMenuComponent implements OnInit {
 		this.model = [
 			{
 				label: 'Entertaiment',
+				icon: 'pi pi-play',
 				items: [
 					{
 						label: 'Movies',
 						icon: 'pi pi-caret-right',
 						command: () => {
-							this.NavigateOtherPage('movie');
+							this.NavigateOtherPage(['movie']);
 						},
 					},
 					{
 						label: 'Series',
 						icon: 'pi pi-caret-right',
 						command: () => {
-							this.NavigateOtherPage('serie');
+							this.NavigateOtherPage(['serie']);
 						},
-					},
-					{
-						label: 'Collections',
-						icon: 'pi pi-book',
-						command: () => {
-							this.NavigateOtherPage('collection');
-						}
 					}
 				]
 			},
 			{
 				label: 'Categories',
+				icon: 'pi pi-book',
 				items: [
 					{
 						label: 'Adventure',
 						icon: 'pi pi-flag',
 						command: () => {
-							this.NavigateOtherPage('categories', '1');
+							this.NavigateOtherPage(['categories'], {name: 'adventure'});
 						}
 					},
 					{
 						label: 'Comedy',
 						icon: 'pi pi-thumbs-up',
 						command: () => {
-							this.NavigateOtherPage('categories', '2');
+							this.NavigateOtherPage(['categories'], {name: 'comedy'});
 						}
 					},
 					{
 						label: 'Horror',
 						icon: 'pi pi-lightbulb',
 						command: () => {
-							this.NavigateOtherPage('categories', '3');
+							this.NavigateOtherPage(['categories'], {name: 'horror'});
 						}
 					},
 					{
 						label: 'Animation',
 						icon: 'pi pi-bolt',
 						command: () => {
-							this.NavigateOtherPage('categories', '4');
-						}
-					}
-				]
-			},
-			{
-				label: 'Info',
-				items: [
-					{
-						label: 'stars',
-						icon: 'pi pi-star',
-						command: () => {
-							this.NavigateOtherPage('stars');
+							this.NavigateOtherPage(['categories'], {name: 'animation'});
 						}
 					}
 				]
 			}
 		];
 	}
-	NavigateOtherPage(...path: string[]) {
-		this.router.navigate(['home', ...path]);
+	NavigateOtherPage(path: string[], queryParams?: any) {
+		this.router.navigate(['home/access', ...path], {
+			queryParams
+		});
 	}
 }

@@ -1,0 +1,51 @@
+<div class="my-4 p-3 border-round shadow-5" [ngClass]="styleClass()">
+	@if(items() | async; as items){
+		@if(items.length) {
+			<p-carousel
+			@slideInFwdStagger
+				[value]="items"
+				[numVisible]="6"
+				[numScroll]="1"
+				[showIndicators]="false"
+				[circular]="false"
+				[responsiveOptions]="responsiveOptions">
+				<ng-template pTemplate="header">
+					<h3 @slideInFwd>{{title()}}</h3>
+				</ng-template>
+				<ng-template let-item pTemplate="item">
+					<div
+						class="relative h-20rem custom mr-2">
+						@if(item.poster_path){
+							<img
+								[title]="item.original_title || item.original_name || item.title"
+								[ngSrc]="item.poster_path" fill alt="poster"
+								[style]="{objectFit: 'contain'}"
+								(click)="EmitId(item)"
+								[priority]="priority()"
+								class="h-full w-auto item m-auto cursor-pointer transition-duration-400"/>
+						}
+						@else {
+							<div class="h-full flex align-items-center justify-content-center surface-50 text-center">
+								<p>{{item.original_name || item.original_title || item.title}}</p>
+							</div>
+						}
+					</div>
+				</ng-template>
+			</p-carousel>
+		}@else {
+			<h3 class="m-0">{{titleEmpy()}}</h3>
+		}
+	}@else {
+		<p-skeleton width="7rem" />
+		<div class="flex flex-row mt-3 overflow-hidden h-22rem">
+			<p-skeleton width="12rem" height="100%" class="mr-2" />
+			<p-skeleton width="12rem" height="100%" class="mr-2" />
+			<p-skeleton width="12rem" height="100%" class="mr-2" />
+			<p-skeleton width="12rem" height="100%" class="mr-2" />
+			<p-skeleton width="12rem" height="100%" class="mr-2" />
+			<p-skeleton width="12rem" height="100%" class="mr-2" />
+			<p-skeleton width="12rem" height="100%" class="mr-2" />
+			<p-skeleton width="12rem" height="100%" class="mr-2" />
+		</div>
+	}
+</div>

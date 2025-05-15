@@ -1,47 +1,87 @@
-<div class="w-full h-21rem mb-4">
+<div class="w-full h-22rem mb-4 relative">
 	@if(mainItems$ | async; as main){
 		<p-carousel
-			[value]="main.results"
+			@slideInFwd
+			[value]="main"
 			[numVisible]="1"
 			[numScroll]="1"
-			[autoplayInterval]="4500"
 			[showNavigators]="false">
 			<ng-template let-main pTemplate="item">
-				<div class="grid grid-nogutter h-20rem cursor-pointer" (click)="SelectedMain(main)">
+				<div
+					class="grid grid-nogutter h-20rem cursor-pointer"
+					(click)="SelectedMain(main)">
 					<div class="relative md:block col-12 md:col-6 h-full">
-						<img title="movie" class="main-image border-round-left-md"
-							[ngSrc]="main.backdrop_path" fill priority
-							[style]="{objectFit: 'cover'}"/>
+						<img
+							title="movie"
+							class="main-image border-round-left-md"
+							[ngSrc]="main.backdrop_path"
+							fill
+							priority
+							[style]="{ objectFit: 'cover' }" />
 					</div>
 					<div class="absolute md:relative col-6 h-full md:px-3">
-						<h3 class="text-backdrop">{{main.original_title || main.original_name}}</h3>
-						<p class="hidden md:block">{{main.overview}}</p>
+						<h3 class="text-backdrop">
+							{{ main.original_title || main.original_name }}
+						</h3>
+						<p class="hidden md:block">{{ main.overview }}</p>
 					</div>
 				</div>
 			</ng-template>
 		</p-carousel>
 	}@else {
-		<p-skeleton height="100%"/>
+		<p-skeleton height="100%" />
 	}
 </div>
 <div class="w-full h-5rem grid-nogutter lg:flex hidden">
-	<div class="col bg-green-500 mx-2 border-round categories" (click)="SelectedCategory(1)">
-		<h3 class="text-center pt-3">Adventure</h3>
+	<div
+		class="col bg-green-500 mx-2 border-round categories shadow-5"
+		@slideInFwd
+		(click)="SelectedCategory(1)">
+		<h3 class="text-center pt-3 select-none">Adventure</h3>
 	</div>
-	<div class="col bg-yellow-500 mx-2 border-round categories" (click)="SelectedCategory(2)">
-		<h3 class="text-center pt-3">Comedy</h3>
+	<div
+		class="col bg-yellow-500 mx-2 border-round categories shadow-5"
+		@slideInFwd
+		(click)="SelectedCategory(2)">
+		<h3 class="text-center pt-3 select-none">Comedy</h3>
 	</div>
-	<div class="col bg-red-500 mx-2 border-round categories" (click)="SelectedCategory(3)">
-		<h3 class="text-center pt-3">Horror</h3>
+	<div
+		class="col bg-red-500 mx-2 border-round categories shadow-5"
+		@slideInFwd
+		(click)="SelectedCategory(3)">
+		<h3 class="text-center pt-3 select-none">Horror</h3>
 	</div>
-	<div class="col bg-blue-500 mx-2 border-round categories" (click)="SelectedCategory(4)">
-		<h3 class="text-center pt-3">Animation</h3>
+	<div
+		class="col bg-blue-500 mx-2 border-round categories shadow-5"
+		@slideInFwd
+		(click)="SelectedCategory(4)">
+		<h3 class="text-center pt-3 select-none">Animation</h3>
 	</div>
 </div>
-<app-list-items [items]="favorites$" title="Favorites" (getIdAndType)="SelectedItem($event)"/>
-<app-list-items [items]="recLastView$" [title]="nameOfLastViewedItem" (getIdAndType)="SelectedItem($event)" />
-<app-list-items [items]="recA$" (getIdAndType)="SelectedItem($event)"/>
-<app-list-items [items]="recB$" (getIdAndType)="SelectedItem($event)"/>
-<app-list-items [items]="recC$" (getIdAndType)="SelectedItem($event)"/>
-<app-list-items [items]="recD$" (getIdAndType)="SelectedItem($event)"/>
-<app-list-items [items]="recE$" (getIdAndType)="SelectedItem($event)"/>
+<app-list-items
+	styleClass="bg-red-600"
+	[items]="favorites$"
+	title="Favorites"
+	titleEmpy="There aren't favorite movies"
+	(getIdAndType)="SelectedItem($event)"
+	@slideInFwd
+	[priority]="true"/>
+@if(showLastViewed){
+	<app-list-items
+		styleClass="surface-overlay"
+		[items]="recLastView$"
+		[title]="nameOfLastViewedItem"
+		(getIdAndType)="SelectedItem($event)" />
+}
+@for(rec of recs$; track $index){
+	<div style="min-height: 10rem;">
+		@defer(on viewport){
+			<app-list-items
+				styleClass="surface-overlay"
+				[items]="rec"
+				(getIdAndType)="SelectedItem($event)" />
+		}@placeholder {
+			<div>List of recommendations</div>
+		}
+	</div>
+}

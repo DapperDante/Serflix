@@ -19,10 +19,10 @@ export class FavoriteSeriesService implements Service {
 	private readonly _succesful = inject(SuccessHandlingService);
 	addSerie(idSerie: number): Observable<{ msg: string; id: number; goal?: Goal }> {
 		const serie = { idSerie };
-		return this._http.post<{ msg: string; id: number; goal: Goal }>(`${PATH}/add`, serie).pipe(
-			catchError(this.ErrorHandler),
+		return this._http.post<{ msg: string; id: number; goal: Goal }>(PATH, serie).pipe(
+			catchError(this.errorHandler),
 			tap({
-				error: (error) => this.ShowError(error),
+				error: (error) => this.showError(error),
 				next: (value) => {
 					if (value.goal) this._succesful.showGoalMessage(value.goal);
 					this._succesful.showAddItemMessage('Serie added to favorite');
@@ -32,22 +32,22 @@ export class FavoriteSeriesService implements Service {
 	}
 	getSerieByProfile(idSerie: number | string): Observable<SerieRequest> {
 		return this._http
-			.get<SerieRequest>(`${PATH}/get/${idSerie}`)
-			.pipe(catchError(this.ErrorHandler), tap({ error: (error) => this.ShowError(error) }));
+			.get<SerieRequest>(`${PATH}/${idSerie}`)
+			.pipe(catchError(this.errorHandler), tap({ error: (error) => this.showError(error) }));
 	}
 	deleteSerie(idSerie: number | string): Observable<void> {
-		return this._http.delete<void>(`${PATH}/delete/${idSerie}`).pipe(
-			catchError(this.ErrorHandler),
+		return this._http.delete<void>(`${PATH}/${idSerie}`).pipe(
+			catchError(this.errorHandler),
 			tap({
-				error: (error) => this.ShowError(error),
+				error: (error) => this.showError(error),
 				next: () => this._succesful.showDeleteItemMessage('Serie deleted from favorite'),
 			})
 		);
 	}
-	ShowError(error: Error): void {
+	showError(error: Error): void {
 		this._error.ShowError(error.message);
 	}
-	ErrorHandler(error: HttpErrorResponse): Observable<never> {
+	errorHandler(error: HttpErrorResponse): Observable<never> {
 		let message = '';
 		switch (error.status) {
 			case 404:
@@ -68,7 +68,8 @@ export function FavoriteSeriesInterceptor(
 	next: HttpHandlerFn
 ): Observable<HttpEvent<unknown>> {
 	if (!req.url.includes(PATH)) return next(req);
-	const BASE_IMG = environment.API_TMDB_IMAGE;
+	const BASE_IMG = environment.API_TMDB_IMAGE_ORIGINAL;
+	const BASE_IMG_REDUX = environment.API_TMDB_IMAGE_REDUX;
 	const newReq = req.clone();
 	return next(newReq).pipe(
 		map((data: any) => {
@@ -76,11 +77,11 @@ export function FavoriteSeriesInterceptor(
 			if (body) {
 				if('result' in body){
 					body.result.backdrop_path = `${BASE_IMG}${body.result.backdrop_path}`;
-					body.result.poster_path = `${BASE_IMG}${body.result.poster_path}`;
+					body.result.poster_path = `${BASE_IMG_REDUX}${body.result.poster_path}`;
 					if('production_companies' in body.result){
 						body.result.production_companies.map((element: any) => {
 							if(element.logo_path)
-								element.logo_path = `${BASE_IMG}${element.logo_path}`;
+								element.logo_path = `${BASE_IMG_REDUX}${element.logo_path}`;
 						});
 					}
 					if('similar' in body.result){
@@ -88,7 +89,7 @@ export function FavoriteSeriesInterceptor(
 							if(element.backdrop_path)
 								element.backdrop_path = `${BASE_IMG}${element.backdrop_path}`;
 							if(element.poster_path)
-								element.poster_path = `${BASE_IMG}${element.poster_path}`;
+								element.poster_path = `${BASE_IMG_REDUX}${element.poster_path}`;
 						});
 					}
 					if('recommendations' in body.result){
@@ -96,7 +97,7 @@ export function FavoriteSeriesInterceptor(
 							if(element.backdrop_path)
 								element.backdrop_path = `${BASE_IMG}${element.backdrop_path}`;
 							if(element.poster_path)
-								element.poster_path = `${BASE_IMG}${element.poster_path}`;
+								element.poster_path = `${BASE_IMG_REDUX}${element.poster_path}`;
 						});
 					}
 				}

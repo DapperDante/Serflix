@@ -1,0 +1,9 @@
+@if(!hiddenAnimation){
+	<div class="absolute bg-black-alpha-90 h-screen w-screen z-1" @animationSentences @animationHidden>
+		@for(sentence of sentences; track $index){
+			<h1 class="text-8xl col-12 text-center h-6rem m-auto">
+				{{sentence}}
+			</h1>
+		}
+	</div>
+}

@@ -1,0 +1,30 @@
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { AuthService } from '../service/auth.service';
+import { environment } from 'src/environments/environment.development';
+
+@Injectable({
+	providedIn: 'root',
+})
+export class BackendInterceptorService implements HttpInterceptor {
+	private readonly _auth = inject(AuthService);
+	intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+		console.log("Intercepting request...");
+		if(urlWithoutToken.some((url) => req.url.includes(url)))
+			return next.handle(req);
+		return next.handle(
+			req.clone({
+				setHeaders: {
+					Authorization: `Bearer ${this._auth.token}`,
+				}
+			})
+		);
+	}
+}
+const urlWithoutToken: string[] = [
+	`${environment.API_BACKEND_LAYOUT}`,
+	`${environment.API_BACKEND_USER}/login`,
+	`${environment.API_BACKEND_USER}/register`,
+	`${environment.API_TMDB}`
+];

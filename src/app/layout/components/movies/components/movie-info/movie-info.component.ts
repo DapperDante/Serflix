@@ -5,12 +5,17 @@ import { ScoreMoviesService } from '../../service/score-movies.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FavoriteMoviesService } from '../../service/favorite-movies.service';
 import { ErrorHandlingService } from 'src/app/error/error-handling.service';
-import { MovieBasic, MovieRequest } from 'src/app/interface/movies.interface';
+import { MovieBasic, MovieRequest, MovieScore } from 'src/app/interface/movies.interface';
+import { Title } from '@angular/platform-browser';
+import { slideInFwd } from 'src/app/animation/animation';
 
 @Component({
 	selector: 'app-movie-info',
 	templateUrl: './movie-info.component.html',
 	standalone: false,
+	animations: [
+		slideInFwd('0.5s')
+	],
 	styles: `
 		:host ::ng-deep .p-dataview-content{
 			border-radius: 0.3rem;
@@ -59,19 +64,20 @@ export class MovieInfoComponent {
 	movie$!: Observable<MovieRequest>;
 	similar$!: Observable<MovieBasic[]>;
 	recommendation$!: Observable<MovieBasic[]>;
-	review$!: Observable<any>;
+	review$!: Observable<MovieScore>;
 	idMovie!: number;
 	isFavorite: boolean = false;
-	//It's only variables for button's animate when it's loading
+	//variables for button's animate when loading
 	loadingReview: boolean = false;
 	loadingFavorite: boolean = false;
-	constructor(private routerCurrent: ActivatedRoute, private router: Router) {}
+	constructor(private routerCurrent: ActivatedRoute, private router: Router, private title: Title) {}
 	ngOnInit() {
 		this.routerCurrent.paramMap.subscribe((routerCurrent) => {
 			this.idMovie = Number(routerCurrent.get('id'));
 			this.movie$ = this._favoriteMovies.getMovieByProfile(this.idMovie).pipe(
 				tap((movie) => {
 					const {result} = movie;
+					this.title.setTitle(`${result.title} | Serflix`);
 					this.similar$ = new Observable((suscriber) => {
 						suscriber.next(result.similar?.results);
 					});
@@ -96,6 +102,8 @@ export class MovieInfoComponent {
 			return;
 		}
 		this.loadingReview = true;
+		const {value} = this.ratingForm;
+		console.log(value);
 		this._reviews
 		.addNewReview(this.idMovie, this.ratingForm.value.rating!, this.ratingForm.value.review!)
 		.subscribe({

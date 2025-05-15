@@ -43,7 +43,7 @@
 				<p-rating [readonly]="true" [cancel]="false" class="stars-main" [(ngModel)]="reviews.avg_score"/>
 			</div>
 			<div class="col-12">
-				@if(reviews.review.id){
+				@if(reviews.its_score?.id){
 					<div class="h-10rem bg-red-500 flex justify-content-center align-items-center border-round">
 						<p [style]="{fontSize: '2rem'}">Thanks for your review</p>
 					</div>
@@ -70,7 +70,7 @@
 				}
 			</div>
 			<div class="col-12">
-			<p-dataView #dv [value]="reviews.results" emptyMessage="There aren't reviews">
+			<p-dataView #dv [value]="reviews.scores" emptyMessage="There aren't reviews">
 				<ng-template pTemplate="list" let-reviews>
 					<div class="grid grid-nogutter">
 						<div class="col-12" *ngFor="let item of reviews; let first = first" class="col-12">

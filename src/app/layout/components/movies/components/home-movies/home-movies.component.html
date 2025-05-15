@@ -1,12 +1,12 @@
 <app-panel-items
 	[items]="movies$"
 	title="Movies"
-	(getId)="SelectedMovie($event)"
+	(getId)="selectedMovie($event)"
 	[menuItems]="items"
 	[activeItem]="activeItem"
 	[showPaginator]="true"
 	[totalItemsToPaginator]="totalMovies"
 	[controlStatePaginator]="controlStatePaginator"
 	[itemsForShowToPaginator]="numberOfMoviesForShow"
-	(getIndexPaginator)="ChangePage($event)"
+	(getIndexPaginator)="changePage($event)"
 	/>

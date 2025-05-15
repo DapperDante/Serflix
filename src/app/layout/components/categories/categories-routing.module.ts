@@ -4,7 +4,7 @@ import { HomeCategoriesComponent } from './home-categories/home-categories.compo
 
 const routes: Routes = [
 	{
-		path: ':id',
+		path: '',
 		component: HomeCategoriesComponent,
 	},
 ];

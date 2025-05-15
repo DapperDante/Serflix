@@ -94,7 +94,7 @@ export class LayoutService {
             this.changeScale(config.scale);
             this.onConfigUpdate();
         });
-        
+
     }
 
     updateStyle(config: AppConfig) {
@@ -191,7 +191,7 @@ export class LayoutService {
 
     changeTheme() {
         let { colorScheme, componentTheme } = this.config();
-        
+
         const themeLink = <HTMLLinkElement>(
             document.getElementById('theme-link')
         );

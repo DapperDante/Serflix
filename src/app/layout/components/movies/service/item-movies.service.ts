@@ -18,29 +18,29 @@ export class ItemMoviesService implements Service {
 	getMoviesNowPlaying(page: number | string = 1): Observable<ManyMovies> {
 		return this._http.get<ManyMovies>(`${PATH}/now_playing?language=en-US&page=${page}`)
 		.pipe(
-			catchError(this.ErrorHandler),
-			tap({error: (error)=>this.ShowError(error)})
+			catchError(this.errorHandler),
+			tap({error: (error)=>this.showError(error)})
 		);
 	}
 	getMoviesPopular(page: number | string = 1): Observable<ManyMovies> {
 		return this._http.get<ManyMovies>(`${PATH}/popular?language=en-US&page=${page}`)
 		.pipe(
-			catchError(this.ErrorHandler),
-			tap({error: (error)=>this.ShowError(error)})
+			catchError(this.errorHandler),
+			tap({error: (error)=>this.showError(error)})
 		);
 	}
 	getMoviesTopReated(page: number | string = 1): Observable<ManyMovies> {
 		return this._http.get<ManyMovies>(`${PATH}/top_rated?language=en-US&page=${page}`)
 		.pipe(
-			catchError(this.ErrorHandler),
-			tap({error: (error)=>this.ShowError(error)})
+			catchError(this.errorHandler),
+			tap({error: (error)=>this.showError(error)})
 		);
 	}
 	getMoviesUpcoming(page: number | string = 1): Observable<ManyMovies> {
 		return this._http.get<ManyMovies>(`${PATH}/upcoming?language=en-US&page=${page}`)
 		.pipe(
-			catchError(this.ErrorHandler),
-			tap({error: (error)=>this.ShowError(error)})
+			catchError(this.errorHandler),
+			tap({error: (error)=>this.showError(error)})
 		);
 	}
 	getMovieById(id: string | number): Observable<MovieInfo> {
@@ -56,21 +56,21 @@ export class ItemMoviesService implements Service {
 					}
 					return data;
 				}),
-				catchError(this.ErrorHandler),
-				tap({error: (error)=>this.ShowError(error)})
+				catchError(this.errorHandler),
+				tap({error: (error)=>this.showError(error)})
 			);
 	}
 	getMoviesByGenre(idGenre: string | number, page: number | string = 1): Observable<ManyMovies> {
 		return this._http.get<ManyMovies>(`${PATH_DISCOVER}?with_genres=${idGenre}&page=${page}`)
 		.pipe(
-			catchError(this.ErrorHandler),
-			tap({error: (error)=>this.ShowError(error)})
+			catchError(this.errorHandler),
+			tap({error: (error)=>this.showError(error)})
 		);
 	}
-	ShowError(error: Error): void {
+	showError(error: Error): void {
 		this._error.ShowError(error.message);
 	}
-	ErrorHandler(error: HttpErrorResponse): Observable<never> {
+	errorHandler(error: HttpErrorResponse): Observable<never> {
 		let message = '';
 		switch (error.status) {
 			default:
@@ -82,20 +82,21 @@ export class ItemMoviesService implements Service {
 }
 export function ItemMoviesInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
 	if (!(req.url.includes(PATH) || req.url.includes(PATH_DISCOVER))) return next(req);
-	const BASE_IMG = environment.API_TMDB_IMAGE;
+	const BASE_IMG = environment.API_TMDB_IMAGE_REDUX;
 	const newReq = req.clone();
 	return next(newReq).pipe(
 		map((data: any) => {
+			if(!data?.body)
+				return data;
 			const { body } = data;
-			if (body) {
-				if ('results' in body && Array.isArray(body.results)) {
-					body.results
-						.map((item: MovieInfo) => {
-							if(item.poster_path)
-								item.poster_path = `${BASE_IMG}${item.poster_path}`;
-							return item;
-						});
-				}
+			//Multiple movies
+			if (body?.results && Array.isArray(body.results)) {
+				body.results
+					.map((item: MovieInfo) => {
+						if(item.poster_path)
+							item.poster_path = `${BASE_IMG}${item.poster_path}`;
+						return item;
+					});
 			}
 			return data;
 		})

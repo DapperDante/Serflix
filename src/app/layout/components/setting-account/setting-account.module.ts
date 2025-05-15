@@ -8,11 +8,10 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { DividerModule } from 'primeng/divider';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 @NgModule({
-	declarations: [
-		SettingAccountComponent
-	],
+	declarations: [SettingAccountComponent],
 	imports: [
 		CommonModule,
 		SettingAccountRoutingModule,
@@ -21,7 +20,12 @@ import { InputTextModule } from 'primeng/inputtext';
 		FloatLabelModule,
 		DividerModule,
 		ButtonModule,
-		InputTextModule
+		InputTextModule,
 	],
+	providers: [
+		provideHttpClient(
+			withInterceptorsFromDi()
+		)
+	]
 })
 export class SettingAccountModule {}

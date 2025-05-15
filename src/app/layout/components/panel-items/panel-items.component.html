@@ -1,0 +1,62 @@
+@if(menuItems()){
+	<p-tabMenu [model]="menuItems()" [activeItem]="activeItem()"/>
+}
+<h2 @slideInFwd>{{ title() }}</h2>
+<div class="grid nested-grid my-3">
+	@if(items() | async; as items){
+		<div @slideInFwdStagger class="col-12">
+			<div class="grid justify-content-center">
+				@for(item of items.results; track $index){
+				<div
+					class="select-item col-1 w-13rem lg:w-14rem cursor-pointer hover:shadow-7 transition-duration-200"
+					(click)="EmitId(item.id, item.type)">
+					<p-card
+						[header]="item.original_title || item.original_name"
+						class="card-custom">
+						<ng-template pTemplate="header">
+							<div class="relative h-19rem w-11rem lg:w-12rem overflow-hidden">
+								@if(item.poster_path){
+									<img
+										[ngSrc]="item.poster_path"
+										alt="Not found"
+										[style]="{ objectFit: 'cover' }"
+										fill
+										priority/>
+								}@else {
+									<div>
+										<p>{{ item.original_title || item.original_name }}</p>
+									</div>
+								}
+							</div>
+						</ng-template>
+					</p-card>
+				</div>
+				}
+			</div>
+		</div>
+	}
+	@else {
+		<p-skeleton height="16rem" width="11rem" class="col" />
+		<p-skeleton height="16rem" width="11rem" class="col" />
+		<p-skeleton height="16rem" width="11rem" class="col" />
+		<p-skeleton height="16rem" width="11rem" class="col" />
+		<p-skeleton height="16rem" width="11rem" class="col" />
+		<p-skeleton height="16rem" width="11rem" class="col" />
+		<p-skeleton height="16rem" width="11rem" class="col" />
+		<p-skeleton height="16rem" width="11rem" class="col" />
+		<p-skeleton height="16rem" width="11rem" class="col" />
+		<p-skeleton height="16rem" width="11rem" class="col" />
+		<p-skeleton height="16rem" width="11rem" class="col" />
+		<p-skeleton height="16rem" width="11rem" class="col" />
+		<p-skeleton height="16rem" width="11rem" class="col" />
+		<p-skeleton height="16rem" width="11rem" class="col" />
+	}
+</div>
+@if(showPaginator()){
+	<p-paginator
+		(onPageChange)="getIndexPaginator.emit($event)"
+		[totalRecords]="totalItemsToPaginator()"
+		[first]="controlStatePaginator()!"
+		[rows]="itemsForShowToPaginator()"
+		[alwaysShow]="false" />
+}

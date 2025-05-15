@@ -5,14 +5,14 @@
 		"start": "ng serve",
 		"build": "ng build --configuration production",
 		"watch": "ng build --watch --configuration development",
-		"build-css": "sass src/assets --no-source-map --style compressed",
+		"build-css": "sass --watch src/assets --no-source-map --style compressed",
 		"test": "ng test",
 		"lint": "ng lint"
 	},
 	"description": "this project is a streaming platform and manage control of user and profile",
 	"private": true,
 	"dependencies": {
-		"@angular/animations": "^18.2.7",
+		"@angular/animations": "^18.2.13",
 		"@angular/cdk": "^18.2.7",
 		"@angular/common": "^18.2.7",
 		"@angular/compiler": "^18.2.7",

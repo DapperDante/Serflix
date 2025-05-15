@@ -23,24 +23,24 @@ export class ScoreSeriesService implements Service {
 			review,
 		};
 		return this._http
-			.post<any>(`${PATH}/add`, resp)
+			.post<any>(PATH, resp)
 			.pipe(
-				catchError(this.ErrorHandler),
+				catchError(this.errorHandler),
 				tap({
-					error: (error)=>this.ShowError(error),
+					error: (error)=>this.showError(error),
 					next: ()=>this._successful.showAddItemMessage('Review added')
 				})
 			);
 	}
 	getReviewsOfSerie(idSerie: string | number): Observable<SerieScore[]> {
 		return this._http
-			.get<SerieScore[]>(`${PATH}/get/${idSerie}`)
-			.pipe(catchError(this.ErrorHandler), tap({ error: (error)=>this.ShowError(error) }));
+			.get<SerieScore[]>(`${PATH}/${idSerie}`)
+			.pipe(catchError(this.errorHandler), tap({ error: (error)=>this.showError(error) }));
 	}
-	ShowError(error: Error): void {
+	showError(error: Error): void {
 		this._error.ShowError(error.message);
 	}
-	ErrorHandler(error: HttpErrorResponse): Observable<never> {
+	errorHandler(error: HttpErrorResponse): Observable<never> {
 		let message = '';
 		switch (error.status) {
 			default:

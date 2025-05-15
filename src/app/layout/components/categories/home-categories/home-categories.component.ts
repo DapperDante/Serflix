@@ -19,25 +19,25 @@ interface DataValid {
 export class HomeCategoriesComponent {
 	private dataValid: DataValid[] = [
 		{
-			name: 'Adventure',
+			name: 'adventure',
 			id: 1,
 			idSeries: 10759,
 			idMovies: 12,
 		},
 		{
-			name: 'Comedy',
+			name: 'comedy',
 			id: 2,
 			idSeries: 16,
 			idMovies: 35,
 		},
 		{
-			name: 'Horror',
+			name: 'horror',
 			id: 3,
 			idSeries: undefined,
 			idMovies: 27,
 		},
 		{
-			name: 'Animation',
+			name: 'animation',
 			id: 4,
 			idSeries: 16,
 			idMovies: 16,
@@ -53,22 +53,41 @@ export class HomeCategoriesComponent {
 	categoryCurrent?: DataValid;
 	constructor(private _router: Router, private _activeRoute: ActivatedRoute) {}
 	ngOnInit(): void {
-		this._activeRoute.params.subscribe((params) => {
-			this.categoryCurrent = this.dataValid.find((data) => data.id == params['id']);
-			if (!this.categoryCurrent) this._router.navigate(['/home']);
-			this.UpdateRequest(1);
-		});
+		this._activeRoute.queryParams.subscribe((params)=>{
+			if(!params['name']){
+				this._router.navigate(['']);
+			}
+			if(!params['page']){
+				this._router.navigate([], {
+					queryParams: {
+						page: 1
+					},
+					queryParamsHandling: 'merge',
+					relativeTo: this._activeRoute
+				});
+			}else{
+				this.categoryCurrent = this.dataValid.find((data) => data.name == params['name']);
+				if (!this.categoryCurrent) this._router.navigate(['']);
+				this.UpdateRequest(params['page']);
+			}
+		})
 	}
 	SelectedItem(item: {id: number, type: string}){
 		if(item.type == 'movie')
-			this._router.navigate(['home','movie', item.id]);
+			this._router.navigate(['home','access','movie', item.id]);
 		else
-			this._router.navigate(['home','serie', item.id]);
+			this._router.navigate(['home','access','serie', item.id]);
 	}
 	ChangePage(event: any) {
 		this.indexPage = event.page! + 1;
 		this.controlStatePaginator = event.first!;
-		this.UpdateRequest(this.indexPage);
+		this._router.navigate([], {
+			queryParams: {
+				page: this.indexPage,
+			},
+			queryParamsHandling: 'merge',
+			relativeTo: this._activeRoute,
+		});
 	}
 	UpdateRequest(page: number) {
 		this.items$ = forkJoin([

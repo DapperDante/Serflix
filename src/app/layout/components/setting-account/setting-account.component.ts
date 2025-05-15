@@ -1,14 +1,22 @@
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { slideInFwd } from 'src/app/animation/animation';
+import { ProfileInfo } from 'src/app/interface/account.interface';
 import { AuthService } from 'src/app/service/auth.service';
+import { ProfileService } from 'src/app/service/profile.service';
 
 @Component({
-  selector: 'app-config-account',
+  selector: 'app-setting-account',
   templateUrl: './setting-account.component.html',
-	standalone: false
+	animations: [
+		slideInFwd('0.5s')
+	]
 })
 export class SettingAccountComponent {
 	private readonly _auth = inject(AuthService);
+	private readonly _profile = inject(ProfileService);
+	profile$!: Observable<ProfileInfo | undefined>;
 	loadingChangePassword: boolean = false;
 	loadingChangeUsername: boolean = false;
 	ChangePasswordForm = new FormGroup({
@@ -16,16 +24,21 @@ export class SettingAccountComponent {
 		newPassword: new FormControl('', Validators.required)
 	})
 	ChangeUsernameForm = new FormGroup({
-		newUsername: new FormControl('', Validators.required)
+		newUsername: new FormControl('', Validators.required),
+		repeatUsername: new FormControl('', Validators.required)
 	})
-	ChangePassword(): boolean{
+	ngOnInit(){
+		this._profile.refreshProfile();
+		this.profile$ = this._profile.getProfile$().asObservable();
+	}
+	changePassword(): boolean{
 		if(this.ChangePasswordForm.invalid){
-			this._auth.ShowError(new Error('Invalid form'));
+			this._auth.showError(new Error('Invalid form'));
 			return false;
 		}
 		this.loadingChangePassword = true;
 		const { currentPassword, newPassword } = this.ChangePasswordForm.value;
-		this._auth.ChangePassword(currentPassword!, newPassword!)
+		this._auth.updatePassword(currentPassword!, newPassword!)
 		.subscribe({
 			error: () => {
 				this.loadingChangePassword = false;
@@ -37,14 +50,15 @@ export class SettingAccountComponent {
 		});
 		return true;
 	}
-	ChangeUsername(): boolean{
+
+	changeUsername(): boolean{
 		if(this.ChangeUsernameForm.invalid){
-			this._auth.ShowError(new Error('Invalid form'));
+			this._auth.showError(new Error('Invalid form'));
 			return false;
 		}
 		this.loadingChangeUsername = true;
 		const { newUsername } = this.ChangeUsernameForm.value;
-		this._auth.ChangeUsername(newUsername!)
+		this._auth.updateUsername(newUsername!)
 		.subscribe({
 			error: ()=>{
 				this.loadingChangeUsername = false;

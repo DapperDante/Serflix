@@ -10,7 +10,7 @@ import { ProfileService } from '../service/profile.service';
 @Component({
 	selector: 'app-layout',
 	templateUrl: './app.layout.component.html',
-	standalone: false
+	standalone: false,
 })
 export class AppLayoutComponent implements OnDestroy {
 	private readonly _profile = inject(ProfileService);
@@ -36,10 +36,8 @@ export class AppLayoutComponent implements OnDestroy {
 		private menuService: MenuService,
 		public layoutService: LayoutService,
 		public renderer: Renderer2,
-		public router: Router,
-		private cd: ChangeDetectorRef
+		public router: Router
 	) {
-		this._profile.refreshProfile();
 		this.hideMenuProfile();
 
 		this.overlayMenuOpenSubscription = this.layoutService.overlayOpen$.subscribe(() => {

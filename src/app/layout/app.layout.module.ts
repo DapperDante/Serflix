@@ -1,72 +1,59 @@
 import { NgModule } from '@angular/core';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
 import { InputTextModule } from 'primeng/inputtext';
 import { SidebarModule } from 'primeng/sidebar';
-import { BadgeModule } from 'primeng/badge';
-import { RadioButtonModule } from 'primeng/radiobutton';
-import { InputSwitchModule } from 'primeng/inputswitch';
-import { TooltipModule } from 'primeng/tooltip';
-import { RippleModule } from 'primeng/ripple';
-import { AppConfigModule } from './config/app.config.module';
 import { AppLayoutComponent } from './app.layout.component';
 import { AppMenuProfileComponent } from './app.menuprofile.component';
 import { AppTopbarComponent } from './app.topbar.component';
-import { AppRightMenuComponent } from './app.rightmenu.component';
 import { AppMenuComponent } from './app.menu.component';
 import { AppMenuitemComponent } from './app.menuitem.component';
-import { RouterModule } from '@angular/router';
 import { AppSidebarComponent } from './app.sidebar.component';
 import { AppFooterComponent } from './app.footer.component';
-import { MegaMenuModule } from 'primeng/megamenu';
-import { ButtonModule } from 'primeng/button';
 import { MenuModule } from 'primeng/menu';
-import { StyleClassModule } from 'primeng/styleclass';
-import { DialogModule } from 'primeng/dialog';
 import { SkeletonModule } from 'primeng/skeleton';
-import { HomeAccessComponent } from './components/home-access/home-access.component';
-import { SharedComponentsModule } from '../shared-components/shared-components.module';
-import { CarouselModule } from 'primeng/carousel';
-import { NgOptimizedImage } from '@angular/common';
+import { ItemMoviesInterceptor, ItemMoviesService } from './components/movies/service/item-movies.service';
+import { ItemSeriesInterceptor, ItemSeriesService } from './components/series/service/item-series.service';
+import { AppLayoutRoutingModule } from './app.layout-routing.module';
+import { RecommendationService } from './service/recommendation.service';
+import { ProfileService } from '../service/profile.service';
+import { ConfirmationService } from 'primeng/api';
 import { FormsModule } from '@angular/forms';
-import { ItemMoviesService } from './components/movies/service/item-movies.service';
-import { ItemSeriesService } from './components/series/service/item-series.service';
+import { CommonModule } from '@angular/common';
+import { RippleModule } from 'primeng/ripple';
+import { ButtonModule } from 'primeng/button';
 @NgModule({
 	declarations: [
 		AppLayoutComponent,
 		AppMenuProfileComponent,
 		AppTopbarComponent,
-		AppRightMenuComponent,
 		AppMenuComponent,
 		AppSidebarComponent,
 		AppMenuitemComponent,
-		AppFooterComponent,
-		HomeAccessComponent
+		AppFooterComponent
 	],
 	imports: [
-		FormsModule,
-		StyleClassModule,
+		AppLayoutRoutingModule,
 		InputTextModule,
-		SidebarModule,
-		BadgeModule,
-		RadioButtonModule,
-		InputSwitchModule,
-		TooltipModule,
-		MegaMenuModule,
-		RippleModule,
-		RouterModule,
+		FormsModule,
 		ButtonModule,
+		SidebarModule,
 		MenuModule,
-		AppConfigModule,
-		DialogModule,
 		SkeletonModule,
-		SharedComponentsModule,
-		CarouselModule,
-		NgOptimizedImage
+		RippleModule,
+		CommonModule
 	],
 	providers: [
-		provideHttpClient(withInterceptorsFromDi()),
+		provideHttpClient(
+			withInterceptorsFromDi(),
+			withInterceptors([
+				ItemMoviesInterceptor,
+				ItemSeriesInterceptor
+			])),
 		ItemMoviesService,
-		ItemSeriesService
+		ItemSeriesService,
+		RecommendationService,
+		ProfileService,
+		ConfirmationService
 	],
 })
 export class AppLayoutModule {}

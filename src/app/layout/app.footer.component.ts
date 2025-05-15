@@ -1,11 +1,8 @@
-import {Component} from '@angular/core';
-import { LayoutService } from './service/app.layout.service';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-    selector: 'app-footer',
-    templateUrl: './app.footer.component.html'
+	selector: 'app-footer',
+	templateUrl: './app.footer.component.html',
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppFooterComponent {
-
-    constructor(public layoutService: LayoutService) {}
-}
+export class AppFooterComponent {}

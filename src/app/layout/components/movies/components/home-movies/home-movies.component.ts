@@ -32,8 +32,15 @@ export class HomeMoviesComponent implements OnInit {
 	ngOnInit() {
 		this.activeRoute.queryParams.subscribe((params) => {
 			if (!params['page'] || !params['header']) {
-				console.log("No hay params");
-				this.router.navigate([]);
+				this.router.navigate([], {
+					queryParams: {
+						page: 1,
+						header: 1
+					},
+					queryParamsHandling: 'merge',
+					replaceUrl: true,
+					relativeTo: this.activeRoute
+				});
 			} else {
 				this.indexSection = Number(params['header']);
 				this.indexPage = Number(params['page']);

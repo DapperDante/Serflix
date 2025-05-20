@@ -39,6 +39,7 @@ export class HomeSeriesComponent {
 						header: 1,
 					},
 					queryParamsHandling: 'merge',
+					replaceUrl: true,
 					relativeTo: this.currentRouter,
 				});
 			} else {

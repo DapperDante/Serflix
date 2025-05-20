@@ -80,10 +80,7 @@ export class HomeAccessComponent implements OnInit{
 	NavigateToSerie(idSerie: number) {
 		this._router.navigate(['serie', idSerie], { relativeTo: this._routerCurrent });
 	}
-	SelectedCategory(idCategory: number | string) {
-		this._router.navigate(['categories', idCategory], { relativeTo: this._routerCurrent });
-	}
-	showChange(){
-		console.log("Render")
+	SelectedCategory(name: string) {
+		this._router.navigate(['categories'], { queryParams: {name}, relativeTo: this._routerCurrent });
 	}
 }

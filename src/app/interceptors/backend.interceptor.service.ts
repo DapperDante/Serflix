@@ -10,7 +10,6 @@ import { environment } from 'src/environments/environment.development';
 export class BackendInterceptorService implements HttpInterceptor {
 	private readonly _auth = inject(AuthService);
 	intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-		console.log("Intercepting request...");
 		if(urlWithoutToken.some((url) => req.url.includes(url)))
 			return next.handle(req);
 		return next.handle(

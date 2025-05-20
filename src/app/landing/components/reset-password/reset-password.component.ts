@@ -24,7 +24,6 @@ export class ResetPasswordComponent {
 		]),
 	});
 	resetPassword(): boolean {
-		console.log(this.formControl);
 		if (this.formControl.invalid) {
 			this._auth.showError(new Error('Invalid form'));
 			return false;

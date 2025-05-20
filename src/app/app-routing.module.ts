@@ -24,7 +24,7 @@ const routes: Routes = [
 		loadChildren: () => import('./error/error.module').then((m) => m.ErrorModule),
 		canActivate: [error],
 	},
-	{ path: '**', redirectTo: '' },
+	// { path: '**', redirectTo: '' },
 ];
 
 @NgModule({

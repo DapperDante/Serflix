@@ -102,8 +102,6 @@ export class MovieInfoComponent {
 			return;
 		}
 		this.loadingReview = true;
-		const {value} = this.ratingForm;
-		console.log(value);
 		this._reviews
 		.addNewReview(this.idMovie, this.ratingForm.value.rating!, this.ratingForm.value.review!)
 		.subscribe({

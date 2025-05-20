@@ -9,7 +9,6 @@ import { AuthService } from '../service/auth.service';
 export class ErrorInterceptorService implements HttpInterceptor{
 	private readonly _auth = inject(AuthService);
 	intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-		console.log("Intercepting error...");
 		return next.handle(req).pipe(
 			catchError((error: HttpErrorResponse)=>{
 				if(error.status === 403)

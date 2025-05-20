@@ -68,7 +68,6 @@ export class RegisterComponent {
 	});
 	loading = false;
 	register(): boolean {
-		console.log(this.registerForm);
 		if(this.registerForm.get('username')?.invalid){
 			this._auth.showError(new Error('Invalid username'));
 			return false;

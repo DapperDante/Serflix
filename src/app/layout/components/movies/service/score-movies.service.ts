@@ -22,7 +22,6 @@ export class ScoreMoviesService implements Service {
 			score,
 			review,
 		};
-		console.log(resp);
 		return this._http.post<{msg: string}>(PATH, resp).pipe(
 			catchError(this.errorHandler),
 			tap({

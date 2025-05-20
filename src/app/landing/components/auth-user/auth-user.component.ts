@@ -38,7 +38,6 @@ export class AuthUserComponent {
 		}
 		this._auth.authenticate(token)
 		.subscribe(()=>{
-			console.log('User authenticated');
 			this._auth.logout();
 			this.router.navigate(['/login']);
 		});

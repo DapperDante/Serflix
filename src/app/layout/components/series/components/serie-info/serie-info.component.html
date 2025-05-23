@@ -28,7 +28,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-12 xl:col-6 text-justify">
+		<div class="col-12 xl:col-6 p-5 text-justify border-round" style="background-color: var(--surface-e)">
 			<p [style]="{fontSize: '1.8rem'}">{{serie.result.overview}}</p>
 			@if(isFavorite){
 				<p-button icon="pi pi-heart-fill" [rounded]="true" size="large" (onClick)="deleteFavoriteSerie()"
@@ -38,35 +38,45 @@
 					[loading]="loadingFavorite" />
 			}
 		</div>
+		<!-- Reviews section -->
 		@if(review$ | async; as reviews){
 			<div class="col-12 lg:col-6 flex justify-content-center">
 				<p-rating [readonly]="true" [cancel]="false" class="stars-main" [(ngModel)]="reviews.avg_score"/>
 			</div>
 			<div class="col-12">
-				@if(reviews.its_score?.id){
-					<div class="h-10rem bg-red-500 flex justify-content-center align-items-center border-round">
-						<p [style]="{fontSize: '2rem'}">Thanks for your review</p>
-					</div>
+				@if(reviews.its_score){
+					<p-card [header]=reviews.its_score.name>
+						<div class="grid grid-nogutter">
+							<p>{{reviews.its_score.review}}</p>
+						</div>
+						<ng-template pTemplate="footer">
+							<div class="flex justify-content-end">
+								<p>{{ reviews.its_score.created_at }}</p>
+							</div>
+						</ng-template>
+					</p-card>
 				}
 				@else{
-					<form
-						[formGroup]="ratingForm"
-						class="flex justify-content-center flex-column align-items-center">
-						<p-rating class="stars-review" formControlName="rating" />
-						<textarea
-							rows="3" cols="30"
-							pInputTextarea
-							[autoResize]='true'
-							title="review" class="my-4"
-							placeholder="Write your review about it"
-							formControlName="review">
-						</textarea>
-						<p-button
-							label="submit"
-							icon="pi pi-send"
-							[loading]="loadingReview"
-							(onClick)="SendReview()" />
-					</form>
+					<div class="bg-red-500 w-23rem m-auto py-3 border-round">
+						<form
+							[formGroup]="ratingForm"
+							class="flex justify-content-center flex-column align-items-center">
+							<p-rating class="stars-review" formControlName="rating" />
+							<textarea
+								rows="3" cols="30"
+								pInputTextarea
+								[autoResize]='true'
+								title="review" class="my-4"
+								placeholder="Write your review about it"
+								formControlName="review">
+							</textarea>
+							<p-button
+								label="submit"
+								icon="pi pi-send"
+								[loading]="loadingReview"
+								(onClick)="SendReview()" />
+						</form>
+					</div>
 				}
 			</div>
 			<div class="col-12">
@@ -104,16 +114,17 @@
 			<p-skeleton class="col-12" height="10rem"/>
 			<p-skeleton class="col-12" height="10rem"/>
 		}
-		<div class="col-12">
-			<div class="grid bg-red-500" style="min-height: 5rem">
+		<!-- Companies section -->
+		<div class="col-12 overflow-hidden overflow-x-scroll">
+			<div class="grid h-8rem lg:h-16rem surface-b flex-nowrap">
 				@for(companie of serie.result.production_companies; track $index){
-					<div class="col relative">
+					<div class="col-fixed mr-2 h-full bg-white border-round">
 						@if(companie.logo_path){
 							<img
-								[ngSrc]="companie.logo_path"
+								[src]="companie.logo_path"
 								alt="companie"
 								[title]="companie.name"
-								fill [priority]="false"
+								class="h-full"
 								[style]="{'object-fit': 'contain'}">
 						}
 						@else {
@@ -125,6 +136,7 @@
 				}
 			</div>
 		</div>
+		<!-- Recommendations section-->
 		<div class="col-12">
 			@defer (on viewport) {
 				<app-list-items [items]="similar$" title="Similar" (getIdAndType)="ChangeSerie($event)" />

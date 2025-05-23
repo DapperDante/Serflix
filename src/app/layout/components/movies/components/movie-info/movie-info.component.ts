@@ -13,9 +13,7 @@ import { slideInFwd } from 'src/app/animation/animation';
 	selector: 'app-movie-info',
 	templateUrl: './movie-info.component.html',
 	standalone: false,
-	animations: [
-		slideInFwd('0.5s')
-	],
+	animations: [slideInFwd('0.5s')],
 	styles: `
 		:host ::ng-deep .p-dataview-content{
 			border-radius: 0.3rem;
@@ -51,7 +49,7 @@ import { slideInFwd } from 'src/app/animation/animation';
 			z-index: -1;
 			object-fit: cover;
 		}
-  `
+  `,
 })
 export class MovieInfoComponent {
 	private readonly _reviews = inject(ScoreMoviesService);
@@ -70,13 +68,17 @@ export class MovieInfoComponent {
 	//variables for button's animate when loading
 	loadingReview: boolean = false;
 	loadingFavorite: boolean = false;
-	constructor(private routerCurrent: ActivatedRoute, private router: Router, private title: Title) {}
+	constructor(
+		private routerCurrent: ActivatedRoute,
+		private router: Router,
+		private title: Title
+	) {}
 	ngOnInit() {
 		this.routerCurrent.paramMap.subscribe((routerCurrent) => {
 			this.idMovie = Number(routerCurrent.get('id'));
 			this.movie$ = this._favoriteMovies.getMovieByProfile(this.idMovie).pipe(
 				tap((movie) => {
-					const {result} = movie;
+					const { result } = movie;
 					this.title.setTitle(`${result.title} | Serflix`);
 					this.similar$ = new Observable((suscriber) => {
 						suscriber.next(result.similar?.results);
@@ -90,10 +92,10 @@ export class MovieInfoComponent {
 			);
 		});
 	}
-	ChangeMovie(item: {id: number, type: string}) {
+	ChangeMovie(item: { id: number; type: string }) {
 		this.router.navigate(['../', item.id], {
 			relativeTo: this.routerCurrent,
-			replaceUrl: true
+			replaceUrl: true,
 		});
 	}
 	SendReview() {
@@ -103,16 +105,16 @@ export class MovieInfoComponent {
 		}
 		this.loadingReview = true;
 		this._reviews
-		.addNewReview(this.idMovie, this.ratingForm.value.rating!, this.ratingForm.value.review!)
-		.subscribe({
-			error: () => {
-				this.loadingReview = false;
-			},
-			complete: () => {
-				this.loadingReview = false;
-				this.review$ = this._reviews.getReviewsOfMovie(this.idMovie);
-			},
-		});
+			.addNewReview(this.idMovie, this.ratingForm.value.rating!, this.ratingForm.value.review!)
+			.subscribe({
+				error: () => {
+					this.loadingReview = false;
+				},
+				complete: () => {
+					this.loadingReview = false;
+					this.review$ = this._reviews.getReviewsOfMovie(this.idMovie);
+				},
+			});
 	}
 	addFavoriteMovie() {
 		this.loadingFavorite = true;

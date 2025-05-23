@@ -1,6 +1,6 @@
 export const environment = {
 	production: false,
-	TOKEN_TMDB: '',
+	TOKEN_TMDB: 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkYzllOWM0MGVlYzVkYTRjNmNkODNmZTY1ZDQ1N2JhZSIsIm5iZiI6MTcxOTUyNjU4My4yMjUsInN1YiI6IjY2N2RlNGI3MTU2MjQ4YjU4MDcwMmRjNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.fZPWRxRHicsaU5Jux5WBaCJnEtEkrfqnoQkHOaeTFsk',
 	API_TMDB: 'https://api.themoviedb.org/3',
 	API_BACKEND: 'http://localhost:3000',
 	API_BACKEND_RECOMMENDATION: 'http://localhost:3000/api/recommendation',

@@ -26,7 +26,6 @@ export class ListItemsComponent {
 	titleEmpy = input<String>();
 	getIdAndType = output<{ id: number; type: string }>();
 	responsiveOptions?: any[];
-	console = console
 	ngOnInit(){
 		this.responsiveOptions = [
 			{

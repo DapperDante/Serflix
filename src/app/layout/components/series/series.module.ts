@@ -15,6 +15,7 @@ import { YouTubePlayerModule } from '@angular/youtube-player';
 import { provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
 import { ListItemsModule } from '../list-items/list-items.module';
 import { PanelItemsModule } from '../panel-items/panel-items.module';
+import { CardModule } from 'primeng/card';
 @NgModule({
 	declarations: [HomeSeriesComponent, SerieInfoComponent],
 	imports: [
@@ -30,6 +31,7 @@ import { PanelItemsModule } from '../panel-items/panel-items.module';
 		NgOptimizedImage,
 		ButtonModule,
 		DataViewModule,
+		CardModule,
 		FormsModule
 	],
 	providers: [

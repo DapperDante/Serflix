@@ -31,7 +31,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-12 xl:col-6 text-justify border-round" style="background-color: var(--surface-e)">
+		<div class="col-12 xl:col-6 p-5 text-justify border-round" style="background-color: var(--surface-e)">
 			<p [style]="{fontSize: '1.8rem'}">{{movie.result.overview}}</p>
 			@if(isFavorite){
 				<p-button icon="pi pi-heart-fill" [rounded]="true" size="large" (onClick)="deleteFavoriteMovie()"
@@ -41,7 +41,7 @@
 					[loading]="loadingFavorite" />
 			}
 		</div>
-		<!-- Review's section -->
+		<!-- Reviews section -->
 		@if(review$ | async; as reviews){
 			<div class="col-12 lg:col-6 flex justify-content-center lg:align-items-center">
 				<p-rating [readonly]="true" [cancel]="false" class="stars-main" [(ngModel)]="reviews.avg_score"/>
@@ -51,8 +51,12 @@
 					<p-card [header]=reviews.its_score.name>
 						<div class="grid grid-nogutter">
 							<p>{{reviews.its_score.review}}</p>
-							<p>{{ reviews.its_score.created_at }}</p>
 						</div>
+						<ng-template pTemplate="footer">
+							<div class="flex justify-content-end">
+								<p>{{ reviews.its_score.created_at }}</p>
+							</div>
+						</ng-template>
 					</p-card>
 				}
 				@else {
@@ -114,11 +118,11 @@
 			<p-skeleton class="col-12" height="10rem"/>
 			<p-skeleton class="col-12" height="10rem"/>
 		}
-		<!-- Company's section -->
-		<div class="col-12">
-			<div class="grid h-18rem surface-b flex-nowrap justify-content-center">
+		<!-- Companies section -->
+		<div class="col-12 overflow-hidden overflow-x-scroll">
+			<div class="grid h-8rem lg:h-16rem surface-b flex-nowrap">
 				@for(companie of movie.result.production_companies; track $index){
-					<div class="col-fixed mr-2 h-full relative bg-red-500 border-round">
+					<div class="col-fixed mr-2 h-full bg-white border-round">
 						@if(companie.logo_path){
 							<img [src]="companie.logo_path" alt="companie" [title]="companie.name"
 							class="h-full"
@@ -133,7 +137,7 @@
 				}
 			</div>
 		</div>
-		<!-- Recommendation's section -->
+		<!-- Recommendations section -->
 		<div class="col-12">
 			@defer (on viewport) {
 				<app-list-items [items]="similar$" title="Similar" (getIdAndType)="ChangeMovie($event)" />

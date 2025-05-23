@@ -23,11 +23,11 @@ export class SearchService implements Service {
 	getItemsByQuery(
 		query: string,
 		times: number | string,
-		manyItemsRelation: number | string
+		itemsRelation: number | string
 	): Observable<ManyMovies> {
 		return this._http
 			.get<ManyMovies>(
-				`${PATH}?query=${query}&times=${times}&manyItemsRelation=${manyItemsRelation}`
+				`${PATH}?query=${query}&times=${times}&itemsRelation=${itemsRelation}`
 			)
 			.pipe(
 				catchError(this.errorHandler),

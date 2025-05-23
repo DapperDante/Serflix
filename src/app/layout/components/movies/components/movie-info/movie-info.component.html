@@ -116,16 +116,16 @@
 		}
 		<!-- Company's section -->
 		<div class="col-12">
-			<div class="grid h-18rem surface-b">
+			<div class="grid h-18rem surface-b flex-nowrap justify-content-center">
 				@for(companie of movie.result.production_companies; track $index){
-					<div class="col relative bg-red-500 border-round">
+					<div class="col-fixed mr-2 h-full relative bg-red-500 border-round">
 						@if(companie.logo_path){
 							<img [src]="companie.logo_path" alt="companie" [title]="companie.name"
-							class="w-full h-auto"
+							class="h-full"
 							[style]="{'object-fit': 'contain'}">
 						}
 						@else {
-							<div class="flex justify-content-center align-items-center">
+							<div class="flex h-full justify-content-center align-items-center">
 								<p>{{companie.name}}</p>
 							</div>
 						}

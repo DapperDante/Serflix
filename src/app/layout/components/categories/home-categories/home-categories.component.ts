@@ -63,7 +63,8 @@ export class HomeCategoriesComponent {
 						page: 1
 					},
 					queryParamsHandling: 'merge',
-					relativeTo: this._activeRoute
+					relativeTo: this._activeRoute,
+					replaceUrl: true
 				});
 			}else{
 				this.categoryCurrent = this.dataValid.find((data) => data.name == params['name']);

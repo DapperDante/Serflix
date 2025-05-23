@@ -12,13 +12,13 @@ export class SearchComponent {
 	private readonly _search = inject(SearchService);
 	movies$!: Observable<ManyMovies>;
 	times = 1;
-	manyItemsRelation = 1;
+	itemsRelation = 1;
 	constructor(private currentRoute: ActivatedRoute, private router: Router) {}
 	ngOnInit() {
 		this.currentRoute.queryParams.subscribe((params) => {
 			const { query } = params;
 			if (!query) this.router.navigate(['../'], { relativeTo: this.currentRoute });
-			this.movies$ = this._search.getItemsByQuery(query, this.times, this.manyItemsRelation);
+			this.movies$ = this._search.getItemsByQuery(query, this.times, this.itemsRelation);
 		});
 	}
 	Selected(obj: { id: number; type: string }) {

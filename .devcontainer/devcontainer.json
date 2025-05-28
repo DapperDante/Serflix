@@ -1,0 +1,16 @@
+{
+	"name": "Angular Dev Container",
+	"image": "mcr.microsoft.com/devcontainers/node:20",
+	"postCreateCommand": "npm install",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"angular.ng-template",
+				"esbenp.prettier-vscode",
+				"yigitfindikli.primeflexsnippets",
+				"shd101wyy.markdown-preview-enhanced",
+				"donjayamanne.git-extension-pack"
+			]
+		}
+	}
+}

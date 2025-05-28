@@ -1,6 +1,6 @@
 {
 	"name": "Angular Dev Container",
-	"image": "mcr.microsoft.com/devcontainers/node:20",
+	"image": "mcr.microsoft.com/vscode/devcontainers/typescript-node",
 	"postCreateCommand": "npm install",
 	"customizations": {
 		"vscode": {
